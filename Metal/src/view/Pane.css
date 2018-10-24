@@ -3,3 +3,9 @@
 	-fx-background-color: linear-gradient(to top,#0038B8, #001040);
 
 }
+
+.bodybg{
+	
+	-fx-background-image: url("/data/backgrounds/snow.png");
+	
+}
