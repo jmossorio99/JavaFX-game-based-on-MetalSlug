@@ -7,6 +7,7 @@ public class Hero {
 	private double posY;
 	private double health;
 	private boolean moving;
+	private boolean falling;
 
 	public Hero(double posX, double posY) {
 
@@ -45,6 +46,14 @@ public class Hero {
 
 	public void setMoving(boolean moving) {
 		this.moving = moving;
+	}
+
+	public boolean isFalling() {
+		return falling;
+	}
+
+	public void setFalling(boolean falling) {
+		this.falling = falling;
 	}
 
 }
