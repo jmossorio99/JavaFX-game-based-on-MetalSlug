@@ -30,6 +30,8 @@ public class MainWindowController {
     	loader.setLocation(getClass().getResource("/view/GameView.fxml"));
     	Parent gameView = loader.load();
     	Scene gameScene = new Scene(gameView);
+    	GameViewController controller = loader.getController();
+    	controller.setGame();
     	Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
     	window.setScene(gameScene);
     	window.show();

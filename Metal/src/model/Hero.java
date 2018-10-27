@@ -2,12 +2,18 @@ package model;
 
 public class Hero {
 
-	public final static double DAMAGE = 0.0;
+	public final static double DAMAGE = 1.0;
+	public final static double HEALTH = 5.0;
+	public final static int RIGHT = 1;
+	public final static int LEFT = 2;
+	
 	private double posX;
 	private double posY;
-	private double health;
 	private boolean moving;
 	private boolean falling;
+	private int direction;
+	private String imgRight = "";
+	private String imgLeft = "";
 
 	public Hero(double posX, double posY) {
 
@@ -33,11 +39,7 @@ public class Hero {
 	}
 
 	public double getHealth() {
-		return health;
-	}
-
-	public void setHealth(double health) {
-		this.health = health;
+		return HEALTH;
 	}
 
 	public boolean isMoving() {
@@ -54,6 +56,14 @@ public class Hero {
 
 	public void setFalling(boolean falling) {
 		this.falling = falling;
+	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 
 }
