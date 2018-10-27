@@ -131,7 +131,7 @@
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fx:id="heroImageView" fitHeight="150.0" fitWidth="150.0" layoutX="500.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="heroImageView" fitHeight="150.0" fitWidth="150.0" layoutX="-50.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
       	<image>
       		<Image url="file:data/sprites/hero/11233.png" />
       	</image>
