@@ -31,7 +31,7 @@ public class MainWindowController {
     	Parent gameView = loader.load();
     	Scene gameScene = new Scene(gameView);
     	GameViewController controller = loader.getController();
-    	controller.setGame();
+    	controller.setGame(gameScene);
     	Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
     	window.setScene(gameScene);
     	window.show();

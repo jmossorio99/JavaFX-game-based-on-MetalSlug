@@ -9,7 +9,7 @@ public class Hero {
 	
 	private double posX;
 	private double posY;
-	private boolean moving;
+	private boolean moving = false;
 	private boolean falling;
 	private int direction;
 	private String imgRight = "";
