@@ -5,12 +5,14 @@ public class Hero {
 	public final static double DAMAGE = 1.0;
 	public final static double HEALTH = 5.0;
 	public final static int RIGHT = 1;
-	public final static int LEFT = 2;
+	public final static int UP = 2;
+	public final static int LEFT = 3;
+	public final static int DOWN = 4;
 	
 	private double posX;
 	private double posY;
 	private boolean moving = false;
-	private boolean falling;
+	private boolean falling = true;
 	private int direction;
 	private String imgRight = "";
 	private String imgLeft = "";

@@ -32,11 +32,23 @@ public class GameViewController implements Initializable {
 			@Override
 			public void handle(KeyEvent event) {
 
-				
 				if (event.getCode() == KeyCode.RIGHT) {
 
-					hero.setMoving(true);
-					hero.setDirection(hero.RIGHT);
+					setHeroMoving(true);
+					setHeroDirection(hero.RIGHT);
+
+				} else if (event.getCode() == KeyCode.LEFT) {
+
+					setHeroMoving(true);
+					setHeroDirection(hero.LEFT);
+
+				} else if (event.getCode() == KeyCode.UP) {
+
+					setHeroDirection(hero.UP);
+
+				} else if (event.getCode() == KeyCode.DOWN) {
+
+					setHeroDirection(hero.DOWN);
 
 				}
 
@@ -48,11 +60,18 @@ public class GameViewController implements Initializable {
 			@Override
 			public void handle(KeyEvent event) {
 
-				hero.setMoving(false);
+				setHeroMoving(false);
+				setHeroDirection(hero.RIGHT);
 
 			}
 
 		});
+
+	}
+
+	public void setHeroMoving(boolean moving) {
+
+		hero.setMoving(moving);
 
 	}
 
@@ -68,6 +87,12 @@ public class GameViewController implements Initializable {
 
 	}
 
+	public int getHeroDirection() {
+
+		return hero.getDirection();
+
+	}
+
 	public double getHeroImageViewPosX() {
 
 		return heroImageView.getLayoutX();
@@ -80,21 +105,17 @@ public class GameViewController implements Initializable {
 
 	}
 
-	public int getHeroDirection() {
-
-		return hero.getDirection();
-
-	}
-
 	public void setHeroX(double x) {
 
 		heroImageView.setLayoutX(x);
+		hero.setPosX(x);
 
 	}
 
 	public void setHeroY(double y) {
 
 		heroImageView.setLayoutY(y);
+		hero.setPosY(y);
 
 	}
 

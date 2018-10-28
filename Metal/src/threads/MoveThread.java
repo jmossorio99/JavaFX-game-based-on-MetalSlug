@@ -28,15 +28,23 @@ public class MoveThread extends Thread {
 
 	@Override
 	public void run() {
-		
+
 		init();
 		while (running) {
 
-			if(controller.getHeroMoving() && controller.getHeroImageViewPosX() < 1099 && controller.getHeroImageViewPosX() > -50) {
+			if (controller.getHeroMoving() && controller.getHeroImageViewPosX() <= 1099
+					&& controller.getHeroImageViewPosX() >= -50) {
 
 				if (controller.getHeroDirection() == Hero.RIGHT) {
-					posX+=8;
+
+					posX += 8;
 					controller.setHeroX(posX);
+
+				} else if (controller.getHeroDirection() == Hero.LEFT) {
+
+					posX -= 8;
+					controller.setHeroX(posX);
+
 				}
 
 			}
