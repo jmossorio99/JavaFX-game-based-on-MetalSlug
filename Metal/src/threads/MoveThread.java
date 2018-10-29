@@ -36,16 +36,45 @@ public class MoveThread extends Thread {
 
 				if (controller.getHeroDirection() == Hero.RIGHT) {
 
-					posX += 8;
-					controller.setHeroX(posX);
+					if (controller.getHeroImageViewPosX() <= 1100) {
+
+						posX += hero.getSpeed();
+						controller.setHeroX(posX);
+
+					}
 
 				} else if (controller.getHeroDirection() == Hero.LEFT) {
 
-					posX -= 8;
-					controller.setHeroX(posX);
+					if (controller.getHeroImageViewPosX() >= -50) {
+
+						posX -= hero.getSpeed();
+						controller.setHeroX(posX);
+
+					}
 
 				}
 
+			}else if(!controller.getHeroMoving()) {
+				
+				for (int i = 0; i < 6; i++) {
+					
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (hero.getDirection() == hero.RIGHT) {
+						
+						controller.setHeroImage(controller.getIddleRightImage(i));
+						
+					} else if(hero.getDirection() == hero.LEFT){
+
+						controller.setHeroImage(controller.getIddleLeftImage(i));
+						
+					}
+					
+				}
+				
 			}
 			try {
 				Thread.sleep(50);

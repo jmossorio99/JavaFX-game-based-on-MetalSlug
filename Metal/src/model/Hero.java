@@ -8,6 +8,7 @@ public class Hero {
 	public final static int UP = 2;
 	public final static int LEFT = 3;
 	public final static int DOWN = 4;
+	public final static double HEIGHT = 110.0; 
 	
 	private double posX;
 	private double posY;
@@ -16,6 +17,7 @@ public class Hero {
 	private int direction;
 	private String imgRight = "";
 	private String imgLeft = "";
+	private double speed = 8.0;
 
 	public Hero(double posX, double posY) {
 
@@ -66,6 +68,14 @@ public class Hero {
 
 	public void setDirection(int direction) {
 		this.direction = direction;
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 
 }
