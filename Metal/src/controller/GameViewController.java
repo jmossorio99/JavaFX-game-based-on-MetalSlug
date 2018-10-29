@@ -3,7 +3,6 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +13,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.Game;
 import model.Hero;
+import threads.RunningAnimationThread;
+import threads.CrouchAnimationThread;
+import threads.IddleAnimationThread;
 import threads.MoveThread;
 
 public class GameViewController implements Initializable {
@@ -23,9 +25,17 @@ public class GameViewController implements Initializable {
 	private Game game;
 	private Hero hero;
 	private MoveThread moveThread;
+	private RunningAnimationThread runningAnimationThread;
+	private IddleAnimationThread iddleAnimationThread;
+	private CrouchAnimationThread crouchAnimationThread;
 	private Scene scene;
 	private ArrayList<Image> iddleLeft = new ArrayList<Image>();
 	private ArrayList<Image> iddleRight = new ArrayList<Image>();
+	private ArrayList<Image> runningLeft = new ArrayList<Image>();
+	private ArrayList<Image> runningRight = new ArrayList<Image>();
+	private ArrayList<Image> crouchingRight = new ArrayList<Image>(); 
+	private ArrayList<Image> crouchingLeft = new ArrayList<Image>(); 
+	
 
 	public void setGame(Scene scene) {
 
@@ -52,12 +62,17 @@ public class GameViewController implements Initializable {
 
 				} else if (event.getCode() == KeyCode.UP) {
 
-					setHeroDirection(hero.UP);
+					hero.setAimingUp(true);
 
 				} else if (event.getCode() == KeyCode.DOWN) {
 
-					setHeroDirection(hero.DOWN);
+					hero.setCrouching(true);
+					if (getHeroImageViewPosY()<570) {
+						setHeroY(getHeroImageViewPosY()+28);
+					}
 
+				}else if (event.getCode() == KeyCode.J) {
+					System.out.println(hero.isMoving());
 				}
 
 			}
@@ -68,8 +83,12 @@ public class GameViewController implements Initializable {
 			@Override
 			public void handle(KeyEvent event) {
 
-				setHeroMoving(false);
-				setHeroDirection(hero.RIGHT);
+				hero.setMoving(false);
+				hero.setCrouching(false);
+				hero.setAimingUp(false);
+				if (event.getCode() == KeyCode.DOWN) {
+					setHeroY(getHeroImageViewPosY()-28);
+				}
 
 			}
 
@@ -112,6 +131,18 @@ public class GameViewController implements Initializable {
 		return heroImageView.getLayoutY();
 
 	}
+	
+	public boolean getHeroCrouching() {
+		
+		return hero.isCrouching();
+		
+	}
+	
+	public boolean getHeroAimingUp() {
+		
+		return hero.isAimingUp();
+		
+	}
 
 	public void setHeroX(double x) {
 
@@ -131,37 +162,74 @@ public class GameViewController implements Initializable {
 
 		moveThread = new MoveThread(this, hero);
 		moveThread.start();
+		runningAnimationThread = new RunningAnimationThread(this, hero);
+		runningAnimationThread.start();
+		iddleAnimationThread = new IddleAnimationThread(this, hero);
+		iddleAnimationThread.start();
+		crouchAnimationThread = new CrouchAnimationThread(this, hero);
+		crouchAnimationThread.start();
+
+	}
+
+	public void setHeroImage(Image img) {
+
+		heroImageView.setImage(img);
+
+	}
+
+	public void addSpriteImages() {
+
+		for (int i = 0; i < 6; i++) {
+
+			iddleLeft.add(new Image("file:data/sprites/hero/Iddle/left/Idle" + (i + 1) + "I.png"));
+			iddleRight.add(new Image("file:data/sprites/hero/Iddle/right/Idle" + (i + 1) + "D.png"));
+
+		}
+		for (int i = 0; i < 11; i++) {
+
+			runningLeft.add(new Image("file:data/sprites/hero/Running/Left/Run" + (i + 1) + "I.png"));
+			runningRight.add(new Image("file:data/sprites/hero/Running/Right/Run" + (i + 1) + "D.png"));
+
+		}
+		for (int i = 0 ;i<5;i++) {
+			crouchingRight.add(new Image("file:data/sprites/hero/Crouch/right/crouch" + (i + 1) + "D.png"));
+			crouchingLeft.add(new Image("file:data/sprites/hero/Crouch/left/crouch" + (i + 1) + "I.png"));
+		}
+
+	}
+
+	public Image getIddleLeftImage(int i) {
+
+		return iddleLeft.get(i);
+
+	}
+
+	public Image getIddleRightImage(int i) {
+
+		return iddleRight.get(i);
+
+	}
+
+	public Image getRunningLeftImage(int i) {
+
+		return runningLeft.get(i);
+
+	}
+
+	public Image getRunningRightImage(int i) {
+
+		return runningRight.get(i);
 
 	}
 	
-	public void setHeroImage(Image img) {
-		
-		heroImageView.setImage(img);
-		
+	public Image getCrouchingRightImage(int i) {
+		return crouchingRight.get(i);
 	}
 	
-	public void addSpriteImages() {
-		
-		for (int i = 0; i < 6; i++) {
-		
-			iddleLeft.add(new Image("file:data/sprites/hero/Iddle/left/Idle" + (i+1) + "I.png"));
-			iddleRight.add(new Image("file:data/sprites/hero/Iddle/right/Idle" + (i+1) + "D.png"));
-			
-		}
-		
+	public Image getCrouchingLeftImage(int i) {
+		return crouchingLeft.get(i);
 	}
-	
-	public Image getIddleLeftImage(int i) {
-		
-		return iddleLeft.get(i);
-		
-	}
-	
-	public Image getIddleRightImage(int i) {
-		
-		return iddleRight.get(i);
-		
-	}
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

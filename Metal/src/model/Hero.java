@@ -8,16 +8,16 @@ public class Hero {
 	public final static int UP = 2;
 	public final static int LEFT = 3;
 	public final static int DOWN = 4;
-	public final static double HEIGHT = 110.0; 
-	
+	public final static double HEIGHT = 110.0;
+
 	private double posX;
 	private double posY;
 	private boolean moving = false;
 	private boolean falling = true;
+	private boolean crouching = false;
 	private int direction;
-	private String imgRight = "";
-	private String imgLeft = "";
-	private double speed = 8.0;
+	private boolean aimingUp = false;
+	private double speed = 9.0;
 
 	public Hero(double posX, double posY) {
 
@@ -76,6 +76,22 @@ public class Hero {
 
 	public void setSpeed(double speed) {
 		this.speed = speed;
+	}
+
+	public boolean isCrouching() {
+		return crouching;
+	}
+
+	public void setCrouching(boolean crouching) {
+		this.crouching = crouching;
+	}
+
+	public boolean isAimingUp() {
+		return aimingUp;
+	}
+
+	public void setAimingUp(boolean aimingUp) {
+		this.aimingUp = aimingUp;
 	}
 
 }

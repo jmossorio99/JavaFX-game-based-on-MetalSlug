@@ -1,6 +1,7 @@
 package threads;
 
 import controller.GameViewController;
+import javafx.scene.image.Image;
 import model.Hero;
 
 public class MoveThread extends Thread {
@@ -32,54 +33,25 @@ public class MoveThread extends Thread {
 		init();
 		while (running) {
 
-			if (controller.getHeroMoving()) {
-
-				if (controller.getHeroDirection() == Hero.RIGHT) {
-
-					if (controller.getHeroImageViewPosX() <= 1100) {
-
-						posX += hero.getSpeed();
-						controller.setHeroX(posX);
-
-					}
-
-				} else if (controller.getHeroDirection() == Hero.LEFT) {
-
-					if (controller.getHeroImageViewPosX() >= -50) {
-
-						posX -= hero.getSpeed();
-						controller.setHeroX(posX);
-
-					}
-
-				}
-
-			}else if(!controller.getHeroMoving()) {
-				
-				for (int i = 0; i < 6; i++) {
-					
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if (hero.getDirection() == hero.RIGHT) {
-						
-						controller.setHeroImage(controller.getIddleRightImage(i));
-						
-					} else if(hero.getDirection() == hero.LEFT){
-
-						controller.setHeroImage(controller.getIddleLeftImage(i));
-						
-					}
-					
-				}
-				
-			}
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			}
+			if (controller.getHeroMoving()) {
+
+				if (controller.getHeroDirection() == Hero.RIGHT && controller.getHeroImageViewPosX() <= 1100) {
+
+					posX += hero.getSpeed();
+					controller.setHeroX(posX);
+
+				} else if (controller.getHeroDirection() == Hero.LEFT && controller.getHeroImageViewPosX() >= 0) {
+
+					posX -= hero.getSpeed();
+					controller.setHeroX(posX);
+
+				}
+
 			}
 
 		}
