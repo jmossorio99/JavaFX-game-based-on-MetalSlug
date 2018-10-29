@@ -32,8 +32,7 @@ public class MoveThread extends Thread {
 		init();
 		while (running) {
 
-			if (controller.getHeroMoving() && controller.getHeroImageViewPosX() <= 1099
-					&& controller.getHeroImageViewPosX() >= -50) {
+			if (controller.getHeroMoving()) {
 
 				if (controller.getHeroDirection() == Hero.RIGHT) {
 
