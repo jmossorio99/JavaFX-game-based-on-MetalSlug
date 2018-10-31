@@ -37,7 +37,7 @@ public class RunningAnimationThread extends Thread {
 				
 				if (controller.getHeroDirection() == hero.RIGHT) {
 					
-					for (int i = 0; i < 11 && controller.getHeroMoving(); i++) {
+					for (int i = 0; i < 11 && controller.getHeroMoving() && controller.getHeroDirection() == hero.RIGHT; i++) {
 						
 						try {
 							Thread.sleep(80);
@@ -51,7 +51,7 @@ public class RunningAnimationThread extends Thread {
 					
 				} else if(controller.getHeroDirection() == hero.LEFT){
 
-					for (int i = 0; i < 11 && controller.getHeroMoving(); i++) {
+					for (int i = 0; i < 11 && controller.getHeroMoving() && controller.getHeroDirection() == hero.LEFT; i++) {
 						
 						try {
 							Thread.sleep(80);

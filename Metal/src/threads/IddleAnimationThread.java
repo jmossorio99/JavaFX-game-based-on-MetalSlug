@@ -36,7 +36,7 @@ public class IddleAnimationThread extends Thread {
 			}
 			if (!controller.getHeroMoving() && !controller.getHeroCrouching()) {
 
-				for (int i = 0; i < 6 && !controller.getHeroMoving() && !controller.getHeroCrouching(); i++) {
+				for (int i = 0; !controller.getHeroMoving() && !controller.getHeroCrouching() && i < 6; i++) {
 
 					try {
 						Thread.sleep(80);

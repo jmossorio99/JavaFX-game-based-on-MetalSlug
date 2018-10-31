@@ -3,6 +3,7 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,10 +14,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.Game;
 import model.Hero;
-import threads.RunningAnimationThread;
 import threads.CrouchAnimationThread;
+import threads.HeroThread;
 import threads.IddleAnimationThread;
 import threads.MoveThread;
+import threads.RunningAnimationThread;
 
 public class GameViewController implements Initializable {
 
@@ -24,6 +26,7 @@ public class GameViewController implements Initializable {
 	private ImageView heroImageView;
 	private Game game;
 	private Hero hero;
+//	private HeroThread heroThread;
 	private MoveThread moveThread;
 	private RunningAnimationThread runningAnimationThread;
 	private IddleAnimationThread iddleAnimationThread;
@@ -33,9 +36,8 @@ public class GameViewController implements Initializable {
 	private ArrayList<Image> iddleRight = new ArrayList<Image>();
 	private ArrayList<Image> runningLeft = new ArrayList<Image>();
 	private ArrayList<Image> runningRight = new ArrayList<Image>();
-	private ArrayList<Image> crouchingRight = new ArrayList<Image>(); 
-	private ArrayList<Image> crouchingLeft = new ArrayList<Image>(); 
-	
+	private ArrayList<Image> crouchingRight = new ArrayList<Image>();
+	private ArrayList<Image> crouchingLeft = new ArrayList<Image>();
 
 	public void setGame(Scene scene) {
 
@@ -67,11 +69,11 @@ public class GameViewController implements Initializable {
 				} else if (event.getCode() == KeyCode.DOWN) {
 
 					hero.setCrouching(true);
-					if (getHeroImageViewPosY()<570) {
-						setHeroY(getHeroImageViewPosY()+28);
+					if (getHeroImageViewPosY() < 570) {
+						setHeroY(getHeroImageViewPosY() + 28);
 					}
 
-				}else if (event.getCode() == KeyCode.J) {
+				} else if (event.getCode() == KeyCode.J) {
 					System.out.println(hero.isMoving());
 				}
 
@@ -87,7 +89,7 @@ public class GameViewController implements Initializable {
 				hero.setCrouching(false);
 				hero.setAimingUp(false);
 				if (event.getCode() == KeyCode.DOWN) {
-					setHeroY(getHeroImageViewPosY()-28);
+					setHeroY(getHeroImageViewPosY() - 28);
 				}
 
 			}
@@ -131,17 +133,17 @@ public class GameViewController implements Initializable {
 		return heroImageView.getLayoutY();
 
 	}
-	
+
 	public boolean getHeroCrouching() {
-		
+
 		return hero.isCrouching();
-		
+
 	}
-	
+
 	public boolean getHeroAimingUp() {
-		
+
 		return hero.isAimingUp();
-		
+
 	}
 
 	public void setHeroX(double x) {
@@ -168,6 +170,8 @@ public class GameViewController implements Initializable {
 		iddleAnimationThread.start();
 		crouchAnimationThread = new CrouchAnimationThread(this, hero);
 		crouchAnimationThread.start();
+//		heroThread = new HeroThread(this, hero);
+//		heroThread.start();
 
 	}
 
@@ -191,7 +195,7 @@ public class GameViewController implements Initializable {
 			runningRight.add(new Image("file:data/sprites/hero/Running/Right/Run" + (i + 1) + "D.png"));
 
 		}
-		for (int i = 0 ;i<5;i++) {
+		for (int i = 0; i < 5; i++) {
 			crouchingRight.add(new Image("file:data/sprites/hero/Crouch/right/crouch" + (i + 1) + "D.png"));
 			crouchingLeft.add(new Image("file:data/sprites/hero/Crouch/left/crouch" + (i + 1) + "I.png"));
 		}
@@ -221,15 +225,14 @@ public class GameViewController implements Initializable {
 		return runningRight.get(i);
 
 	}
-	
+
 	public Image getCrouchingRightImage(int i) {
 		return crouchingRight.get(i);
 	}
-	
+
 	public Image getCrouchingLeftImage(int i) {
 		return crouchingLeft.get(i);
 	}
-
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
