@@ -37,7 +37,7 @@ public class HeroThread extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			//moverse y animacion correr derecha
+			// moverse y animacion correr derecha
 			if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.RIGHT
 					&& controller.getHeroImageViewPosX() <= 1100) {
 
@@ -57,7 +57,7 @@ public class HeroThread extends Thread {
 
 				}
 
-			//moverse y animacion correr izquierda
+				// moverse y animacion correr izquierda
 			} else if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.LEFT
 					&& controller.getHeroImageViewPosX() >= 0) {
 
@@ -77,30 +77,29 @@ public class HeroThread extends Thread {
 
 				}
 
-			//iddle derecha e izquierda
+				// iddle derecha e izquierda
 			} else if (!controller.getHeroMoving() && !controller.getHeroCrouching()) {
 
 				for (int i = 0; i < 6; i++) {
 
-					if (hero.getDirection() == hero.RIGHT && !controller.getHeroCrouching()
-							&& !controller.getHeroMoving()) {
+					System.out.println(controller.getHeroMoving());
+					if (controller.getHeroCrouching() || controller.getHeroMoving()) {
 
-						System.out.println("R");
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						System.out.println(1);
+						break;
+					}
+
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (hero.getDirection() == hero.RIGHT) {
 						controller.setHeroImage(controller.getIddleRightImage(i));
+					}
 
-					} else if (hero.getDirection() == hero.LEFT && !controller.getHeroCrouching()
-							&& !controller.getHeroMoving()) {
+					else if (hero.getDirection() == hero.LEFT) {
 
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
 						controller.setHeroImage(controller.getIddleLeftImage(i));
 
 					}
@@ -108,7 +107,7 @@ public class HeroThread extends Thread {
 				}
 
 			}
-			//agacharse
+			// agacharse
 			else if (!controller.getHeroMoving() && controller.getHeroCrouching()) {
 
 				for (int i = 0; i < 5; i++) {
