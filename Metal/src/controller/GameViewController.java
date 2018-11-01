@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,11 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.Game;
 import model.Hero;
-import threads.CrouchAnimationThread;
 import threads.HeroThread;
-import threads.IddleAnimationThread;
-import threads.MoveThread;
-import threads.RunningAnimationThread;
 
 public class GameViewController implements Initializable {
 
@@ -26,75 +23,84 @@ public class GameViewController implements Initializable {
 	private ImageView heroImageView;
 	private Game game;
 	private Hero hero;
-//	private HeroThread heroThread;
-	private MoveThread moveThread;
-	private RunningAnimationThread runningAnimationThread;
-	private IddleAnimationThread iddleAnimationThread;
-	private CrouchAnimationThread crouchAnimationThread;
+	private boolean arrowPressed = false;
+	private HeroThread heroThread;
 	private Scene scene;
+	private double width;
+	private double height;
 	private ArrayList<Image> iddleLeft = new ArrayList<Image>();
 	private ArrayList<Image> iddleRight = new ArrayList<Image>();
 	private ArrayList<Image> runningLeft = new ArrayList<Image>();
 	private ArrayList<Image> runningRight = new ArrayList<Image>();
 	private ArrayList<Image> crouchingRight = new ArrayList<Image>();
 	private ArrayList<Image> crouchingLeft = new ArrayList<Image>();
+	private double centerHeroX;
+	private double centerHeroY;
 
 	public void setGame(Scene scene) {
 
 		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY());
 		game = new Game(hero);
 		addSpriteImages();
-		startThreads();
-
 		this.scene = scene;
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		width = scene.getWidth();
+		height = scene.getHeight();
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
 
-				if (event.getCode() == KeyCode.RIGHT) {
+				switch (event.getCode()) {
 
+				case RIGHT:
 					setHeroMoving(true);
-					setHeroDirection(hero.RIGHT);
+					setHeroDirection(Hero.RIGHT);
+					break;
 
-				} else if (event.getCode() == KeyCode.LEFT) {
-
+				case LEFT:
 					setHeroMoving(true);
-					setHeroDirection(hero.LEFT);
+					setHeroDirection(Hero.LEFT);
+					break;
 
-				} else if (event.getCode() == KeyCode.UP) {
+				case UP:
+					setHeroAimingUp(true);
+					break;
 
-					hero.setAimingUp(true);
-
-				} else if (event.getCode() == KeyCode.DOWN) {
-
-					hero.setCrouching(true);
+				case DOWN:
+					setHeroCrouching(true);
 					if (getHeroImageViewPosY() < 570) {
 						setHeroY(getHeroImageViewPosY() + 28);
 					}
+					break;
 
-				} else if (event.getCode() == KeyCode.J) {
-					System.out.println(hero.isMoving());
+				default:
+					break;
+
 				}
 
 			}
-
 		});
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
 
-				hero.setMoving(false);
-				hero.setCrouching(false);
-				hero.setAimingUp(false);
+				if ((event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN
+						|| event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT)) {
+
+					setHeroMoving(false);
+
+				}
+
 				if (event.getCode() == KeyCode.DOWN) {
 					setHeroY(getHeroImageViewPosY() - 28);
+					setHeroCrouching(false);
 				}
 
 			}
 
 		});
+		startThreads();
 
 	}
 
@@ -162,16 +168,8 @@ public class GameViewController implements Initializable {
 
 	public void startThreads() {
 
-		moveThread = new MoveThread(this, hero);
-		moveThread.start();
-		runningAnimationThread = new RunningAnimationThread(this, hero);
-		runningAnimationThread.start();
-		iddleAnimationThread = new IddleAnimationThread(this, hero);
-		iddleAnimationThread.start();
-		crouchAnimationThread = new CrouchAnimationThread(this, hero);
-		crouchAnimationThread.start();
-//		heroThread = new HeroThread(this, hero);
-//		heroThread.start();
+		heroThread = new HeroThread(this, hero);
+		heroThread.start();
 
 	}
 
@@ -236,6 +234,21 @@ public class GameViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		centerHeroX = heroImageView.getBoundsInLocal().getWidth() / 2;
+		centerHeroY = heroImageView.getBoundsInLocal().getHeight() / 2;
+
+	}
+
+	public void setHeroCrouching(boolean b) {
+
+		hero.setCrouching(b);
+
+	}
+
+	public void setHeroAimingUp(boolean b) {
+
+		hero.setAimingUp(b);
 
 	}
 
