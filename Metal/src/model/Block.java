@@ -18,10 +18,13 @@ public class Block {
 
 	}
 
-	public boolean isOnPlatform(double posX, double posY) {
+	public boolean isOnPlatform(Hero hero) {
 
+		double heroPosY = hero.getPosY() + hero.getHeight();
 		boolean ret = false;
-		
+		if (heroPosY >= posY-1) {
+			ret = true;
+		}
 		
 		return ret;
 

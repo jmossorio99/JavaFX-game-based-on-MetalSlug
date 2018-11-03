@@ -1,6 +1,7 @@
 package threads;
 
 import controller.GameViewController;
+import javafx.scene.image.Image;
 import model.Hero;
 
 public class HeroThread extends Thread {
@@ -36,6 +37,24 @@ public class HeroThread extends Thread {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			}
+			if (controller.getHeroFalling()) {
+				while (controller.getHeroFalling()) {
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					posY += hero.getSpeed();
+					controller.setHeroY(posY);
+					if (controller.getHeroDirection() == Hero.RIGHT) {
+						controller.setHeroImage(new Image("file:data/sprites/hero/Jump/jump3D.png"));
+					} else if (controller.getHeroDirection() == Hero.LEFT) {
+						controller.setHeroImage(new Image("file:data/sprites/hero/Jump/jump3I.png"));
+					}
+				}
+
 			}
 			// moverse y animacion correr derecha
 			if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.RIGHT
@@ -82,10 +101,9 @@ public class HeroThread extends Thread {
 
 				for (int i = 0; i < 6; i++) {
 
-					System.out.println(controller.getHeroMoving());
 					if (controller.getHeroCrouching() || controller.getHeroMoving()) {
 
-						System.out.println(1);
+						// System.out.println(1);
 						break;
 					}
 

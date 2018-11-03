@@ -18,11 +18,14 @@ public class Hero {
 	private int direction;
 	private boolean aimingUp = false;
 	private double speed = 9.0;
+	private double height;
 
-	public Hero(double posX, double posY) {
+	public Hero(double posX, double posY, double height) {
 
 		this.posX = posX;
 		this.posY = posY;
+		direction = RIGHT;
+		this.setHeight(height); 
 
 	}
 
@@ -92,6 +95,14 @@ public class Hero {
 
 	public void setAimingUp(boolean aimingUp) {
 		this.aimingUp = aimingUp;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
 	}
 
 }

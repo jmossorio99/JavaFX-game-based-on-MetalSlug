@@ -4,134 +4,134 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="bodybg" stylesheets="@Pane.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameViewController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="bodybg" stylesheets="@Pane.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameViewController">
    <children>
       <ImageView fitHeight="700.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
       	<image>
       		<Image url="file:data/backgrounds/snow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain1" fitHeight="50.0" fitWidth="100.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       	<image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="50.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain2" fitHeight="50.0" fitWidth="100.0" layoutX="50.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       	<image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="100.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain3" fitHeight="50.0" fitWidth="100.0" layoutX="100.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="150.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain4" fitHeight="50.0" fitWidth="100.0" layoutX="150.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="200.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain5" fitHeight="50.0" fitWidth="100.0" layoutX="200.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="250.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain6" fitHeight="50.0" fitWidth="100.0" layoutX="250.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="300.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain7" fitHeight="50.0" fitWidth="100.0" layoutX="300.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="350.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain8" fitHeight="50.0" fitWidth="100.0" layoutX="350.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="400.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain9" fitHeight="50.0" fitWidth="100.0" layoutX="400.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="450.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain10" fitHeight="50.0" fitWidth="100.0" layoutX="450.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="500.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain11" fitHeight="50.0" fitWidth="100.0" layoutX="500.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="550.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain12" fitHeight="50.0" fitWidth="100.0" layoutX="550.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="600.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain13" fitHeight="50.0" fitWidth="100.0" layoutX="600.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="650.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain14" fitHeight="50.0" fitWidth="100.0" layoutX="650.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="700.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain15" fitHeight="50.0" fitWidth="100.0" layoutX="700.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="750.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain16" fitHeight="50.0" fitWidth="100.0" layoutX="750.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="800.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain17" fitHeight="50.0" fitWidth="100.0" layoutX="800.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="850.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain18" fitHeight="50.0" fitWidth="100.0" layoutX="850.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="900.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain19" fitHeight="50.0" fitWidth="100.0" layoutX="900.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="950.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain20" fitHeight="50.0" fitWidth="100.0" layoutX="950.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="1000.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain21" fitHeight="50.0" fitWidth="100.0" layoutX="1000.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="1050.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain22" fitHeight="50.0" fitWidth="100.0" layoutX="1050.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="1100.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain23" fitHeight="50.0" fitWidth="100.0" layoutX="1100.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="100.0" layoutX="1150.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="terrain24" fitHeight="50.0" fitWidth="100.0" layoutX="1150.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true">
       <image>
       		<Image url="file:data/terrain/give-shadow.png" />
       	</image>
       </ImageView>
-      <ImageView fx:id="heroImageView" fitHeight="100.0" fitWidth="100.0" layoutX="0.0" layoutY="560.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="heroImageView" fitHeight="100.0" fitWidth="100.0" layoutX="0.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true"> 
       	<image>
       		<Image url="file:data/sprites/hero/Iddle/Idle1D.png" />
       	</image>

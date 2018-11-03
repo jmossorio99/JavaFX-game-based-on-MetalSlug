@@ -13,5 +13,17 @@ public class Game {
 		this.hero = hero;
 
 	}
+	
+	public void addBlocks(Block block) {
+		
+		blocks.add(block);
+		
+	}
+	
+	public ArrayList<Block> getBlocks(){
+		
+		return blocks;
+		
+	}
 
 }

@@ -3,28 +3,33 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import model.Block;
 import model.Game;
 import model.Hero;
+import threads.BlocksThread;
 import threads.HeroThread;
 
 public class GameViewController implements Initializable {
 
 	@FXML
 	private ImageView heroImageView;
+	@FXML
+	private AnchorPane anchorPane;
 	private Game game;
 	private Hero hero;
 	private boolean arrowPressed = false;
 	private HeroThread heroThread;
+	private BlocksThread blocksThread;
 	private Scene scene;
 	private double width;
 	private double height;
@@ -37,10 +42,27 @@ public class GameViewController implements Initializable {
 	private double centerHeroX;
 	private double centerHeroY;
 
+	@SuppressWarnings("deprecation")
 	public void setGame(Scene scene) {
 
-		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY());
+		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY(), heroImageView.getFitHeight());
 		game = new Game(hero);
+		for (Node node : anchorPane.getChildren()) {
+
+			try {
+
+				ImageView node1 = (ImageView) node;
+				String id = node1.getId();
+				if (id.contains("terrain")) {
+					game.addBlocks(new Block(node1.getLayoutX(), node1.getLayoutY(), node1.getFitWidth(),
+							node1.getFitHeight(), node1.getImage().impl_getUrl()));
+				}
+
+			} catch (Exception e) {
+
+			}
+
+		}
 		addSpriteImages();
 		this.scene = scene;
 		width = scene.getWidth();
@@ -109,6 +131,18 @@ public class GameViewController implements Initializable {
 		hero.setMoving(moving);
 
 	}
+	
+	public void setHeroFalling(boolean falling) {
+		
+		hero.setFalling(falling);
+		
+	}
+	
+	public boolean getHeroFalling() {
+		
+		return hero.isFalling();
+		
+	}
 
 	public boolean getHeroMoving() {
 
@@ -170,6 +204,8 @@ public class GameViewController implements Initializable {
 
 		heroThread = new HeroThread(this, hero);
 		heroThread.start();
+		blocksThread = new BlocksThread(this, hero, game);
+		blocksThread.start();
 
 	}
 
