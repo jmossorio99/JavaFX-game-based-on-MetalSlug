@@ -38,7 +38,7 @@ public class HeroThread extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if (controller.getHeroFalling()) {
+			if (controller.getHeroFalling() && !controller.getHeroJumping()) {
 				while (controller.getHeroFalling()) {
 					try {
 						Thread.sleep(50);
@@ -58,7 +58,7 @@ public class HeroThread extends Thread {
 			}
 			// moverse y animacion correr derecha
 			if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.RIGHT
-					&& controller.getHeroImageViewPosX() <= 1100) {
+					&& controller.getHeroImageViewPosX() <= 1100 && !controller.getHeroJumping()) {
 
 				for (int i = 0; i < 11; i++) {
 
@@ -78,7 +78,7 @@ public class HeroThread extends Thread {
 
 				// moverse y animacion correr izquierda
 			} else if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.LEFT
-					&& controller.getHeroImageViewPosX() >= 0) {
+					&& controller.getHeroImageViewPosX() >= 0 && !controller.getHeroJumping()) {
 
 				for (int i = 0; i < 11; i++) {
 
@@ -97,7 +97,7 @@ public class HeroThread extends Thread {
 				}
 
 				// iddle derecha e izquierda
-			} else if (!controller.getHeroMoving() && !controller.getHeroCrouching()) {
+			} else if (!controller.getHeroMoving() && !controller.getHeroCrouching() && !controller.getHeroJumping()) {
 
 				for (int i = 0; i < 6; i++) {
 
@@ -125,8 +125,15 @@ public class HeroThread extends Thread {
 				}
 
 			}
+			else if (controller.getHeroJumping() && !controller.getHeroMoving() && !controller.getHeroCrouching()) {
+
+				for (int i = 0; i < 6; i++) {
+					
+				}
+				
+			}
 			// agacharse
-			else if (!controller.getHeroMoving() && controller.getHeroCrouching()) {
+			else if (!controller.getHeroMoving() && controller.getHeroCrouching() && !controller.getHeroJumping()) {
 
 				for (int i = 0; i < 5; i++) {
 

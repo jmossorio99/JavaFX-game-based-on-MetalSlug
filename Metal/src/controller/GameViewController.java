@@ -39,6 +39,8 @@ public class GameViewController implements Initializable {
 	private ArrayList<Image> runningRight = new ArrayList<Image>();
 	private ArrayList<Image> crouchingRight = new ArrayList<Image>();
 	private ArrayList<Image> crouchingLeft = new ArrayList<Image>();
+	private ArrayList<Image> jumpingRight = new ArrayList<Image>();
+	private ArrayList<Image> jumpingLeft = new ArrayList<Image>();
 	private double centerHeroX;
 	private double centerHeroY;
 
@@ -95,6 +97,9 @@ public class GameViewController implements Initializable {
 					}
 					break;
 
+				case SPACE:
+					hero.setJumping(true);
+
 				default:
 					break;
 
@@ -131,22 +136,28 @@ public class GameViewController implements Initializable {
 		hero.setMoving(moving);
 
 	}
-	
+
 	public void setHeroFalling(boolean falling) {
-		
+
 		hero.setFalling(falling);
-		
+
 	}
-	
+
 	public boolean getHeroFalling() {
-		
+
 		return hero.isFalling();
-		
+
 	}
 
 	public boolean getHeroMoving() {
 
 		return hero.isMoving();
+
+	}
+
+	public boolean getHeroJumping() {
+
+		return hero.isJumping();
 
 	}
 
@@ -218,20 +229,20 @@ public class GameViewController implements Initializable {
 	public void addSpriteImages() {
 
 		for (int i = 0; i < 6; i++) {
-
 			iddleLeft.add(new Image("file:data/sprites/hero/Iddle/left/Idle" + (i + 1) + "I.png"));
 			iddleRight.add(new Image("file:data/sprites/hero/Iddle/right/Idle" + (i + 1) + "D.png"));
-
 		}
 		for (int i = 0; i < 11; i++) {
-
 			runningLeft.add(new Image("file:data/sprites/hero/Running/Left/Run" + (i + 1) + "I.png"));
 			runningRight.add(new Image("file:data/sprites/hero/Running/Right/Run" + (i + 1) + "D.png"));
-
 		}
 		for (int i = 0; i < 5; i++) {
 			crouchingRight.add(new Image("file:data/sprites/hero/Crouch/right/crouch" + (i + 1) + "D.png"));
 			crouchingLeft.add(new Image("file:data/sprites/hero/Crouch/left/crouch" + (i + 1) + "I.png"));
+		}
+		for (int i = 0; i < 6; i++) {
+			jumpingRight.add(new Image("file:data/sprites/hero/Jump/right/jump" + (i+1) + "D.png"));
+			jumpingLeft.add(new Image("file:data/sprites/hero/Jump/left/jump" + (i+1) + "I.png"));
 		}
 
 	}
@@ -266,6 +277,18 @@ public class GameViewController implements Initializable {
 
 	public Image getCrouchingLeftImage(int i) {
 		return crouchingLeft.get(i);
+	}
+
+	public Image getJumpingRightImage(int i) {
+
+		return jumpingRight.get(i);
+
+	}
+
+	public Image getJumpingLeftImage(int i) {
+
+		return jumpingLeft.get(i);
+
 	}
 
 	@Override
