@@ -41,6 +41,8 @@ public class GameViewController implements Initializable {
 	private ArrayList<Image> crouchingLeft = new ArrayList<Image>();
 	private ArrayList<Image> jumpingRight = new ArrayList<Image>();
 	private ArrayList<Image> jumpingLeft = new ArrayList<Image>();
+	private ArrayList<Image> dyingRight = new ArrayList<Image>();
+	private ArrayList<Image> dyingLeft = new ArrayList<Image>();
 	private double centerHeroX;
 	private double centerHeroY;
 
@@ -123,12 +125,29 @@ public class GameViewController implements Initializable {
 					setHeroY(getHeroImageViewPosY() - 28);
 					setHeroCrouching(false);
 				}
+				
+				if(event.getCode()==KeyCode.D) {
+					
+					setHeroDying(true);
+				//System.out.println("funciona la tecla d");
+				}
+				if(event.getCode() == KeyCode.R) {
+					setHeroDying(false);
+				}
 
 			}
 
 		});
 		startThreads();
 
+	}
+	
+	public void setHeroDying(boolean dying) {
+		hero.setDying(dying);
+		//System.out.println("llame al metodo setDying de hero");
+	}
+	public boolean getHeroDying() {
+		return hero.getDying();
 	}
 
 	public void setHeroMoving(boolean moving) {
@@ -244,6 +263,10 @@ public class GameViewController implements Initializable {
 			jumpingRight.add(new Image("file:data/sprites/hero/Jump/right/jump" + (i+1) + "D.png"));
 			jumpingLeft.add(new Image("file:data/sprites/hero/Jump/left/jump" + (i+1) + "I.png"));
 		}
+		for(int i=0;i<4;i++) {
+			 dyingRight.add(new Image("file:data/sprites/hero/Dead/right/dead"+(i+1)+"D.png"));
+			 dyingLeft.add(new Image("file:data/sprites/hero/Dead/left/dead"+(i+1)+"I.png"));
+		}
 
 	}
 
@@ -290,6 +313,14 @@ public class GameViewController implements Initializable {
 		return jumpingLeft.get(i);
 
 	}
+	
+	public Image getDyingRightImage(int i) {
+		return dyingRight.get(i);
+	}
+	
+	public Image getDyingLeftImage(int i) {
+		return dyingLeft.get(i);
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -310,5 +341,5 @@ public class GameViewController implements Initializable {
 		hero.setAimingUp(b);
 
 	}
-
+	
 }

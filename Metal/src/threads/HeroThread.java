@@ -11,6 +11,7 @@ public class HeroThread extends Thread {
 	private double posX;
 	private double posY;
 	private Hero hero;
+	private boolean alreadyDeath = false;
 
 	public HeroThread(GameViewController controller, Hero hero) {
 
@@ -29,7 +30,12 @@ public class HeroThread extends Thread {
 
 	@Override
 	public void run() {
-
+		// temporal para no tener que cerrar y volver a abrir pd: no funciona xdxdxxd
+		if(hero.getDying()==false) {
+			alreadyDeath=false;
+		}
+		//-------------------------------------
+    if(!alreadyDeath) {
 		init();
 		while (running) {
 
@@ -58,7 +64,7 @@ public class HeroThread extends Thread {
 			}
 			// moverse y animacion correr derecha
 			if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.RIGHT
-					&& controller.getHeroImageViewPosX() <= 1100 && !controller.getHeroJumping()) {
+					&& controller.getHeroImageViewPosX() <= 1100 && !controller.getHeroJumping() && !alreadyDeath) {
 
 				for (int i = 0; i < 11; i++) {
 
@@ -78,7 +84,7 @@ public class HeroThread extends Thread {
 
 				// moverse y animacion correr izquierda
 			} else if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.LEFT
-					&& controller.getHeroImageViewPosX() >= 0 && !controller.getHeroJumping()) {
+					&& controller.getHeroImageViewPosX() >= 0 && !controller.getHeroJumping() && !alreadyDeath) {
 
 				for (int i = 0; i < 11; i++) {
 
@@ -97,7 +103,7 @@ public class HeroThread extends Thread {
 				}
 
 				// iddle derecha e izquierda
-			} else if (!controller.getHeroMoving() && !controller.getHeroCrouching() && !controller.getHeroJumping()) {
+			} else if (!controller.getHeroMoving() && !controller.getHeroCrouching() && !controller.getHeroJumping() && !alreadyDeath) {
 
 				for (int i = 0; i < 6; i++) {
 
@@ -125,7 +131,7 @@ public class HeroThread extends Thread {
 				}
 
 			}
-			else if (controller.getHeroJumping() && !controller.getHeroMoving() && !controller.getHeroCrouching()) {
+			else if (controller.getHeroJumping() && !controller.getHeroMoving() && !controller.getHeroCrouching() && !alreadyDeath) {
 
 				for (int i = 0; i < 6; i++) {
 					
@@ -133,12 +139,12 @@ public class HeroThread extends Thread {
 				
 			}
 			// agacharse
-			else if (!controller.getHeroMoving() && controller.getHeroCrouching() && !controller.getHeroJumping()) {
+			else if (!controller.getHeroMoving() && controller.getHeroCrouching() && !controller.getHeroJumping() && !alreadyDeath) {
 
 				for (int i = 0; i < 5; i++) {
 
 					if (controller.getHeroCrouching() && controller.getHeroDirection() == hero.LEFT
-							&& !controller.getHeroMoving()) {
+							&& !controller.getHeroMoving() && !alreadyDeath) {
 
 						try {
 							Thread.sleep(80);
@@ -148,7 +154,7 @@ public class HeroThread extends Thread {
 						controller.setHeroImage(controller.getCrouchingLeftImage(i));
 
 					} else if (controller.getHeroCrouching() && controller.getHeroDirection() == hero.RIGHT
-							&& !controller.getHeroMoving()) {
+							&& !controller.getHeroMoving() && !alreadyDeath) {
 
 						try {
 							Thread.sleep(80);
@@ -161,10 +167,48 @@ public class HeroThread extends Thread {
 
 				}
 
+				// Morir -----------------------------------------
+			}
+		    if(controller.getHeroDying() && !alreadyDeath) {
+				int rep=0;
+				boolean cont = true;
+				for (int i=0;i<4&& cont ;i++) {
+					
+					
+					if(controller.getHeroDirection() == hero.RIGHT) {
+						
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						controller.setHeroImage(controller.getDyingRightImage(i));
+						rep++;
+					}else if(controller.getHeroDirection() == hero.LEFT) {
+						
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						controller.setHeroImage(controller.getDyingLeftImage(i));
+						rep++;
+					}
+					
+					if(rep==4) {
+						cont=false;
+						alreadyDeath=true;
+						System.out.println(alreadyDeath);
+						
+					}
+					
+				}
+		
 			}
 
 		}
 
+      }
 	}
 
 }

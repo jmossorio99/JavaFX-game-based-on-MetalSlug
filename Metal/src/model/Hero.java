@@ -16,6 +16,7 @@ public class Hero {
 	private boolean falling = true;
 	private boolean crouching = false;
 	private boolean jumping = false;
+	private boolean dying = false;
 	private int direction;
 	private boolean aimingUp = false;
 	private double speed = 9.0;
@@ -114,4 +115,10 @@ public class Hero {
 		this.jumping = jumping;
 	}
 
+	public void setDying(boolean dying) {
+		this.dying=dying;
+	}
+	public boolean getDying(){
+		return dying;
+	}
 }
