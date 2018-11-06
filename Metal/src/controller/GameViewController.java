@@ -71,7 +71,7 @@ public class GameViewController implements Initializable {
 		this.scene = scene;
 		width = scene.getWidth();
 		height = scene.getHeight();
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
@@ -94,13 +94,13 @@ public class GameViewController implements Initializable {
 
 				case DOWN:
 					setHeroCrouching(true);
-					if (getHeroImageViewPosY() < 570) {
-						setHeroY(getHeroImageViewPosY() + 28);
-					}
 					break;
 
 				case SPACE:
 					hero.setJumping(true);
+
+				case D:
+					setHeroDying(false);
 
 				default:
 					break;
@@ -122,17 +122,14 @@ public class GameViewController implements Initializable {
 				}
 
 				if (event.getCode() == KeyCode.DOWN) {
-					setHeroY(getHeroImageViewPosY() - 28);
+
 					setHeroCrouching(false);
 				}
-				
-				if(event.getCode()==KeyCode.D) {
-					
+
+				if (event.getCode() == KeyCode.D) {
+
 					setHeroDying(true);
-				//System.out.println("funciona la tecla d");
-				}
-				if(event.getCode() == KeyCode.R) {
-					setHeroDying(false);
+
 				}
 
 			}
@@ -141,11 +138,12 @@ public class GameViewController implements Initializable {
 		startThreads();
 
 	}
-	
+
 	public void setHeroDying(boolean dying) {
 		hero.setDying(dying);
-		//System.out.println("llame al metodo setDying de hero");
+		// System.out.println("llame al metodo setDying de hero");
 	}
+
 	public boolean getHeroDying() {
 		return hero.getDying();
 	}
@@ -260,12 +258,12 @@ public class GameViewController implements Initializable {
 			crouchingLeft.add(new Image("file:data/sprites/hero/Crouch/left/crouch" + (i + 1) + "I.png"));
 		}
 		for (int i = 0; i < 6; i++) {
-			jumpingRight.add(new Image("file:data/sprites/hero/Jump/right/jump" + (i+1) + "D.png"));
-			jumpingLeft.add(new Image("file:data/sprites/hero/Jump/left/jump" + (i+1) + "I.png"));
+			jumpingRight.add(new Image("file:data/sprites/hero/Jump/right/jump" + (i + 1) + "D.png"));
+			jumpingLeft.add(new Image("file:data/sprites/hero/Jump/left/jump" + (i + 1) + "I.png"));
 		}
-		for(int i=0;i<4;i++) {
-			 dyingRight.add(new Image("file:data/sprites/hero/Dead/right/dead"+(i+1)+"D.png"));
-			 dyingLeft.add(new Image("file:data/sprites/hero/Dead/left/dead"+(i+1)+"I.png"));
+		for (int i = 0; i < 4; i++) {
+			dyingRight.add(new Image("file:data/sprites/hero/Dead/right/dead" + (i + 1) + "D.png"));
+			dyingLeft.add(new Image("file:data/sprites/hero/Dead/left/dead" + (i + 1) + "I.png"));
 		}
 
 	}
@@ -313,11 +311,11 @@ public class GameViewController implements Initializable {
 		return jumpingLeft.get(i);
 
 	}
-	
+
 	public Image getDyingRightImage(int i) {
 		return dyingRight.get(i);
 	}
-	
+
 	public Image getDyingLeftImage(int i) {
 		return dyingLeft.get(i);
 	}
@@ -341,5 +339,5 @@ public class GameViewController implements Initializable {
 		hero.setAimingUp(b);
 
 	}
-	
+
 }
