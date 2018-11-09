@@ -14,9 +14,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Block;
+import model.Bullet;
 import model.Game;
 import model.Hero;
-import threads.BlocksThread;
 import threads.HeroThread;
 
 public class GameViewController implements Initializable {
@@ -27,9 +27,8 @@ public class GameViewController implements Initializable {
 	private AnchorPane anchorPane;
 	private Game game;
 	private Hero hero;
-	private boolean arrowPressed = false;
+	private Bullet firstBullet = null;
 	private HeroThread heroThread;
-	private BlocksThread blocksThread;
 	private Scene scene;
 	private double width;
 	private double height;
@@ -39,8 +38,6 @@ public class GameViewController implements Initializable {
 	private ArrayList<Image> runningRight = new ArrayList<Image>();
 	private ArrayList<Image> crouchingRight = new ArrayList<Image>();
 	private ArrayList<Image> crouchingLeft = new ArrayList<Image>();
-	private ArrayList<Image> jumpingRight = new ArrayList<Image>();
-	private ArrayList<Image> jumpingLeft = new ArrayList<Image>();
 	private ArrayList<Image> dyingRight = new ArrayList<Image>();
 	private ArrayList<Image> dyingLeft = new ArrayList<Image>();
 	private double centerHeroX;
@@ -96,11 +93,8 @@ public class GameViewController implements Initializable {
 					setHeroCrouching(true);
 					break;
 
-				case SPACE:
-					hero.setJumping(true);
-
-				case D:
-					setHeroDying(false);
+				case A:
+					break;
 
 				default:
 					break;
@@ -154,27 +148,9 @@ public class GameViewController implements Initializable {
 
 	}
 
-	public void setHeroFalling(boolean falling) {
-
-		hero.setFalling(falling);
-
-	}
-
-	public boolean getHeroFalling() {
-
-		return hero.isFalling();
-
-	}
-
 	public boolean getHeroMoving() {
 
 		return hero.isMoving();
-
-	}
-
-	public boolean getHeroJumping() {
-
-		return hero.isJumping();
 
 	}
 
@@ -230,10 +206,8 @@ public class GameViewController implements Initializable {
 
 	public void startThreads() {
 
-		heroThread = new HeroThread(this, hero);
+		heroThread = new HeroThread(this, hero, game);
 		heroThread.start();
-		blocksThread = new BlocksThread(this, hero, game);
-		blocksThread.start();
 
 	}
 
@@ -256,10 +230,6 @@ public class GameViewController implements Initializable {
 		for (int i = 0; i < 5; i++) {
 			crouchingRight.add(new Image("file:data/sprites/hero/Crouch/right/crouch" + (i + 1) + "D.png"));
 			crouchingLeft.add(new Image("file:data/sprites/hero/Crouch/left/crouch" + (i + 1) + "I.png"));
-		}
-		for (int i = 0; i < 6; i++) {
-			jumpingRight.add(new Image("file:data/sprites/hero/Jump/right/jump" + (i + 1) + "D.png"));
-			jumpingLeft.add(new Image("file:data/sprites/hero/Jump/left/jump" + (i + 1) + "I.png"));
 		}
 		for (int i = 0; i < 4; i++) {
 			dyingRight.add(new Image("file:data/sprites/hero/Dead/right/dead" + (i + 1) + "D.png"));
@@ -298,18 +268,6 @@ public class GameViewController implements Initializable {
 
 	public Image getCrouchingLeftImage(int i) {
 		return crouchingLeft.get(i);
-	}
-
-	public Image getJumpingRightImage(int i) {
-
-		return jumpingRight.get(i);
-
-	}
-
-	public Image getJumpingLeftImage(int i) {
-
-		return jumpingLeft.get(i);
-
 	}
 
 	public Image getDyingRightImage(int i) {

@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameViewController;
+
 public class Block {
 
 	private double posX;
@@ -18,11 +20,12 @@ public class Block {
 
 	}
 
-	public boolean isOnPlatform(Hero hero) {
+	public boolean isOnPlatform(GameViewController controller) {
 
-		double heroPosY = hero.getPosY() + hero.getHeight();
+		double heroPosY = controller.getHeroImageViewPosY() + Hero.HEIGHT;
+		double heroPosX = controller.getHeroImageViewPosX();
 		boolean ret = false;
-		if (heroPosY >= posY-1) {
+		if (heroPosY >= posY+10) {
 			ret = true;
 		}
 		
