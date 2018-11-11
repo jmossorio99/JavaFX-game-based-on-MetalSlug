@@ -11,10 +11,10 @@ public class HeroThread extends Thread {
 
 	private GameViewController controller;
 	private boolean running = false;
+	private boolean alreadyDead = false;
 	private double posX;
 	private double posY;
 	private Hero hero;
-	private boolean alreadyDead = false;
 	private Game game;
 	private ArrayList<Block> blocks;
 
@@ -41,7 +41,6 @@ public class HeroThread extends Thread {
 		init();
 		while (running) {
 
-			// System.out.println(controller.getHeroImageViewPosY());
 			try {
 				Thread.sleep(30);
 			} catch (InterruptedException e) {
@@ -67,8 +66,40 @@ public class HeroThread extends Thread {
 
 				}
 
-				// moverse y animacion correr izquierda
-			} else if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.LEFT
+			}
+			// disparar derecha, izquierda, arriba parado
+			else if (hero.isShooting()) {
+
+				hero.setMoving(false);
+				if (hero.getDirection() == Hero.RIGHT) {
+
+					for (int i = 0; i < 4; i++) {
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						controller.setHeroImage(controller.getFireStandingRightImage(i));
+					}
+
+				} else if (hero.getDirection() == Hero.LEFT) {
+
+					for (int i = 0; i < 4; i++) {
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						controller.setHeroImage(controller.getFireStandingRightImage(i));
+					}
+
+				}
+
+			}
+			// moverse y animacion correr izquierda
+			else if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.LEFT
 					&& controller.getHeroImageViewPosX() >= 0 && !alreadyDead) {
 
 				for (int i = 0; i < 11; i++) {
@@ -88,7 +119,8 @@ public class HeroThread extends Thread {
 				}
 
 				// iddle derecha e izquierda
-			} else if (!controller.getHeroMoving() && !controller.getHeroCrouching() && !alreadyDead) {
+			} 
+			else if (!controller.getHeroMoving() && !controller.getHeroCrouching() && !alreadyDead) {
 
 				for (int i = 0; i < 6; i++) {
 

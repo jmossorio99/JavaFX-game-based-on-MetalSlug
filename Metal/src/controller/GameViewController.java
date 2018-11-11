@@ -3,10 +3,14 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +25,8 @@ import threads.HeroThread;
 
 public class GameViewController implements Initializable {
 
+	public static final String ORANGE_BULLET_ROUTE = "file:data/sprites/hero/Shoot/OrangeBullet.png";
+	public static final int BULLET_SPEED = 5;
 	@FXML
 	private ImageView heroImageView;
 	@FXML
@@ -30,8 +36,10 @@ public class GameViewController implements Initializable {
 	private Bullet firstBullet = null;
 	private HeroThread heroThread;
 	private Scene scene;
+	private Parent root;
 	private double width;
 	private double height;
+	private ArrayList<Node> heroBullets = new ArrayList<Node>();
 	private ArrayList<Image> iddleLeft = new ArrayList<Image>();
 	private ArrayList<Image> iddleRight = new ArrayList<Image>();
 	private ArrayList<Image> runningLeft = new ArrayList<Image>();
@@ -40,6 +48,10 @@ public class GameViewController implements Initializable {
 	private ArrayList<Image> crouchingLeft = new ArrayList<Image>();
 	private ArrayList<Image> dyingRight = new ArrayList<Image>();
 	private ArrayList<Image> dyingLeft = new ArrayList<Image>();
+	private ArrayList<Image> fireStandingLeft = new ArrayList<Image>();
+	private ArrayList<Image> fireStandingRight = new ArrayList<Image>();
+	private ArrayList<Image> fireUpLeft = new ArrayList<Image>();
+	private ArrayList<Image> fireUpRight = new ArrayList<Image>();
 	private double centerHeroX;
 	private double centerHeroY;
 
@@ -68,7 +80,7 @@ public class GameViewController implements Initializable {
 		this.scene = scene;
 		width = scene.getWidth();
 		height = scene.getHeight();
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
@@ -94,6 +106,22 @@ public class GameViewController implements Initializable {
 					break;
 
 				case A:
+					if (!hero.isShooting()) {
+						hero.setShooting(true);
+						ImageView orangeBullet = new ImageView(new Image(ORANGE_BULLET_ROUTE));
+						Node newOrangeBullet = orangeBullet;
+						if (hero.getDirection() == Hero.RIGHT) {
+							newOrangeBullet.relocate(
+									heroImageView.getLayoutX() + heroImageView.getBoundsInLocal().getWidth(),
+									heroImageView.getLayoutY());
+						} else if (hero.getDirection() == Hero.LEFT) {
+							newOrangeBullet.relocate(
+									heroImageView.getLayoutX() - heroImageView.getBoundsInLocal().getWidth(),
+									heroImageView.getLayoutY());
+						}
+						heroBullets.add(newOrangeBullet);
+						anchorPane.getChildren().add(newOrangeBullet);
+					}
 					break;
 
 				default:
@@ -102,27 +130,31 @@ public class GameViewController implements Initializable {
 				}
 
 			}
+
 		});
-		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
+				switch (event.getCode()) {
 
-				if ((event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN
-						|| event.getCode() == KeyCode.RIGHT || event.getCode() == KeyCode.LEFT)) {
-
-					setHeroMoving(false);
-
-				}
-
-				if (event.getCode() == KeyCode.DOWN) {
-
-					setHeroCrouching(false);
-				}
-
-				if (event.getCode() == KeyCode.D) {
-
-					setHeroDying(true);
+				case RIGHT:
+					hero.setMoving(false);
+					break;
+				case LEFT:
+					hero.setMoving(false);
+					break;
+				case DOWN:
+					hero.setCrouching(false);
+					break;
+				case A:
+					hero.setShooting(false);
+					break;
+				case D:
+					hero.setDying(true);
+					break;
+				default:
+					break;
 
 				}
 
@@ -130,12 +162,36 @@ public class GameViewController implements Initializable {
 
 		});
 		startThreads();
+		AnimationTimer timer = new AnimationTimer() {
+
+			@Override
+			public void handle(long now) {
+
+				heroShoot();
+
+			}
+		};
+		timer.start();
+
+	}
+
+	public void heroShoot() {
+
+		for (int i = 0; i < heroBullets.size(); i++) {
+			if (heroBullets.get(i).getLayoutX() < 1200 && heroBullets.get(i).getLayoutX() > 0
+					&& heroBullets.get(i).getLayoutY() < 700 && heroBullets.get(i).getLayoutY() > 0) {
+				heroBullets.get(i).relocate(heroBullets.get(i).getLayoutX() + BULLET_SPEED,
+						heroBullets.get(i).getLayoutY());
+			} else {
+				heroBullets.remove(i);
+			}
+
+		}
 
 	}
 
 	public void setHeroDying(boolean dying) {
 		hero.setDying(dying);
-		// System.out.println("llame al metodo setDying de hero");
 	}
 
 	public boolean getHeroDying() {
@@ -235,6 +291,10 @@ public class GameViewController implements Initializable {
 			dyingRight.add(new Image("file:data/sprites/hero/Dead/right/dead" + (i + 1) + "D.png"));
 			dyingLeft.add(new Image("file:data/sprites/hero/Dead/left/dead" + (i + 1) + "I.png"));
 		}
+		for (int i = 0; i < 4; i++) {
+			fireStandingRight.add(new Image("file:data/sprites/hero/Shoot/fireStandingRight/fire" + (i + 1) + "D.png"));
+			fireStandingLeft.add(new Image("file:data/sprites/hero/Shoot/fireStandingLeft/fire" + (i + 1) + "I.png"));
+		}
 
 	}
 
@@ -276,6 +336,14 @@ public class GameViewController implements Initializable {
 
 	public Image getDyingLeftImage(int i) {
 		return dyingLeft.get(i);
+	}
+
+	public Image getFireStandingRightImage(int i) {
+		return fireStandingRight.get(i);
+	}
+
+	public Image getFireStandingLefttImage(int i) {
+		return fireStandingLeft.get(i);
 	}
 
 	@Override
