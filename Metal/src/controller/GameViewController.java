@@ -52,6 +52,8 @@ public class GameViewController implements Initializable {
 	private ArrayList<Image> fireStandingRight = new ArrayList<Image>();
 	private ArrayList<Image> fireUpLeft = new ArrayList<Image>();
 	private ArrayList<Image> fireUpRight = new ArrayList<Image>();
+	private ArrayList<Image> fireCrouchingRight = new ArrayList<Image>();
+	private ArrayList<Image> fireCrouchingLeft = new ArrayList<Image>();
 	private double centerHeroX;
 	private double centerHeroY;
 
@@ -295,6 +297,10 @@ public class GameViewController implements Initializable {
 			fireStandingRight.add(new Image("file:data/sprites/hero/Shoot/fireStandingRight/fire" + (i + 1) + "D.png"));
 			fireStandingLeft.add(new Image("file:data/sprites/hero/Shoot/fireStandingLeft/fire" + (i + 1) + "I.png"));
 		}
+		for (int i = 0; i < 3; i++) {
+			fireCrouchingRight.add(new Image("file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire" + (i+1) + "D.png"));
+			fireCrouchingLeft.add(new Image("file:data/sprites/hero/Shoot/crouchFireLeft/CrouchFire" + (i+1) + "I.png"));
+		}
 
 	}
 
@@ -342,8 +348,16 @@ public class GameViewController implements Initializable {
 		return fireStandingRight.get(i);
 	}
 
-	public Image getFireStandingLefttImage(int i) {
+	public Image getFireStandingLeftImage(int i) {
 		return fireStandingLeft.get(i);
+	}
+	
+	public Image getFireCrouchingRightImage(int i) {
+		return fireCrouchingRight.get(i);
+	}
+	
+	public Image getFireCrouchingLeftImage(int i) {
+		return fireCrouchingLeft.get(i);
 	}
 
 	@Override

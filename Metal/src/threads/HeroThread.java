@@ -41,10 +41,8 @@ public class HeroThread extends Thread {
 		init();
 		while (running) {
 
-			try {
-				Thread.sleep(30);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (controller.getHeroImageViewPosY() == 585 && !hero.isCrouching()) {
+				controller.setHeroY(560);
 			}
 			// moverse y animacion correr derecha
 			if (controller.getHeroMoving() && controller.getHeroDirection() == Hero.RIGHT
@@ -68,7 +66,7 @@ public class HeroThread extends Thread {
 
 			}
 			// disparar derecha, izquierda, arriba parado
-			else if (hero.isShooting()) {
+			else if (hero.isShooting() && !hero.isCrouching() && !hero.isAimingUp()) {
 
 				hero.setMoving(false);
 				if (hero.getDirection() == Hero.RIGHT) {
@@ -92,9 +90,34 @@ public class HeroThread extends Thread {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						controller.setHeroImage(controller.getFireStandingRightImage(i));
+						controller.setHeroImage(controller.getFireStandingLeftImage(i));
 					}
 
+				}
+
+			} else if (hero.isShooting() && hero.isCrouching() && !hero.isAimingUp()) {
+
+				hero.setMoving(false);
+				if (hero.getDirection() == hero.RIGHT) {
+
+					for (int i = 0; i < 3; i++) {
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						controller.setHeroImage(controller.getFireCrouchingRightImage(i));
+					}
+
+				} else if (hero.getDirection() == hero.LEFT) {
+					for (int i = 0; i < 3; i++) {
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						controller.setHeroImage(controller.getFireCrouchingLeftImage(i));
+					}
 				}
 
 			}
@@ -119,16 +142,10 @@ public class HeroThread extends Thread {
 				}
 
 				// iddle derecha e izquierda
-			} 
-			else if (!controller.getHeroMoving() && !controller.getHeroCrouching() && !alreadyDead) {
+			} else if (!controller.getHeroMoving() && !controller.getHeroCrouching() && !alreadyDead
+					&& !hero.isShooting()) {
 
 				for (int i = 0; i < 6; i++) {
-
-					if (controller.getHeroCrouching() || controller.getHeroMoving()) {
-
-						// System.out.println(1);
-						break;
-					}
 
 					try {
 						Thread.sleep(100);
@@ -137,6 +154,11 @@ public class HeroThread extends Thread {
 					}
 					if (hero.getDirection() == hero.RIGHT) {
 						controller.setHeroImage(controller.getIddleRightImage(i));
+					}
+					if (hero.isCrouching() || hero.isMoving() || hero.isShooting()) {
+
+						// System.out.println(1);
+						break;
 					}
 
 					else if (hero.getDirection() == hero.LEFT) {
@@ -149,7 +171,8 @@ public class HeroThread extends Thread {
 
 			}
 			// agacharse
-			else if (!controller.getHeroMoving() && controller.getHeroCrouching() && !alreadyDead) {
+			else if (!controller.getHeroMoving() && controller.getHeroCrouching() && !alreadyDead
+					&& !hero.isShooting()) {
 
 				for (int i = 0; i < 5; i++) {
 
@@ -173,6 +196,9 @@ public class HeroThread extends Thread {
 						}
 						controller.setHeroImage(controller.getCrouchingRightImage(i));
 
+					}
+					if (controller.getHeroImageViewPosY() == 560) {
+						controller.setHeroY(585);
 					}
 
 				}
