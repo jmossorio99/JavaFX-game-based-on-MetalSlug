@@ -25,7 +25,7 @@ public class Hero extends Entity {
 		super(posX, posY);
 		this.posX = posX;
 		this.posY = posY;
-		direction = RIGHT;
+		direction = LEFT;
 		health = 5;
 		this.setHeight(height);
 

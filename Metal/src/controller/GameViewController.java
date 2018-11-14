@@ -22,11 +22,13 @@ import model.Bullet;
 import model.Game;
 import model.Hero;
 import threads.HeroThread;
+import threads.RobotThread;
 
 public class GameViewController implements Initializable {
 
 	public static final String ORANGE_BULLET_ROUTE = "file:data/sprites/hero/Shoot/OrangeBullet.png";
 	public static final int BULLET_SPEED = 5;
+	public static final int ROBOT_SPEED = 1;
 	@FXML
 	private ImageView heroImageView;
 	@FXML
@@ -39,6 +41,10 @@ public class GameViewController implements Initializable {
 	private Parent root;
 	private double width;
 	private double height;
+	private int modifier = 150;
+	private int robotCounter = modifier - 1;
+	private ArrayList<Node> robots = new ArrayList<Node>();
+	private ArrayList<Image> robotMoving = new ArrayList<Image>();
 	private ArrayList<Node> heroBullets = new ArrayList<Node>();
 	private ArrayList<Image> iddleLeft = new ArrayList<Image>();
 	private ArrayList<Image> iddleRight = new ArrayList<Image>();
@@ -170,6 +176,20 @@ public class GameViewController implements Initializable {
 			public void handle(long now) {
 
 				heroShoot();
+				robotCounter++;
+				if (robotCounter % modifier == 0 && robots.size() < 10) {
+					if (modifier > 20) {
+						modifier--;
+					}
+					Node robot = new ImageView(new Image("file:data/sprites/mini robot/mini-robot_1.png"));
+					robot.relocate(1100, 580);
+					robots.add(robot);
+					anchorPane.getChildren().add(robot);
+					RobotThread rThread = new RobotThread(robotMoving, robot);
+					rThread.start();
+				}
+				moveRobot();
+				checkHit();
 
 			}
 		};
@@ -190,6 +210,48 @@ public class GameViewController implements Initializable {
 
 		}
 
+	}
+
+	public void moveRobot() {
+
+		for (int i = 0; i < robots.size(); i++) {
+
+			if (robots.get(i).getLayoutX() < 1200 && robots.get(i).getLayoutX() > -50) {
+
+				robots.get(i).relocate(robots.get(i).getLayoutX() - ROBOT_SPEED, robots.get(i).getLayoutY());
+
+			} else {
+				anchorPane.getChildren().remove(robots.get(i));
+				robots.remove(i);
+			}
+
+		}
+
+	}
+	
+	public void checkHit() {
+		
+		try {
+			
+			for (int i = 0; i < heroBullets.size(); i++) {
+
+				for (int j = 0; j < robots.size(); j++) {
+
+					if (heroBullets.get(i).getBoundsInParent().intersects(robots.get(j).getBoundsInParent())) {
+						anchorPane.getChildren().remove(robots.get(j));
+						robots.remove(j);
+						anchorPane.getChildren().remove(heroBullets.get(i));
+						heroBullets.remove(i);
+					}
+
+				}
+
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		
 	}
 
 	public void setHeroDying(boolean dying) {
@@ -298,8 +360,13 @@ public class GameViewController implements Initializable {
 			fireStandingLeft.add(new Image("file:data/sprites/hero/Shoot/fireStandingLeft/fire" + (i + 1) + "I.png"));
 		}
 		for (int i = 0; i < 3; i++) {
-			fireCrouchingRight.add(new Image("file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire" + (i+1) + "D.png"));
-			fireCrouchingLeft.add(new Image("file:data/sprites/hero/Shoot/crouchFireLeft/CrouchFire" + (i+1) + "I.png"));
+			fireCrouchingRight
+					.add(new Image("file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire" + (i + 1) + "D.png"));
+			fireCrouchingLeft
+					.add(new Image("file:data/sprites/hero/Shoot/crouchFireLeft/CrouchFire" + (i + 1) + "I.png"));
+		}
+		for (int i = 0; i < 16; i++) {
+			robotMoving.add(new Image("file:data/sprites/mini robot/mini-robot_" + (i + 1) + ".png"));
 		}
 
 	}
@@ -351,13 +418,17 @@ public class GameViewController implements Initializable {
 	public Image getFireStandingLeftImage(int i) {
 		return fireStandingLeft.get(i);
 	}
-	
+
 	public Image getFireCrouchingRightImage(int i) {
 		return fireCrouchingRight.get(i);
 	}
-	
+
 	public Image getFireCrouchingLeftImage(int i) {
 		return fireCrouchingLeft.get(i);
+	}
+
+	public Image getRobotMoving(int i) {
+		return robotMoving.get(i);
 	}
 
 	@Override
