@@ -21,8 +21,7 @@ import model.Block;
 import model.Bullet;
 import model.Game;
 import model.Hero;
-import threads.HeroThread;
-import threads.RobotThread;
+import threads.*;
 
 public class GameViewController implements Initializable {
 
@@ -37,6 +36,7 @@ public class GameViewController implements Initializable {
 	private Hero hero;
 	private Bullet firstBullet = null;
 	private HeroThread heroThread;
+	private ViewThread viewThread;
 	private Scene scene;
 	private Parent root;
 	private double width;
@@ -45,7 +45,8 @@ public class GameViewController implements Initializable {
 	private int robotCounter = modifier - 1;
 	private ArrayList<Node> robots = new ArrayList<Node>();
 	private ArrayList<Image> robotMoving = new ArrayList<Image>();
-	private ArrayList<Node> heroBullets = new ArrayList<Node>();
+	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
+	private ArrayList<Node> heroBulletsLeft = new ArrayList<Node>();
 	private ArrayList<Image> iddleLeft = new ArrayList<Image>();
 	private ArrayList<Image> iddleRight = new ArrayList<Image>();
 	private ArrayList<Image> runningLeft = new ArrayList<Image>();
@@ -111,6 +112,7 @@ public class GameViewController implements Initializable {
 
 				case DOWN:
 					setHeroCrouching(true);
+					hero.setPosY(585);
 					break;
 
 				case A:
@@ -122,12 +124,14 @@ public class GameViewController implements Initializable {
 							newOrangeBullet.relocate(
 									heroImageView.getLayoutX() + heroImageView.getBoundsInLocal().getWidth(),
 									heroImageView.getLayoutY());
+							heroBulletsRight.add(newOrangeBullet);
 						} else if (hero.getDirection() == Hero.LEFT) {
 							newOrangeBullet.relocate(
 									heroImageView.getLayoutX() - heroImageView.getBoundsInLocal().getWidth(),
 									heroImageView.getLayoutY());
+							heroBulletsLeft.add(newOrangeBullet);
 						}
-						heroBullets.add(newOrangeBullet);
+
 						anchorPane.getChildren().add(newOrangeBullet);
 					}
 					break;
@@ -154,6 +158,7 @@ public class GameViewController implements Initializable {
 					break;
 				case DOWN:
 					hero.setCrouching(false);
+					hero.setPosY(560);
 					break;
 				case A:
 					hero.setShooting(false);
@@ -175,7 +180,8 @@ public class GameViewController implements Initializable {
 			@Override
 			public void handle(long now) {
 
-				heroShoot();
+				heroShootRight();
+				heroShootLeft();
 				robotCounter++;
 				if (robotCounter % modifier == 0 && robots.size() < 10) {
 					if (modifier > 20) {
@@ -197,17 +203,33 @@ public class GameViewController implements Initializable {
 
 	}
 
-	public void heroShoot() {
+	public void heroShootRight() {
 
-		for (int i = 0; i < heroBullets.size(); i++) {
-			if (heroBullets.get(i).getLayoutX() < 1200 && heroBullets.get(i).getLayoutX() > 0
-					&& heroBullets.get(i).getLayoutY() < 700 && heroBullets.get(i).getLayoutY() > 0) {
-				heroBullets.get(i).relocate(heroBullets.get(i).getLayoutX() + BULLET_SPEED,
-						heroBullets.get(i).getLayoutY());
+		for (int i = 0; i < heroBulletsRight.size(); i++) {
+			Node bullet = heroBulletsRight.get(i);
+			if (bullet.getLayoutX() < 1200 && bullet.getLayoutX() > 0 && bullet.getLayoutY() < 700
+					&& bullet.getLayoutY() > 0) {
+				bullet.relocate(bullet.getLayoutX() + BULLET_SPEED, bullet.getLayoutY());
 			} else {
-				heroBullets.remove(i);
+				heroBulletsRight.remove(i);
+				anchorPane.getChildren().remove(bullet);
 			}
 
+		}
+
+	}
+
+	public void heroShootLeft() {
+
+		for (int i = 0; i < heroBulletsLeft.size(); i++) {
+			Node bullet = heroBulletsLeft.get(i);
+			if (bullet.getLayoutX() < 1200 && bullet.getLayoutX() > 0 && bullet.getLayoutY() < 700
+					&& bullet.getLayoutY() > 0) {
+				bullet.relocate(bullet.getLayoutX() - BULLET_SPEED, bullet.getLayoutY());
+			} else {
+				heroBulletsLeft.remove(i);
+				anchorPane.getChildren().remove(bullet);
+			}
 		}
 
 	}
@@ -228,30 +250,29 @@ public class GameViewController implements Initializable {
 		}
 
 	}
-	
+
 	public void checkHit() {
-		
+
 		try {
-			
-			for (int i = 0; i < heroBullets.size(); i++) {
+
+			for (int i = 0; i < heroBulletsRight.size(); i++) {
 
 				for (int j = 0; j < robots.size(); j++) {
 
-					if (heroBullets.get(i).getBoundsInParent().intersects(robots.get(j).getBoundsInParent())) {
+					if (heroBulletsRight.get(i).getBoundsInParent().intersects(robots.get(j).getBoundsInParent())) {
 						anchorPane.getChildren().remove(robots.get(j));
 						robots.remove(j);
-						anchorPane.getChildren().remove(heroBullets.get(i));
-						heroBullets.remove(i);
+						anchorPane.getChildren().remove(heroBulletsRight.get(i));
+						heroBulletsRight.remove(i);
 					}
 
 				}
 
 			}
 		} catch (Exception e) {
-			
+
 		}
-		
-		
+
 	}
 
 	public void setHeroDying(boolean dying) {
@@ -313,14 +334,12 @@ public class GameViewController implements Initializable {
 	public void setHeroX(double x) {
 
 		heroImageView.setLayoutX(x);
-		hero.setPosX(x);
 
 	}
 
 	public void setHeroY(double y) {
 
 		heroImageView.setLayoutY(y);
-		hero.setPosY(y);
 
 	}
 
@@ -328,12 +347,14 @@ public class GameViewController implements Initializable {
 
 		heroThread = new HeroThread(this, hero, game);
 		heroThread.start();
+		viewThread = new ViewThread(this, hero);
+		viewThread.start();
 
 	}
 
-	public void setHeroImage(Image img) {
+	public void setHeroImage(String img) {
 
-		heroImageView.setImage(img);
+		heroImageView.setImage(new Image(img));
 
 	}
 
