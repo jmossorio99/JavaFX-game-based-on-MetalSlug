@@ -21,8 +21,9 @@ public class Hero extends Entity {
 	private boolean aimingUp = false;
 	private boolean shooting = false;
 	private boolean dead = false;
+	private boolean takingDamage = false;
 	private int direction;
-	private double speed = 8;
+	private double speed = 15;
 	private double height;
 	private Bullet firstBullet;
 	private String image = "file:data/sprites/hero/Iddle/right/Idle1D.png";
@@ -220,6 +221,27 @@ public class Hero extends Entity {
 			}
 			shootCrouchingCount = 1;
 		}
+	}
+
+	public void takeDamage() {
+		if (direction == RIGHT) {
+			image = "file:data/sprites/hero/Dead/right/dead2D.png";
+		} else if (direction == LEFT) {
+			image = "file:data/sprites/hero/Dead/left/dead2I.png";
+		}
+		takingDamage = false;
+	}
+	
+	public void die() {
+		
+	}
+
+	public boolean isTakingDamage() {
+		return takingDamage;
+	}
+
+	public void setTakingDamage(boolean takingDamage) {
+		this.takingDamage = takingDamage;
 	}
 
 }

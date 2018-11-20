@@ -10,12 +10,13 @@ import javafx.scene.image.ImageView;
 public class RobotThread extends Thread {
 
 	private ArrayList<Image> images;
+	private ArrayList<Node> robots;
 	private ImageView robot;
 	private boolean running = false;
 
-	public RobotThread(ArrayList<Image> images, Node robot) {
+	public RobotThread(ArrayList<Image> images, ArrayList<Node> robots) {
 
-		this.robot = (ImageView) robot;
+		this.robots = robots;
 		this.images = images;
 
 	}
@@ -43,7 +44,11 @@ public class RobotThread extends Thread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				robot.setImage(images.get(i));
+				for (int j = 0; j < robots.size(); j++) {
+					ImageView r = (ImageView) robots.get(j);
+					r.setImage(images.get(i));
+				}
+				
 
 			}
 		}
