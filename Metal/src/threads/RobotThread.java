@@ -13,11 +13,13 @@ public class RobotThread extends Thread {
 	private ArrayList<Node> robots;
 	private ImageView robot;
 	private boolean running = false;
+	private GameViewController controller;
 
-	public RobotThread(ArrayList<Image> images, ArrayList<Node> robots) {
+	public RobotThread(ArrayList<Image> images, ArrayList<Node> robots, GameViewController controller) {
 
 		this.robots = robots;
 		this.images = images;
+		this.controller = controller;
 
 	}
 
@@ -31,7 +33,7 @@ public class RobotThread extends Thread {
 	public void run() {
 
 		init();
-		while (running) {
+		while (running && !controller.getHeroIsDead()) {
 			try {
 				Thread.sleep(80);
 			} catch (InterruptedException e) {

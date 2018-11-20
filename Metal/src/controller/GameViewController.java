@@ -20,6 +20,7 @@ import model.Block;
 import model.Bullet;
 import model.Game;
 import model.Hero;
+import model.Robot;
 import threads.*;
 
 public class GameViewController implements Initializable {
@@ -31,6 +32,7 @@ public class GameViewController implements Initializable {
 	private ImageView heroImageView;
 	@FXML
 	private AnchorPane anchorPane;
+	private int robotNum = 0;
 	private Game game;
 	private Hero hero;
 	private Bullet firstBullet = null;
@@ -69,21 +71,8 @@ public class GameViewController implements Initializable {
 
 		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY(), heroImageView.getFitHeight());
 		game = new Game(hero);
-		for (Node node : anchorPane.getChildren()) {
-
-			try {
-
-				ImageView node1 = (ImageView) node;
-				String id = node1.getId();
-				if (id.contains("terrain")) {
-					game.addBlocks(new Block(node1.getLayoutX(), node1.getLayoutY(), node1.getFitWidth(),
-							node1.getFitHeight(), node1.getImage().impl_getUrl()));
-				}
-
-			} catch (Exception e) {
-
-			}
-
+		for (int i = 0; i < 15; i++) {
+			game.addRobot(new Robot(1100, 585, i));
 		}
 		addSpriteImages();
 		this.scene = scene;
@@ -175,6 +164,7 @@ public class GameViewController implements Initializable {
 
 		});
 		startThreads();
+		
 		AnimationTimer timer = new AnimationTimer() {
 
 			@Override
@@ -183,14 +173,13 @@ public class GameViewController implements Initializable {
 				heroShootRight();
 				heroShootLeft();
 				robotCounter++;
-				if (robotCounter % modifier == 0 && robots.size() < 10) {
-					if (modifier > 20) {
-						modifier--;
-					}
-					Node robot = new ImageView(new Image("file:data/sprites/mini robot/mini-robot_1.png"));
-					robot.relocate(1100, 580);
+				
+				if (robotCounter % modifier == 0 && robotNum < 15) {
+					Node robot = new ImageView("file:data/sprites/mini robot/mini-robot_1.png");
+					robot.relocate(1100, 590);
 					robots.add(robot);
 					anchorPane.getChildren().add(robot);
+					robotNum++;
 				}
 				moveRobot();
 				checkBulletHit();
@@ -374,7 +363,7 @@ public class GameViewController implements Initializable {
 		heroThread.start();
 		viewThread = new ViewThread(this, hero);
 		viewThread.start();
-		rThread = new RobotThread(robotMoving, robots);
+		rThread = new RobotThread(robotMoving, robots, this);
 		rThread.start();
 
 	}
@@ -479,6 +468,10 @@ public class GameViewController implements Initializable {
 		return robotMoving.get(i);
 	}
 
+	public boolean getHeroIsDead() {
+		return hero.isDead();
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
