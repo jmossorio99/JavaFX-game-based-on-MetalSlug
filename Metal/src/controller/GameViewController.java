@@ -21,6 +21,7 @@ import model.Block;
 import model.Bullet;
 import model.Game;
 import model.Hero;
+import model.Robot;
 import threads.*;
 
 public class GameViewController implements Initializable {
@@ -63,12 +64,16 @@ public class GameViewController implements Initializable {
 	private ArrayList<Image> fireCrouchingLeft = new ArrayList<Image>();
 	private double centerHeroX;
 	private double centerHeroY;
+	
+	//contador de prueba
+	private int counter=0;
 
 	@SuppressWarnings("deprecation")
 	public void setGame(Scene scene) {
 
 		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY(), heroImageView.getFitHeight());
 		game = new Game(hero);
+		addEnemiesRobots();
 		for (Node node : anchorPane.getChildren()) {
 
 			try {
@@ -178,22 +183,16 @@ public class GameViewController implements Initializable {
 		AnimationTimer timer = new AnimationTimer() {
 
 			@Override
-			public void handle(long now) {
-
+			public void handle(long now) {             
+				
 				heroShootRight();
 				heroShootLeft();
-				robotCounter++;
-				if (robotCounter % modifier == 0 && robots.size() < 10) {
-					if (modifier > 20) {
-						modifier--;
-					}
-					Node robot = new ImageView(new Image("file:data/sprites/mini robot/mini-robot_1.png"));
-					robot.relocate(1100, 580);
-					robots.add(robot);
-					anchorPane.getChildren().add(robot);
-					RobotThread rThread = new RobotThread(robotMoving, robot);
-					rThread.start();
+				
+				if(counter==0) {
+					spamEnemies(game.getRobotRoot());
+					counter++;
 				}
+				
 				moveRobot();
 				checkHit();
 
@@ -201,6 +200,32 @@ public class GameViewController implements Initializable {
 		};
 		timer.start();
 
+	}
+	
+	public void spamEnemies(Robot r) {
+	
+		if(r!=null) {
+		startRobotThread(r.getX(),r.getY());
+		spamEnemies(r.getRight());
+		spamEnemies(r.getLeft());
+		}
+	}
+	
+	public void addEnemiesRobots() {
+	
+		Robot r=new Robot(0,0,"Right");
+		Robot r2=new Robot(0,0,"Right");
+		Robot r3=new Robot(0,0,"Left");
+		r.setOrder(1);
+		r2.setOrder(2);
+		r3.setOrder(4);
+		game.addRobot(r);
+		game.addRobot(r2);
+		game.addRobot(r3);
+		game.addRobotToList(r);
+		game.addRobotToList(r2);
+		game.addRobotToList(r3);
+		
 	}
 
 	public void heroShootRight() {
@@ -239,9 +264,18 @@ public class GameViewController implements Initializable {
 		for (int i = 0; i < robots.size(); i++) {
 
 			if (robots.get(i).getLayoutX() < 1200 && robots.get(i).getLayoutX() > -50) {
-
-				robots.get(i).relocate(robots.get(i).getLayoutX() - ROBOT_SPEED, robots.get(i).getLayoutY());
-
+				System.out.println(""+i);
+                Robot r=game.searchByOrderList(i+1);
+                System.out.println(r);
+				if(r!=null) {
+					if(r.getDirection().equals("Right")) {
+						robots.get(i).relocate(robots.get(i).getLayoutX() - ROBOT_SPEED, robots.get(i).getLayoutY());
+					}else {
+						robots.get(i).relocate(robots.get(i).getLayoutX() + ROBOT_SPEED, robots.get(i).getLayoutY());
+					}
+				}
+				
+				
 			} else {
 				anchorPane.getChildren().remove(robots.get(i));
 				robots.remove(i);
@@ -454,7 +488,7 @@ public class GameViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+	
 		centerHeroX = heroImageView.getBoundsInLocal().getWidth() / 2;
 		centerHeroY = heroImageView.getBoundsInLocal().getHeight() / 2;
 
@@ -471,5 +505,17 @@ public class GameViewController implements Initializable {
 		hero.setAimingUp(b);
 
 	}
+	
+	public void startRobotThread(int posX, int posY) {
+		Node robot = new ImageView(new Image("file:data/sprites/mini robot/mini-robot_1.png"));
+		robot.relocate(posX, posY);
+		robots.add(robot);
+		anchorPane.getChildren().add(robot);
+		RobotThread rThread = new RobotThread(robotMoving, robot);
+		rThread.start();
+	}
 
+	
+	//1100, 580 right
+	
 }
