@@ -2,13 +2,13 @@ package model;
 
 public interface Damage {
 
-	int weapon1Damage = 1;
-	int weapon2Damage = 3;
-	int weapon3Damage = 5;
-	int robot1Damage = 1;
-	int robot2Damage = 2;
-	int robot3Damage = 2;
-	int boosDamage = 4;
+	static int weapon1Damage = 1;
+	static int weapon2Damage = 3;
+	static int weapon3Damage = 5;
+	static int robot1Damage = 1;
+	static int robot2Damage = 2;
+	static int robot3Damage = 2;
+	static int boosDamage = 4;
 	
 	public int getWeapon1Damage();
 	public int getWeapon2Damage();

@@ -65,7 +65,7 @@ public class Player {
 		this.name = name;
 	}
 
-	public void robotKilled() {
+	public void addScore() {
 		setScore(getScore() + 10);
 	}
 

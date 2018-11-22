@@ -35,7 +35,7 @@ public class HeroThread extends Thread {
 				hero.setDead(true);
 			}
 			if (hero.isTakingDamage()) {
-				hero.takeDamage();
+				hero.takeDamageAnim();
 				try {
 					Thread.sleep(80);
 				} catch (InterruptedException e) {

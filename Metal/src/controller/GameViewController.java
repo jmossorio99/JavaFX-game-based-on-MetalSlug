@@ -2,8 +2,8 @@ package controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,40 +17,43 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Bullet;
 import model.Game;
+import model.GameView;
 import model.Hero;
 import model.Player;
 import model.Robot;
 import threads.HeroThread;
 import threads.RobotThread;
-import threads.ViewThread;
 
-public class GameViewController implements Initializable {
+public class GameViewController implements Initializable, GameView {
 
-	public static final String ORANGE_BULLET_ROUTE = "file:data/sprites/hero/Shoot/OrangeBullet.png";
-	public static final int BULLET_SPEED = 5;
-	public static final int ROBOT_SPEED = 1;
 	@FXML
 	private ImageView heroImageView;
 	@FXML
 	private AnchorPane anchorPane;
-	private int robotNum = 0;
 	private Game game;
 	private Hero hero;
 	private Player player;
 	private Bullet firstBullet = null;
 	private HeroThread heroThread;
-	private ViewThread viewThread;
 	private RobotThread rThread;
 	private Scene scene;
 	private Parent root;
 	private double width;
 	private double height;
-	private int modifier = 150;
-	private int robotCounter = modifier - 1;
+	private int bulletSpeed = 5;
+	private int robotModifier = 120;
+	private int robotCounter = robotModifier - 1;
+	private int robotNum = 0;
+	private int enemieBulletModifier = 100;
+	private int enemieBulletCounter = enemieBulletModifier - 1;
+	private int enemieBulletNum = 0;
+	private int scoreModifier = 150;
+	private int socreCounter = scoreModifier - 1;
 	private ArrayList<Node> robots = new ArrayList<Node>();
 	private ArrayList<Image> robotMoving = new ArrayList<Image>();
 	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
 	private ArrayList<Node> heroBulletsLeft = new ArrayList<Node>();
+	private ArrayList<Node> enemieBullets = new ArrayList<Node>();
 	private ArrayList<Image> iddleLeft = new ArrayList<Image>();
 	private ArrayList<Image> iddleRight = new ArrayList<Image>();
 	private ArrayList<Image> runningLeft = new ArrayList<Image>();
@@ -68,16 +71,12 @@ public class GameViewController implements Initializable {
 	private double centerHeroX;
 	private double centerHeroY;
 
-	@SuppressWarnings("deprecation")
 	public void setGame(Scene scene, Game game, Player player) {
 
 		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY(), heroImageView.getFitHeight());
 		this.game = game;
 		this.player = player;
 		System.out.println(player.getName());
-		for (int i = 0; i < 15; i++) {
-			game.addRobot(new Robot(1100, 585, i));
-		}
 		addSpriteImages();
 		this.scene = scene;
 		width = scene.getWidth();
@@ -174,18 +173,43 @@ public class GameViewController implements Initializable {
 			@Override
 			public void handle(long now) {
 
+				setHeroX(hero.getPosX());
+				setHeroY(hero.getPosY());
+				setHeroImage(hero.getImage());
 				heroShootRight();
 				heroShootLeft();
+				if (socreCounter % scoreModifier == 0) {
+					player.addScore();
+				}
 				robotCounter++;
-
-				if (robotCounter % modifier == 0 && robotNum < 15) {
-					Node robot = new ImageView("file:data/sprites/mini robot/mini-robot_1.png");
-					robot.relocate(1100, 590);
-					robots.add(robot);
-					anchorPane.getChildren().add(robot);
-					robotNum++;
+				if (robotCounter % robotModifier == 0) {
+					spawnRobot();
+				}
+				if (robotNum == 20) {
+					robotModifier = 80;
+					robotCounter = robotModifier - 1;
+				}
+				if (robotNum == 50) {
+					robotModifier = 60;
+					robotCounter = robotModifier - 1;
+				}
+				if (robotNum == 80) {
+					robotModifier = 50;
+					robotCounter = robotModifier - 1;
+				}
+				enemieBulletCounter++;
+				if (enemieBulletCounter % enemieBulletModifier == 0) {
+					spawnEnemieBullet();
+				}
+				if (enemieBulletNum == 50) {
+					enemieBulletModifier = 60;
+					enemieBulletCounter = enemieBulletModifier - 1;
+				}
+				if (enemieBulletNum == 100) {
+					bulletSpeed = 8;
 				}
 				moveRobot();
+				moveEnemieBullets();
 				checkBulletHit();
 				checkHeroHit();
 
@@ -195,13 +219,34 @@ public class GameViewController implements Initializable {
 
 	}
 
+	public void spawnEnemieBullet() {
+		Node bullet = new ImageView(ORANGE_BULLET_ROUTE);
+		bullet.relocate(getRandomX(), 0);
+		enemieBullets.add(bullet);
+		anchorPane.getChildren().add(bullet);
+		enemieBulletNum++;
+	}
+
+	public double getRandomX() {
+		Random rand = new Random();
+		return 10 + (1100 - 10) * rand.nextDouble();
+	}
+
+	public void spawnRobot() {
+		Node robot = new ImageView(ROBOT_ROUTE);
+		robot.relocate(1100, 590);
+		robots.add(robot);
+		anchorPane.getChildren().add(robot);
+		robotNum++;
+	}
+
 	public void heroShootRight() {
 
 		for (int i = 0; i < heroBulletsRight.size(); i++) {
 			Node bullet = heroBulletsRight.get(i);
 			if (bullet.getLayoutX() < 1200 && bullet.getLayoutX() > 0 && bullet.getLayoutY() < 700
 					&& bullet.getLayoutY() > 0) {
-				bullet.relocate(bullet.getLayoutX() + BULLET_SPEED, bullet.getLayoutY());
+				bullet.relocate(bullet.getLayoutX() + bulletSpeed, bullet.getLayoutY());
 			} else {
 				heroBulletsRight.remove(i);
 				anchorPane.getChildren().remove(bullet);
@@ -217,7 +262,7 @@ public class GameViewController implements Initializable {
 			Node bullet = heroBulletsLeft.get(i);
 			if (bullet.getLayoutX() < 1200 && bullet.getLayoutX() > 0 && bullet.getLayoutY() < 700
 					&& bullet.getLayoutY() > 0) {
-				bullet.relocate(bullet.getLayoutX() - BULLET_SPEED, bullet.getLayoutY());
+				bullet.relocate(bullet.getLayoutX() - bulletSpeed, bullet.getLayoutY());
 			} else {
 				heroBulletsLeft.remove(i);
 				anchorPane.getChildren().remove(bullet);
@@ -243,6 +288,18 @@ public class GameViewController implements Initializable {
 
 	}
 
+	public void moveEnemieBullets() {
+		for (int i = 0; i < enemieBullets.size() && !hero.isDead(); i++) {
+			if (enemieBullets.get(i).getLayoutY() < 700) {
+				enemieBullets.get(i).relocate(enemieBullets.get(i).getLayoutX(),
+						enemieBullets.get(i).getLayoutY() + bulletSpeed);
+			} else {
+				anchorPane.getChildren().remove(enemieBullets.get(i));
+				enemieBullets.remove(i);
+			}
+		}
+	}
+
 	public void checkBulletHit() {
 
 		try {
@@ -256,7 +313,6 @@ public class GameViewController implements Initializable {
 						robots.remove(j);
 						anchorPane.getChildren().remove(heroBulletsRight.get(i));
 						heroBulletsRight.remove(i);
-						player.robotKilled();
 					}
 
 				}
@@ -271,7 +327,6 @@ public class GameViewController implements Initializable {
 						robots.remove(j);
 						anchorPane.getChildren().remove(heroBulletsLeft.get(i));
 						heroBulletsLeft.remove(i);
-						player.robotKilled();
 					}
 
 				}
@@ -288,7 +343,14 @@ public class GameViewController implements Initializable {
 		for (int i = 0; i < robots.size(); i++) {
 			if (heroImageView.getBoundsInParent().intersects(robots.get(i).getBoundsInParent())
 					&& !hero.isTakingDamage()) {
-				hero.setHealth(hero.getHealth() - 1);
+				hero.takeDamage(ROBOT_DAMAGE);
+				hero.setTakingDamage(true);
+			}
+		}
+		for (int i = 0; i < enemieBullets.size(); i++) {
+			if (heroImageView.getBoundsInParent().intersects(enemieBullets.get(i).getBoundsInParent())
+					&& !hero.isTakingDamage()) {
+				hero.takeDamage(ROBOT_DAMAGE);
 				hero.setTakingDamage(true);
 			}
 		}
@@ -367,8 +429,6 @@ public class GameViewController implements Initializable {
 
 		heroThread = new HeroThread(this, hero, game);
 		heroThread.start();
-		viewThread = new ViewThread(this, hero);
-		viewThread.start();
 		rThread = new RobotThread(robotMoving, robots, this);
 		rThread.start();
 

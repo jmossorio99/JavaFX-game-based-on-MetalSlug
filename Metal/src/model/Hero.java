@@ -2,9 +2,9 @@ package model;
 
 public class Hero extends Entity {
 
-	public final static int ORANGE_DAMAGE = 1;
-	public final static int BLUE_DAMAGE = 2;
-	public final static int PURPLE_DAMAGE = 3;
+//	public final static int ORANGE_DAMAGE = 1;
+//	public final static int BLUE_DAMAGE = 2;
+//	public final static int PURPLE_DAMAGE = 3;
 	public final static int RIGHT = 1;
 	public final static int UP = 2;
 	public final static int LEFT = 3;
@@ -25,7 +25,6 @@ public class Hero extends Entity {
 	private int direction;
 	private double speed = 15;
 	private double height;
-	private Bullet firstBullet;
 	private String image = "file:data/sprites/hero/Iddle/right/Idle1D.png";
 
 	public Hero(double posX, double posY, double height) {
@@ -34,7 +33,7 @@ public class Hero extends Entity {
 		this.posX = posX;
 		this.posY = posY;
 		direction = RIGHT;
-		health = 5;
+		health = 10;
 		this.setHeight(height);
 
 	}
@@ -223,7 +222,7 @@ public class Hero extends Entity {
 		}
 	}
 
-	public void takeDamage() {
+	public void takeDamageAnim() {
 		if (direction == RIGHT) {
 			image = "file:data/sprites/hero/Dead/right/dead2D.png";
 		} else if (direction == LEFT) {
