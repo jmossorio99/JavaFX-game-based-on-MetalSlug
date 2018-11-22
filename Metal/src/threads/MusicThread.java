@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class MusicThread extends Thread {
 
@@ -22,7 +23,7 @@ public class MusicThread extends Thread {
 		routes[5] = "data/sound/music/6.mp3";
 		routes[6] = "data/sound/music/7.mp3";
 		int songNum = ThreadLocalRandom.current().nextInt(1, 8);
-		String path = new File(routes[songNum]).getAbsolutePath();
+		String path = new File(routes[songNum-1]).getAbsolutePath();
 		musicFile = new Media(new File(path).toURI().toString());
 		player = new MediaPlayer(musicFile);
 	}
@@ -32,6 +33,7 @@ public class MusicThread extends Thread {
 
 		super.run();
 		player.setVolume(0.1);
+		player.setCycleCount(5);
 		player.play();
 
 	}

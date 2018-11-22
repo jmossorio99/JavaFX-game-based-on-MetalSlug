@@ -28,7 +28,7 @@ import model.Player;
 import threads.HeroThread;
 import threads.RobotThread;
 
-public class GameViewController implements Initializable, GameView, PlayableSounds {
+public class GameViewController implements GameView, PlayableSounds {
 
 	@FXML
 	private ImageView heroImageView;
@@ -58,20 +58,6 @@ public class GameViewController implements Initializable, GameView, PlayableSoun
 	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
 	private ArrayList<Node> heroBulletsLeft = new ArrayList<Node>();
 	private ArrayList<Node> enemieBullets = new ArrayList<Node>();
-	private ArrayList<Image> iddleLeft = new ArrayList<Image>();
-	private ArrayList<Image> iddleRight = new ArrayList<Image>();
-	private ArrayList<Image> runningLeft = new ArrayList<Image>();
-	private ArrayList<Image> runningRight = new ArrayList<Image>();
-	private ArrayList<Image> crouchingRight = new ArrayList<Image>();
-	private ArrayList<Image> crouchingLeft = new ArrayList<Image>();
-	private ArrayList<Image> dyingRight = new ArrayList<Image>();
-	private ArrayList<Image> dyingLeft = new ArrayList<Image>();
-	private ArrayList<Image> fireStandingLeft = new ArrayList<Image>();
-	private ArrayList<Image> fireStandingRight = new ArrayList<Image>();
-	private ArrayList<Image> fireUpLeft = new ArrayList<Image>();
-	private ArrayList<Image> fireUpRight = new ArrayList<Image>();
-	private ArrayList<Image> fireCrouchingRight = new ArrayList<Image>();
-	private ArrayList<Image> fireCrouchingLeft = new ArrayList<Image>();
 	private String pathHeroGetsHit;
 	private String pathHeroShoots;
 	private String pathPlayerLoses;
@@ -84,8 +70,6 @@ public class GameViewController implements Initializable, GameView, PlayableSoun
 	private MediaPlayer mediaPlayer2;
 	private MediaPlayer mediaPlayer3;
 	private MediaPlayer mediaPlayer4;
-	private double centerHeroX;
-	private double centerHeroY;
 
 	public void setGame(Scene scene, Game game, Player player) {
 
@@ -248,11 +232,11 @@ public class GameViewController implements Initializable, GameView, PlayableSoun
 		mFilePlayerLoses = new Media(new File(pathPlayerLoses).toURI().toString());
 		mFileRobotDies = new Media(new File(pathRobotDies).toURI().toString());
 		mediaPlayer1 = new MediaPlayer(mFileHeroHit);
-		mediaPlayer1.setVolume(0.7);
+		mediaPlayer1.setVolume(0.8);
 		mediaPlayer2 = new MediaPlayer(mFileHeroShoots);
 		mediaPlayer2.setVolume(0.2);
 		mediaPlayer3 = new MediaPlayer(mFilePlayerLoses);
-		mediaPlayer3.setVolume(0.7);
+		mediaPlayer3.setVolume(0.5);
 		mediaPlayer4 = new MediaPlayer(mFileRobotDies);
 		mediaPlayer4.setVolume(0.25);
 	}
@@ -484,106 +468,14 @@ public class GameViewController implements Initializable, GameView, PlayableSoun
 
 	public void addSpriteImages() {
 
-		for (int i = 0; i < 6; i++) {
-			iddleLeft.add(new Image("file:data/sprites/hero/Iddle/left/Idle" + (i + 1) + "I.png"));
-			iddleRight.add(new Image("file:data/sprites/hero/Iddle/right/Idle" + (i + 1) + "D.png"));
-		}
-		for (int i = 0; i < 11; i++) {
-			runningLeft.add(new Image("file:data/sprites/hero/Running/Left/Run" + (i + 1) + "I.png"));
-			runningRight.add(new Image("file:data/sprites/hero/Running/Right/Run" + (i + 1) + "D.png"));
-		}
-		for (int i = 0; i < 5; i++) {
-			crouchingRight.add(new Image("file:data/sprites/hero/Crouch/right/crouch" + (i + 1) + "D.png"));
-			crouchingLeft.add(new Image("file:data/sprites/hero/Crouch/left/crouch" + (i + 1) + "I.png"));
-		}
-		for (int i = 0; i < 4; i++) {
-			dyingRight.add(new Image("file:data/sprites/hero/Dead/right/dead" + (i + 1) + "D.png"));
-			dyingLeft.add(new Image("file:data/sprites/hero/Dead/left/dead" + (i + 1) + "I.png"));
-		}
-		for (int i = 0; i < 4; i++) {
-			fireStandingRight.add(new Image("file:data/sprites/hero/Shoot/fireStandingRight/fire" + (i + 1) + "D.png"));
-			fireStandingLeft.add(new Image("file:data/sprites/hero/Shoot/fireStandingLeft/fire" + (i + 1) + "I.png"));
-		}
-		for (int i = 0; i < 3; i++) {
-			fireCrouchingRight
-					.add(new Image("file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire" + (i + 1) + "D.png"));
-			fireCrouchingLeft
-					.add(new Image("file:data/sprites/hero/Shoot/crouchFireLeft/CrouchFire" + (i + 1) + "I.png"));
-		}
 		for (int i = 0; i < 16; i++) {
 			robotMoving.add(new Image("file:data/sprites/mini robot/mini-robot_" + (i + 1) + ".png"));
 		}
 
 	}
 
-	public Image getIddleLeftImage(int i) {
-
-		return iddleLeft.get(i);
-
-	}
-
-	public Image getIddleRightImage(int i) {
-
-		return iddleRight.get(i);
-
-	}
-
-	public Image getRunningLeftImage(int i) {
-
-		return runningLeft.get(i);
-
-	}
-
-	public Image getRunningRightImage(int i) {
-
-		return runningRight.get(i);
-
-	}
-
-	public Image getCrouchingRightImage(int i) {
-		return crouchingRight.get(i);
-	}
-
-	public Image getCrouchingLeftImage(int i) {
-		return crouchingLeft.get(i);
-	}
-
-	public Image getDyingRightImage(int i) {
-		return dyingRight.get(i);
-	}
-
-	public Image getDyingLeftImage(int i) {
-		return dyingLeft.get(i);
-	}
-
-	public Image getFireStandingRightImage(int i) {
-		return fireStandingRight.get(i);
-	}
-
-	public Image getFireStandingLeftImage(int i) {
-		return fireStandingLeft.get(i);
-	}
-
-	public Image getFireCrouchingRightImage(int i) {
-		return fireCrouchingRight.get(i);
-	}
-
-	public Image getFireCrouchingLeftImage(int i) {
-		return fireCrouchingLeft.get(i);
-	}
-
-	public Image getRobotMoving(int i) {
-		return robotMoving.get(i);
-	}
-
 	public boolean getHeroIsDead() {
 		return hero.isDead();
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		centerHeroX = heroImageView.getBoundsInLocal().getWidth() / 2;
-		centerHeroY = heroImageView.getBoundsInLocal().getHeight() / 2;
 	}
 
 	public void setHeroCrouching(boolean b) {
@@ -595,20 +487,22 @@ public class GameViewController implements Initializable, GameView, PlayableSoun
 	}
 
 	public void playHeroGetsHit() {
+		mediaPlayer1 = new MediaPlayer(mFileHeroHit);
 		mediaPlayer1.play();
 	}
 
 	public void playHeroShoots() {
+		mediaPlayer2 = new MediaPlayer(mFileHeroShoots);
 		mediaPlayer2.play();
 	}
 
 	public void playPlayerLoses() {
-		
+		mediaPlayer3 = new MediaPlayer(mFilePlayerLoses);
 		mediaPlayer3.play();
 	}
 
 	public void playRobotDies() {
-		
+		mediaPlayer4 = new MediaPlayer(mFileRobotDies);
 		mediaPlayer4.play();
 	}
 
