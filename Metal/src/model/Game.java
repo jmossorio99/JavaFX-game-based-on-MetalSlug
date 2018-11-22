@@ -4,39 +4,55 @@ import java.util.ArrayList;
 
 public class Game {
 
-	private Player firstPlayer = null;
+	private Player rootPlayer = null;
+	private ArrayList<Player> players = new ArrayList<Player>();
 	private Hero hero;
-	private ArrayList<Block> blocks = new ArrayList<>();
 	private ArrayList<Robot> robots = new ArrayList<>();
 
-	public Game(Hero hero) {
+	private void addPlayerToTree(Player player) {
 
-		this.hero = hero;
-
-	}
-
-	public void addBlocks(Block block) {
-
-		blocks.add(block);
+		if (rootPlayer == null) {
+			rootPlayer = player;
+		} else {
+			player.insertPlayer(player);
+		}
 
 	}
 
-	public ArrayList<Block> getBlocks() {
-
-		return blocks;
+	public void deletePlayerFromTree(Player p) {
 
 	}
-	
+
+	public void addPlayerToArrayList(Player p) {
+		players.add(p);
+	}
+
+	public void deletePlayerFromArrayList(Player p) {
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i) == p) {
+				players.remove(i);
+			}
+		}
+	}
+
 	public void addRobot(Robot r) {
 		robots.add(r);
 	}
-	
+
 	public Robot getRobot(int i) {
 		return robots.get(i);
 	}
-	
+
 	public void removeRobot(int i) {
 		robots.remove(i);
+	}
+
+	public Hero getHero() {
+		return hero;
+	}
+
+	public void setHero(Hero hero) {
+		this.hero = hero;
 	}
 
 }

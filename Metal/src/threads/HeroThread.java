@@ -12,14 +12,12 @@ public class HeroThread extends Thread {
 	private boolean alreadyDead = false;
 	private Hero hero;
 	private Game game;
-	private ArrayList<Block> blocks;
 
 	public HeroThread(GameViewController controller, Hero hero, Game game) {
 
 		this.controller = controller;
 		this.hero = hero;
 		this.game = game;
-		blocks = game.getBlocks();
 
 	}
 

@@ -19,8 +19,9 @@
       	</children>
       </VBox>
       
-      <TextField fx:id="nickNameTextField" alignment="CENTER" layoutX="340.0" layoutY="353.0" prefHeight="40.0" prefWidth="173.0" promptText="Enter your name" />
-      <Button fx:id="playButton" layoutX="371.0" layoutY="408.0" mnemonicParsing="false" onAction="#playClicked" prefHeight="26.0" prefWidth="112.0" stylesheets="@Button.css" text="Play" />
-      <Button fx:id="scoresButton" layoutX="386.0" layoutY="466.0" mnemonicParsing="false" onAction="#scoresClicked" stylesheets="@Button.css" text="Scores" />
+      <TextField fx:id="nickNameTextField" alignment="CENTER" layoutX="340.0" layoutY="339.0" prefHeight="40.0" prefWidth="173.0" promptText="Enter your name" />
+      <Button fx:id="playButton" layoutX="371.0" layoutY="397.0" mnemonicParsing="false" onAction="#playClicked" prefHeight="26.0" prefWidth="112.0" stylesheets="@Button.css" text="Play" />
+      <Button fx:id="scoresButton" layoutX="386.0" layoutY="445.0" mnemonicParsing="false" onAction="#scoresClicked" stylesheets="@Button.css" text="Scores" />
+      <Button fx:id="loadGameButton" layoutX="370.0" layoutY="495.0" mnemonicParsing="false" onAction="#loadGameClicked" stylesheets="@Button.css" text="Load Game" />
    </children>
 </AnchorPane>

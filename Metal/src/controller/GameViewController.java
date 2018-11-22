@@ -3,25 +3,26 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import model.Block;
 import model.Bullet;
 import model.Game;
 import model.Hero;
+import model.Player;
 import model.Robot;
-import threads.*;
+import threads.HeroThread;
+import threads.RobotThread;
+import threads.ViewThread;
 
 public class GameViewController implements Initializable {
 
@@ -35,6 +36,7 @@ public class GameViewController implements Initializable {
 	private int robotNum = 0;
 	private Game game;
 	private Hero hero;
+	private Player player;
 	private Bullet firstBullet = null;
 	private HeroThread heroThread;
 	private ViewThread viewThread;
@@ -67,10 +69,12 @@ public class GameViewController implements Initializable {
 	private double centerHeroY;
 
 	@SuppressWarnings("deprecation")
-	public void setGame(Scene scene) {
+	public void setGame(Scene scene, Game game, Player player) {
 
 		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY(), heroImageView.getFitHeight());
-		game = new Game(hero);
+		this.game = game;
+		this.player = player;
+		System.out.println(player.getName());
 		for (int i = 0; i < 15; i++) {
 			game.addRobot(new Robot(1100, 585, i));
 		}
@@ -164,7 +168,7 @@ public class GameViewController implements Initializable {
 
 		});
 		startThreads();
-		
+
 		AnimationTimer timer = new AnimationTimer() {
 
 			@Override
@@ -173,7 +177,7 @@ public class GameViewController implements Initializable {
 				heroShootRight();
 				heroShootLeft();
 				robotCounter++;
-				
+
 				if (robotCounter % modifier == 0 && robotNum < 15) {
 					Node robot = new ImageView("file:data/sprites/mini robot/mini-robot_1.png");
 					robot.relocate(1100, 590);
@@ -252,6 +256,7 @@ public class GameViewController implements Initializable {
 						robots.remove(j);
 						anchorPane.getChildren().remove(heroBulletsRight.get(i));
 						heroBulletsRight.remove(i);
+						player.robotKilled();
 					}
 
 				}
@@ -266,6 +271,7 @@ public class GameViewController implements Initializable {
 						robots.remove(j);
 						anchorPane.getChildren().remove(heroBulletsLeft.get(i));
 						heroBulletsLeft.remove(i);
+						player.robotKilled();
 					}
 
 				}
@@ -471,7 +477,7 @@ public class GameViewController implements Initializable {
 	public boolean getHeroIsDead() {
 		return hero.isDead();
 	}
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
