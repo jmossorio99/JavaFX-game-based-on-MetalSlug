@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Game;
 import model.Player;
+import threads.MusicThread;
 
 public class MainWindowController implements Initializable {
 
@@ -59,10 +60,10 @@ public class MainWindowController implements Initializable {
 
 	@FXML
 	void scoresClicked(ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load( getClass().getResource( "/view/ScoresWindow.fxml" ) );
-		Scene scene = new Scene( root );
+		Parent root = FXMLLoader.load(getClass().getResource("/view/ScoresWindow.fxml"));
+		Scene scene = new Scene(root);
 		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene( scene );
+		window.setScene(scene);
 		window.setResizable(false);
 		window.show();
 	}

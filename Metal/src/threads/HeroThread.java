@@ -110,6 +110,12 @@ public class HeroThread extends Thread {
 			}
 
 		}
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		controller.playPlayerLoses();
 
 	}
 }
