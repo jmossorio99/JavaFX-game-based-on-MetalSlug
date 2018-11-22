@@ -58,8 +58,13 @@ public class MainWindowController implements Initializable {
 	}
 
 	@FXML
-	void scoresClicked(ActionEvent event) {
-
+	void scoresClicked(ActionEvent event) throws IOException {
+		Parent root = FXMLLoader.load( getClass().getResource( "/view/ScoresWindow.fxml" ) );
+		Scene scene = new Scene( root );
+		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
+		window.setScene( scene );
+		window.setResizable(false);
+		window.show();
 	}
 
 	@FXML
