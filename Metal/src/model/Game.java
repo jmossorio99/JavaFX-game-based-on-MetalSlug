@@ -1,21 +1,21 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Game {
-
+public class Game implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private Player rootPlayer = null;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Hero hero;
 
-	private void addPlayerToTree(Player player) {
-
+	public void addPlayerToTree(Player player) {
 		if (rootPlayer == null) {
 			rootPlayer = player;
 		} else {
 			player.insertPlayer(player);
 		}
-
 	}
 
 	public void deletePlayerFromTree(Player p) {

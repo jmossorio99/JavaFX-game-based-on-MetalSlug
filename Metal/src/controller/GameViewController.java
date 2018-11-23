@@ -1,15 +1,11 @@
 package controller;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.ResourceBundle;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,9 +37,6 @@ public class GameViewController implements GameView, PlayableSounds {
 	private HeroThread heroThread;
 	private RobotThread rThread;
 	private Scene scene;
-	private Parent root;
-	private double width;
-	private double height;
 	private int bulletSpeed = 5;
 	private int robotModifier = 120;
 	private int robotCounter = robotModifier - 1;
@@ -52,7 +45,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	private int enemieBulletCounter = enemieBulletModifier - 1;
 	private int enemieBulletNum = 0;
 	private int scoreModifier = 150;
-	private int socreCounter = scoreModifier - 1;
+	private int scoreCounter = scoreModifier - 1;
 	private ArrayList<Node> robots = new ArrayList<Node>();
 	private ArrayList<Image> robotMoving = new ArrayList<Image>();
 	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
@@ -80,8 +73,6 @@ public class GameViewController implements GameView, PlayableSounds {
 		System.out.println(player.getName());
 		addSpriteImages();
 		this.scene = scene;
-		width = scene.getWidth();
-		height = scene.getHeight();
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -176,15 +167,23 @@ public class GameViewController implements GameView, PlayableSounds {
 			@Override
 			public void handle(long now) {
 
+				if (hero.isDead()) {
+					System.out.println(player.getScore());
+					game.addPlayerToTree(player);
+					hero.die();
+				}
 				setHeroX(hero.getPosX());
 				setHeroY(hero.getPosY());
 				setHeroImage(hero.getImage());
 				heroShootRight();
 				heroShootLeft();
-				if (socreCounter % scoreModifier == 0 && !hero.isDead()) {
+				robotCounter++;
+				enemieBulletCounter++;
+				scoreCounter++;
+				if (scoreCounter % scoreModifier == 0 && !hero.isDead()) {
 					player.addScore();
 				}
-				robotCounter++;
+				
 				if (robotCounter % robotModifier == 0 && !hero.isDead()) {
 					spawnRobot();
 				}
@@ -200,7 +199,6 @@ public class GameViewController implements GameView, PlayableSounds {
 					robotModifier = 50;
 					robotCounter = robotModifier - 1;
 				}
-				enemieBulletCounter++;
 				if (enemieBulletCounter % enemieBulletModifier == 0 && !hero.isDead()) {
 					spawnEnemieBullet();
 				}

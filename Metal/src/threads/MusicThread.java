@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 public class MusicThread extends Thread {
 
-	private String[] routes = new String[7];
+	private String[] routes = new String[9];
 
 	private Media musicFile;
 	private MediaPlayer player;
@@ -22,8 +22,10 @@ public class MusicThread extends Thread {
 		routes[4] = "data/sound/music/5.mp3";
 		routes[5] = "data/sound/music/6.mp3";
 		routes[6] = "data/sound/music/7.mp3";
-		int songNum = ThreadLocalRandom.current().nextInt(1, 8);
-		String path = new File(routes[songNum-1]).getAbsolutePath();
+		routes[7] = "data/sound/music/8.mp3";
+		routes[8] = "data/sound/music/9.mp3";
+		int songNum = ThreadLocalRandom.current().nextInt(1, 10);
+		String path = new File(routes[songNum - 1]).getAbsolutePath();
 		musicFile = new Media(new File(path).toURI().toString());
 		player = new MediaPlayer(musicFile);
 	}

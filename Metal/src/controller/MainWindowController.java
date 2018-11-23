@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,20 +34,25 @@ public class MainWindowController implements Initializable {
 	private Game game;
 
 	@FXML
-	void playClicked(ActionEvent event) throws IOException {
+	void playClicked(ActionEvent event) {
 
 		if (!nickNameTextField.getText().isEmpty()) {
 			if (nickNameTextField.getText().length() >= 3) {
 				Player p = new Player(nickNameTextField.getText());
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(getClass().getResource("/view/GameView.fxml"));
-				Parent gameView = loader.load();
-				Scene gameScene = new Scene(gameView);
-				GameViewController controller = loader.getController();
-				controller.setGame(gameScene, new Game(), p);
-				Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-				window.setScene(gameScene);
-				window.show();
+				Parent gameView;
+				try {
+					gameView = loader.load();
+					Scene gameScene = new Scene(gameView);
+					GameViewController controller = loader.getController();
+					controller.setGame(gameScene, game, p);
+					Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
+					window.setScene(gameScene);
+					window.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Ingrese un nombre de tres caracteres o más", "Error",
 						JOptionPane.ERROR_MESSAGE);
@@ -59,13 +65,18 @@ public class MainWindowController implements Initializable {
 	}
 
 	@FXML
-	void scoresClicked(ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/view/ScoresWindow.fxml"));
-		Scene scene = new Scene(root);
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(scene);
-		window.setResizable(false);
-		window.show();
+	void scoresClicked(ActionEvent event) {
+		Parent root;
+		try {
+			root = FXMLLoader.load(getClass().getResource("/view/ScoresWindow.fxml"));
+			Scene scene = new Scene(root);
+			Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
+			window.setScene(scene);
+			window.setResizable(false);
+			window.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -75,7 +86,14 @@ public class MainWindowController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		File file = new File("save");
+		if (file != null) {
 
+		} else {
+			game = new Game();
+		}
+		MusicThread musicThread = new MusicThread();
+		musicThread.start();
 	}
 
 }
