@@ -7,7 +7,8 @@ public class Player implements Serializable{
 	private String name;
 	private Player left = null;
 	private Player right = null;
-	private int score = 0;
+	
+	private Score rootScore;
 
 	public Player(String name) {
 		this.name = name;
@@ -17,7 +18,7 @@ public class Player implements Serializable{
 
 		if (p != null) {
 
-			if (getScore() > p.getScore()) {
+			if (getMaxScore() > p.getMaxScore()) {
 				if (left == null) {
 					left = p;
 				} else {
@@ -51,14 +52,6 @@ public class Player implements Serializable{
 		this.right = right;
 	}
 
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -67,8 +60,28 @@ public class Player implements Serializable{
 		this.name = name;
 	}
 
-	public void addScore() {
-		setScore(getScore() + 10);
+	public void addScore(int score) {
+		Score s=new Score (score); 
+		
+		if(rootScore==null) {
+			rootScore=s;
+		}else {
+			rootScore.insertScore(s);
+		}
+		
 	}
+	
+	public int getMaxScore() {
+		int maxScore=0;
+		
+		if(rootScore!=null) {
+			Score max = rootScore.searchMaxScore();
+			maxScore=max.getScore();
+		}
+		
+		return maxScore;
+	}
+	
+	
 
 }
