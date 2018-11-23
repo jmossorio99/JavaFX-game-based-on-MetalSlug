@@ -7,7 +7,6 @@ public class Game {
 	private Player rootPlayer = null;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Hero hero;
-	private ArrayList<Robot> robots = new ArrayList<>();
 
 	private void addPlayerToTree(Player player) {
 
@@ -33,18 +32,6 @@ public class Game {
 				players.remove(i);
 			}
 		}
-	}
-
-	public void addRobot(Robot r) {
-		robots.add(r);
-	}
-
-	public Robot getRobot(int i) {
-		return robots.get(i);
-	}
-
-	public void removeRobot(int i) {
-		robots.remove(i);
 	}
 
 	public Hero getHero() {

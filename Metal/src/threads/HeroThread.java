@@ -2,7 +2,6 @@ package threads;
 
 import java.util.ArrayList;
 import controller.GameViewController;
-import model.Block;
 import model.Game;
 import model.Hero;
 
