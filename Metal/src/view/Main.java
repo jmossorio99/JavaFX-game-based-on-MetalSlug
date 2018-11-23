@@ -1,6 +1,11 @@
 package view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -8,10 +13,13 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Game;
 import threads.MusicThread;
 
 public class Main extends Application {
 
+	private static Game game;
+	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 
@@ -33,9 +41,9 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-
+	
 		launch();
 
+	   }
 	}
 
-}

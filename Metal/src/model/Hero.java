@@ -15,6 +15,7 @@ public class Hero extends Entity {
 	private int iddleCount = 1;
 	private int shootStandingCount = 1;
 	private int shootCrouchingCount = 1;
+	private int dyingImages=1;
 	private boolean moving = false;
 	private boolean crouching = false;;
 	private boolean dying = false;
@@ -120,6 +121,8 @@ public class Hero extends Entity {
 
 	public void move() {
 
+		if(!dying) {
+		
 		if (moveCount < 12) {
 			if (direction == RIGHT) {
 				image = "file:data/sprites/hero/Running/Right/Run" + moveCount + "D.png";
@@ -141,11 +144,13 @@ public class Hero extends Entity {
 			moveCount = 1;
 
 		}
-
+	  }
 	}
 
 	public void crouch() {
 
+		if(!dying) {
+		
 		if (crouchCount < 6) {
 			if (direction == RIGHT) {
 				image = "file:data/sprites/hero/Crouch/right/crouch" + crouchCount + "D.png";
@@ -161,11 +166,13 @@ public class Hero extends Entity {
 			}
 			crouchCount = 1;
 		}
-
+	  }
 	}
 
 	public void iddle() {
 
+		if(!dying) {
+		
 		if (iddleCount < 7) {
 			if (direction == RIGHT) {
 				image = "file:data/sprites/hero/Iddle/right/Idle" + iddleCount + "D.png";
@@ -181,10 +188,11 @@ public class Hero extends Entity {
 			}
 			iddleCount = 1;
 		}
-
+	  }
 	}
 
 	public void shootStanding() {
+		if(!dying) {
 
 		if (shootStandingCount < 5) {
 			if (direction == RIGHT) {
@@ -201,10 +209,13 @@ public class Hero extends Entity {
 			}
 			shootStandingCount = 1;
 		}
-
+	  }
 	}
 
 	public void shootCrouching() {
+		
+		if(!dying) {
+		
 		if (shootCrouchingCount < 4) {
 			if (direction == RIGHT) {
 				image = "file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire" + shootCrouchingCount + "D.png";
@@ -220,18 +231,35 @@ public class Hero extends Entity {
 			}
 			shootCrouchingCount = 1;
 		}
+	  }
 	}
 
 	public void takeDamageAnim() {
+		
+		if(!dying) {
+		
 		if (direction == RIGHT) {
 			image = "file:data/sprites/hero/Dead/right/dead2D.png";
 		} else if (direction == LEFT) {
 			image = "file:data/sprites/hero/Dead/left/dead2I.png";
 		}
 		takingDamage = false;
+		
+		}
 	}
 	
 	public void die() {
+		
+		while(dyingImages<5) {
+			
+			if(direction==RIGHT) {
+				image="file:data/sprites/hero/dead/right/dead"+dyingImages+"D.png";
+			}else if(direction==LEFT) {
+				image="file:data/sprites/hero/dead/left/dead"+dyingImages+"I.png";
+			}
+			
+			dyingImages++;
+		}
 		
 	}
 

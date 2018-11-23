@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -82,16 +85,36 @@ public class MainWindowController implements Initializable {
 	@FXML
 	void loadGameClicked(ActionEvent event) {
 
+		
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		File file = new File("save");
-		if (file != null) {
-
-		} else {
-			game = new Game();
-		}
+		File file = new File("Save");
+		if (file.exists()) {
+			
+				try {
+					FileInputStream fis = new FileInputStream(file);
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					game = (Game) ois.readObject();
+					fis.close();
+					ois.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else {
+				
+			game=new Game();	
+			}
+			 
+		
 		MusicThread musicThread = new MusicThread();
 		musicThread.start();
 	}

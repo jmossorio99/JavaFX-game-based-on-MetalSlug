@@ -6,15 +6,21 @@ import java.util.ArrayList;
 public class Game implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private Player rootPlayer = null;
+	private Player rootPlayer;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Hero hero;
 
+	public Game() {
+		rootPlayer=null;
+	}
+	
 	public void addPlayerToTree(Player player) {
 		if (rootPlayer == null) {
+			
 			rootPlayer = player;
 		} else {
-			player.insertPlayer(player);
+			
+			rootPlayer.insertPlayer(player);
 		}
 	}
 

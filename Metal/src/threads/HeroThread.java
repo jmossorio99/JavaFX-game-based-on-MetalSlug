@@ -1,5 +1,6 @@
 package threads;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import controller.GameViewController;
 import model.Game;
@@ -31,7 +32,7 @@ public class HeroThread extends Thread {
 				e.printStackTrace();
 			}
 			if (hero.getHealth() <= 0) {
-				hero.setDead(true);
+				hero.setDead(true);				
 			}
 			if (hero.isTakingDamage()) {
 				hero.takeDamageAnim();

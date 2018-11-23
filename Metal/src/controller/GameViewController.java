@@ -1,6 +1,10 @@
 package controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
@@ -46,6 +50,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	private int enemieBulletNum = 0;
 	private int scoreModifier = 150;
 	private int scoreCounter = scoreModifier - 1;
+	private boolean alreadySerialized=false;
 	private ArrayList<Node> robots = new ArrayList<Node>();
 	private ArrayList<Image> robotMoving = new ArrayList<Image>();
 	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
@@ -168,9 +173,20 @@ public class GameViewController implements GameView, PlayableSounds {
 			public void handle(long now) {
 
 				if (hero.isDead()) {
-					System.out.println(player.getScore());
-					game.addPlayerToTree(player);
+					
 					hero.die();
+					
+					if(!alreadySerialized) {
+						try {
+							game.addPlayerToTree(player);
+							game.addPlayerToArrayList(player);
+							serializarGame();
+							alreadySerialized=true;
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}						
+					}
 				}
 				setHeroX(hero.getPosX());
 				setHeroY(hero.getPosY());
@@ -502,6 +518,17 @@ public class GameViewController implements GameView, PlayableSounds {
 	public void playRobotDies() {
 		mediaPlayer4 = new MediaPlayer(mFileRobotDies);
 		mediaPlayer4.play();
+	}
+	
+	public void serializarGame() throws IOException {
+		
+		File save= new File("Save");
+		FileOutputStream saved = new FileOutputStream(save);
+		ObjectOutputStream wtf = new ObjectOutputStream(saved);
+		wtf.writeObject(game);
+    	saved.close();
+    	wtf.close();
+			
 	}
 
 }
