@@ -68,6 +68,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	private MediaPlayer mediaPlayer2;
 	private MediaPlayer mediaPlayer3;
 	private MediaPlayer mediaPlayer4;
+	private int playerScore=0;
 
 	public void setGame(Scene scene, Game game, Player player) {
 
@@ -178,6 +179,7 @@ public class GameViewController implements GameView, PlayableSounds {
 					
 					if(!alreadySerialized) {
 						try {
+							player.addScore(playerScore);
 							game.addPlayerToTree(player);
 							game.addPlayerToArrayList(player);
 							serializarGame();
@@ -197,7 +199,7 @@ public class GameViewController implements GameView, PlayableSounds {
 				enemieBulletCounter++;
 				scoreCounter++;
 				if (scoreCounter % scoreModifier == 0 && !hero.isDead()) {
-					player.addScore();
+					playerScore+=10;
 				}
 				
 				if (robotCounter % robotModifier == 0 && !hero.isDead()) {
