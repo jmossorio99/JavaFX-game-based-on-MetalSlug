@@ -2,11 +2,14 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
+import exceptions.ArrayListIsNotSortedException;
+import exceptions.PlayerDoesNotExistException;
 import exceptions.PlayerNameException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,11 +77,25 @@ public class ScoresWindowController implements Initializable {
 	@FXML
 	public void searchPlayer(ActionEvent event) {
 		try {
-			if (playerNameTextField.getText().isEmpty())
-				throw new PlayerNameException("Debe ingresar el nombre de un jugador para buscarlo.");
-
-		} catch (PlayerNameException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			if( !game.isListSorted() )
+				throw new ArrayListIsNotSortedException();
+			if( playerNameTextField.getText().isEmpty() )
+				throw new PlayerNameException( "Debe ingresar el nombre de un jugador para buscarlo." );
+			Player found = game.searchPlayer( playerNameTextField.getText() );
+			if( found == null )
+				throw new PlayerDoesNotExistException( playerNameTextField.getText() );
+			ArrayList<Player> a = new ArrayList<Player>();
+			a.add(found);
+			updateListView(a);
+		}
+		catch( PlayerNameException e ) {
+			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+		}
+		catch( PlayerDoesNotExistException e ) {
+			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+		}
+		catch( ArrayListIsNotSortedException e ) {
+			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
 		}
 	}
 

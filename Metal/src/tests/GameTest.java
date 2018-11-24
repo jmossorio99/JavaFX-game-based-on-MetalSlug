@@ -26,10 +26,10 @@ class GameTest {
 		setupScene1();
 		game.addPlayerToArrayList( new Player( "Jose" ) );
 		game.addPlayerToArrayList( new Player( "David" ) );
-		game.addPlayerToArrayList( new Player( "Victor") );
-		game.addPlayerToArrayList( new Player( "Freddie") );
-		game.addPlayerToArrayList( new Player( "L") );
-		game.addPlayerToArrayList( new Player( "Gokú") );
+		game.addPlayerToArrayList( new Player( "Victor" ) );
+		game.addPlayerToArrayList( new Player( "Freddie" ) );
+		game.addPlayerToArrayList( new Player( "L" ) );
+		game.addPlayerToArrayList( new Player( "Gokú" ) );
 	}
 	
 	/**
@@ -76,5 +76,59 @@ class GameTest {
 		assertTrue( game.getPlayersList().get(0).getName().equals("Victor") ); // Primer elemento después de ordenar
 		assertTrue( game.getPlayersList().get( game.getPlayersList().size() - 1 ).getName().equals("Camilo") ); // Último elemento después de ordenar
 	}
-
+	
+	/**
+	 * Prueba el método de búsqueda binaria para un jugador en el medio de la lista.
+	 */
+	@Test
+	public void searchMiddlePlayerTest() {
+		setupScene2();
+		Player found = null;
+		
+		// Orden ascendente
+		game.sortPlayerNames( 1 );
+		found = game.searchPlayer( "Gokú" );
+		assertNotNull( found );
+		assertTrue( found.getName().equals( "Gokú" ) );
+		
+		// Orden descendente
+		game.sortPlayerNames( -1 );
+		found = game.searchPlayer( "Freddie" );
+		assertNotNull( found );
+		assertTrue( found.getName().equals( "Freddie" ) );
+	}
+	
+	/**
+	 * Prueba el método de búsqueda binaria para el primer jugador de la lista.
+	 */
+	@Test
+	public void searchFirstPlayerTest() {
+		setupScene2();
+		Player found = null;
+		
+		// Orden ascendente
+		game.sortPlayerNames( 1 );
+		found = game.searchPlayer( "Camilo" );
+		assertNotNull( found );
+		assertTrue( found.getName().equals( "Camilo" ) );
+		
+		// Orden descendente
+		game.sortPlayerNames( -1 );
+		found = game.searchPlayer( "Victor" );
+		assertNotNull( found );
+		assertTrue( found.getName().equals( "Victor" ) );		
+	}
+	
+	/**
+	 * Prueba el método de búsqueda binaria para un jugador que no está en la lista.
+	 */
+	@Test
+	public void searchNonExistentPlayerTest() {
+		setupScene2();
+		
+		game.sortPlayerNames( 1 );
+		Player found = game.searchPlayer( "Player" );
+		assertNull( found );
+	}
+	
 }

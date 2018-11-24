@@ -2,8 +2,8 @@ package exceptions;
 
 public class PlayerDoesNotExistException extends Exception {
 
-	public PlayerDoesNotExistException(String message) {
-		super(message);
+	public PlayerDoesNotExistException(String name) {
+		super("El jugador con el nombre \"" + name + "\" no existe.");
 	}
 
 }
