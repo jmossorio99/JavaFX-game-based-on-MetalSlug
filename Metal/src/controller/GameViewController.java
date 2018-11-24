@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -34,6 +35,8 @@ public class GameViewController implements GameView, PlayableSounds {
 	private ImageView heroImageView;
 	@FXML
 	private AnchorPane anchorPane;
+	@FXML
+	private Label scoreLabel;
 	private Game game;
 	private Hero hero;
 	private Player player;
@@ -200,6 +203,7 @@ public class GameViewController implements GameView, PlayableSounds {
 				scoreCounter++;
 				if (scoreCounter % scoreModifier == 0 && !hero.isDead()) {
 					playerScore+=10;
+					updateScoreLabel( playerScore );
 				}
 				
 				if (robotCounter % robotModifier == 0 && !hero.isDead()) {
@@ -531,6 +535,10 @@ public class GameViewController implements GameView, PlayableSounds {
     	saved.close();
     	wtf.close();
 			
+	}
+	
+	public void updateScoreLabel( int score ) {
+		scoreLabel.setText( String.valueOf( score ) );
 	}
 
 }

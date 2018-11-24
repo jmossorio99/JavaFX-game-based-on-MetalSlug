@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
+import exceptions.PlayerNameException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,48 +39,50 @@ public class MainWindowController implements Initializable {
 
 	@FXML
 	void playClicked(ActionEvent event) {
-
-		if (!nickNameTextField.getText().isEmpty()) {
-			if (nickNameTextField.getText().length() >= 3) {
-				Player p = new Player(nickNameTextField.getText());
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("/view/GameView.fxml"));
-				Parent gameView;
-				try {
-					gameView = loader.load();
-					Scene gameScene = new Scene(gameView);
-					GameViewController controller = loader.getController();
-					controller.setGame(gameScene, game, p);
-					Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-					window.setScene(gameScene);
-					window.show();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} else {
-				JOptionPane.showMessageDialog(null, "Ingrese un nombre de tres caracteres o más", "Error",
-						JOptionPane.ERROR_MESSAGE);
+		try {
+			if( nickNameTextField.getText().isEmpty() ) 
+				throw new PlayerNameException( "Ingrese un nombre para el jugador");
+			if( nickNameTextField.getText().length() < 3 )
+				throw new PlayerNameException( "Ingrese un nombre de tres caracteres o más" );
+			Player p = new Player(nickNameTextField.getText());
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/view/GameView.fxml"));
+			Parent gameView;
+			try {
+				gameView = loader.load();
+				Scene gameScene = new Scene(gameView);
+				GameViewController controller = loader.getController();
+				controller.setGame(gameScene, game, p);
+				Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
+				window.setScene(gameScene);
+				window.show();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Ingrese un nombre para el jugador", "Error",
-					JOptionPane.ERROR_MESSAGE);
 		}
-
+		catch( PlayerNameException e ) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@FXML
 	void scoresClicked(ActionEvent event) {
-		Parent root;
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation( getClass().getResource( "/view/ScoresWindow.fxml" ) );
+		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource("/view/ScoresWindow.fxml"));
-			Scene scene = new Scene(root);
-			Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-			window.setScene(scene);
-			window.setResizable(false);
-			window.show();
-		} catch (IOException e) {
+			root = loader.load();
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
+		ScoresWindowController controller = loader.getController();
+		controller.setScoresWindow(game);
+		Scene scene = new Scene( root );
+		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
+		window.setResizable(false);
+		window.setScene(scene);
+		window.show();
 	}
 
 	@FXML
@@ -92,29 +95,26 @@ public class MainWindowController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		File file = new File("Save");
 		if (file.exists()) {
-			
-				try {
-					FileInputStream fis = new FileInputStream(file);
-					ObjectInputStream ois = new ObjectInputStream(fis);
-					game = (Game) ois.readObject();
-					fis.close();
-					ois.close();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else {
-				
-			game=new Game();	
+			try {
+				FileInputStream fis = new FileInputStream(file);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				game = (Game) ois.readObject();
+				fis.close();
+				ois.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			 
-		
+		}
+		else {
+			game=new Game();	
+		}
 		MusicThread musicThread = new MusicThread();
 		musicThread.start();
 	}

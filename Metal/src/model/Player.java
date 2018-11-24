@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class Player implements Serializable{
+public class Player implements Serializable, Comparable<Player> {
 
 	private String name;
 	private Player left = null;
@@ -81,7 +81,21 @@ public class Player implements Serializable{
 		
 		return maxScore;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		String str = String.format( "%s%40s", name, getMaxScore() );
+		return str;
+	}
+	
+	@Override
+	public int compareTo(Player p) {
+		if( name.compareToIgnoreCase( p.getName() ) > 0 )
+			return 1;
+		else if( name.compareToIgnoreCase( p.getName() ) < 0 )
+			return -1;
+		else
+			return 0;
+	}
+	
 }

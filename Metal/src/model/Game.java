@@ -31,6 +31,28 @@ public class Game implements Serializable{
 	public void addPlayerToArrayList(Player p) {
 		players.add(p);
 	}
+	
+	public void sortPlayerNames( int n ) {
+		for( int  i = 1; i < players.size(); i++ ) {
+			for( int j = i; j > 0; j-- ) {
+				if( players.get( j - 1 ).compareTo( players.get(j) ) == n ) {
+					players.set( j - 1, players.set( j, players.get( j - 1 ) ) );
+				}
+			}
+		}
+	}
+	
+	public void sortPlayerScores( boolean sort ) {
+		for( int  i = 1; i < players.size(); i++ ) {
+			for( int j = i; j > 0; j-- ) {
+				if( ( sort ) ? players.get( j - 1 ).getMaxScore() < players.get( j ).getMaxScore() : 
+					players.get( j - 1 ).getMaxScore() > players.get( j ).getMaxScore() ) 
+				{
+					players.set( j - 1, players.set( j, players.get( j - 1 ) ) );
+				}
+			}
+		}
+	}
 
 	public void deletePlayerFromArrayList(Player p) {
 		for (int i = 0; i < players.size(); i++) {
@@ -38,6 +60,10 @@ public class Game implements Serializable{
 				players.remove(i);
 			}
 		}
+	}
+	
+	public ArrayList<Player> getPlayersList(){
+		return players;
 	}
 
 	public Hero getHero() {
