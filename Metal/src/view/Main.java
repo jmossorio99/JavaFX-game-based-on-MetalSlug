@@ -19,7 +19,7 @@ import threads.MusicThread;
 public class Main extends Application {
 
 	private static Game game;
-	
+
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 
@@ -41,9 +41,10 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-	
+
+		MusicThread musicThread = new MusicThread();
+		musicThread.start();
 		launch();
 
-	   }
 	}
-
+}

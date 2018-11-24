@@ -3,23 +3,23 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Game implements Serializable{
-	
+public class Game implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private Player rootPlayer;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Hero hero;
 
 	public Game() {
-		rootPlayer=null;
+		rootPlayer = null;
 	}
-	
+
 	public void addPlayerToTree(Player player) {
 		if (rootPlayer == null) {
-			
+
 			rootPlayer = player;
 		} else {
-			
+
 			rootPlayer.insertPlayer(player);
 		}
 	}
@@ -31,24 +31,23 @@ public class Game implements Serializable{
 	public void addPlayerToArrayList(Player p) {
 		players.add(p);
 	}
-	
-	public void sortPlayerNames( int n ) {
-		for( int  i = 1; i < players.size(); i++ ) {
-			for( int j = i; j > 0; j-- ) {
-				if( players.get( j - 1 ).compareTo( players.get(j) ) == n ) {
-					players.set( j - 1, players.set( j, players.get( j - 1 ) ) );
+
+	public void sortPlayerNames(int n) {
+		for (int i = 1; i < players.size(); i++) {
+			for (int j = i; j > 0; j--) {
+				if (players.get(j - 1).compareTo(players.get(j)) == n) {
+					players.set(j - 1, players.set(j, players.get(j - 1)));
 				}
 			}
 		}
 	}
-	
-	public void sortPlayerScores( boolean sort ) {
-		for( int  i = 1; i < players.size(); i++ ) {
-			for( int j = i; j > 0; j-- ) {
-				if( ( sort ) ? players.get( j - 1 ).getMaxScore() < players.get( j ).getMaxScore() : 
-					players.get( j - 1 ).getMaxScore() > players.get( j ).getMaxScore() ) 
-				{
-					players.set( j - 1, players.set( j, players.get( j - 1 ) ) );
+
+	public void sortPlayerScores(boolean sort) {
+		for (int i = 1; i < players.size(); i++) {
+			for (int j = i; j > 0; j--) {
+				if ((sort) ? players.get(j - 1).getMaxScore() < players.get(j).getMaxScore()
+						: players.get(j - 1).getMaxScore() > players.get(j).getMaxScore()) {
+					players.set(j - 1, players.set(j, players.get(j - 1)));
 				}
 			}
 		}
@@ -61,8 +60,8 @@ public class Game implements Serializable{
 			}
 		}
 	}
-	
-	public ArrayList<Player> getPlayersList(){
+
+	public ArrayList<Player> getPlayersList() {
 		return players;
 	}
 

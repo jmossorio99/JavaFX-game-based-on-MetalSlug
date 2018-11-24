@@ -115,8 +115,7 @@ public class MainWindowController implements Initializable {
 		else {
 			game=new Game();	
 		}
-		MusicThread musicThread = new MusicThread();
-		musicThread.start();
+		
 	}
 
 }

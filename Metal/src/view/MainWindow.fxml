@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -20,8 +21,17 @@
       </VBox>
       
       <TextField fx:id="nickNameTextField" alignment="CENTER" layoutX="340.0" layoutY="339.0" prefHeight="40.0" prefWidth="173.0" promptText="Enter your name" />
-      <Button fx:id="playButton" layoutX="371.0" layoutY="397.0" mnemonicParsing="false" onAction="#playClicked" prefHeight="26.0" prefWidth="112.0" stylesheets="@Button.css" text="Play" />
-      <Button fx:id="scoresButton" layoutX="386.0" layoutY="445.0" mnemonicParsing="false" onAction="#scoresClicked" stylesheets="@Button.css" text="Scores" />
-      <Button fx:id="loadGameButton" layoutX="370.0" layoutY="495.0" mnemonicParsing="false" onAction="#loadGameClicked" stylesheets="@Button.css" text="Load Game" />
+      <Button fx:id="playButton" layoutX="371.0" layoutY="397.0" mnemonicParsing="false" onAction="#playClicked" prefHeight="26.0" prefWidth="112.0" stylesheets="@Button.css" text="Play">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="scoresButton" layoutX="386.0" layoutY="445.0" mnemonicParsing="false" onAction="#scoresClicked" stylesheets="@Button.css" text="Scores">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="loadGameButton" layoutX="370.0" layoutY="495.0" mnemonicParsing="false" onAction="#loadGameClicked" stylesheets="@Button.css" text="Load Game">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

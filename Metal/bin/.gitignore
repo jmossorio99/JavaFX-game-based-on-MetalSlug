@@ -1,6 +1,6 @@
-/controller/
-/exceptions/
-/model/
-/tests/
 /threads/
 /view/
+/controller/
+/model/
+/exceptions/
+/tests/
