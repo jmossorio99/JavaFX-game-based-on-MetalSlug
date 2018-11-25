@@ -5,11 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import model.Bullet;
 import model.Game;
 import model.GameView;
@@ -37,6 +41,8 @@ public class GameViewController implements GameView, PlayableSounds {
 	private AnchorPane anchorPane;
 	@FXML
 	private Label scoreLabel;
+	@FXML
+	private Label healthBar;
 	private Game game;
 	private Hero hero;
 	private Player player;
@@ -53,7 +59,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	private int enemieBulletNum = 0;
 	private int scoreModifier = 150;
 	private int scoreCounter = scoreModifier - 1;
-	private boolean alreadySerialized=false;
+	private boolean alreadySerialized = false;
 	private ArrayList<Node> robots = new ArrayList<Node>();
 	private ArrayList<Image> robotMoving = new ArrayList<Image>();
 	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
@@ -71,7 +77,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	private MediaPlayer mediaPlayer2;
 	private MediaPlayer mediaPlayer3;
 	private MediaPlayer mediaPlayer4;
-	private int playerScore=0;
+	private int playerScore = 0;
 
 	public void setGame(Scene scene, Game game, Player player) {
 
@@ -82,6 +88,12 @@ public class GameViewController implements GameView, PlayableSounds {
 		System.out.println(player.getName());
 		addSpriteImages();
 		this.scene = scene;
+		setEverything();
+
+	}
+	
+	private void setEverything() {
+		
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -177,20 +189,21 @@ public class GameViewController implements GameView, PlayableSounds {
 			public void handle(long now) {
 
 				if (hero.isDead()) {
-					
+
 					hero.die();
-					
-					if(!alreadySerialized) {
+
+					if (!alreadySerialized) {
 						try {
 							player.addScore(playerScore);
-							game.addPlayerToTree(player);
-							game.addPlayerToArrayList(player);
+							if (!game.playerExists(player.getName())) {
+								game.addPlayerToTree(player);
+								game.addPlayerToArrayList(player);
+							}
 							serializarGame();
-							alreadySerialized=true;
+							alreadySerialized = true;
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}						
+						}
 					}
 				}
 				setHeroX(hero.getPosX());
@@ -198,14 +211,15 @@ public class GameViewController implements GameView, PlayableSounds {
 				setHeroImage(hero.getImage());
 				heroShootRight();
 				heroShootLeft();
+				updateHealthBar();
 				robotCounter++;
 				enemieBulletCounter++;
 				scoreCounter++;
 				if (scoreCounter % scoreModifier == 0 && !hero.isDead()) {
-					playerScore+=10;
-					updateScoreLabel( playerScore );
+					playerScore += 10;
+					updateScoreLabel(playerScore);
 				}
-				
+
 				if (robotCounter % robotModifier == 0 && !hero.isDead()) {
 					spawnRobot();
 				}
@@ -239,7 +253,7 @@ public class GameViewController implements GameView, PlayableSounds {
 			}
 		};
 		timer.start();
-
+		
 	}
 
 	private void setUpSoundEffects() {
@@ -256,7 +270,7 @@ public class GameViewController implements GameView, PlayableSounds {
 		mediaPlayer2 = new MediaPlayer(mFileHeroShoots);
 		mediaPlayer2.setVolume(0.2);
 		mediaPlayer3 = new MediaPlayer(mFilePlayerLoses);
-		mediaPlayer3.setVolume(0.5);
+		mediaPlayer3.setVolume(0.8);
 		mediaPlayer4 = new MediaPlayer(mFileRobotDies);
 		mediaPlayer4.setVolume(0.25);
 	}
@@ -525,20 +539,172 @@ public class GameViewController implements GameView, PlayableSounds {
 		mediaPlayer4 = new MediaPlayer(mFileRobotDies);
 		mediaPlayer4.play();
 	}
-	
+
 	public void serializarGame() throws IOException {
-		
-		File save= new File("Save");
-		FileOutputStream saved = new FileOutputStream(save);
-		ObjectOutputStream wtf = new ObjectOutputStream(saved);
-		wtf.writeObject(game);
-    	saved.close();
-    	wtf.close();
-			
+		File save = new File("Save");
+		FileOutputStream fos = new FileOutputStream(save);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(game);
+		fos.close();
+		oos.close();
 	}
-	
-	public void updateScoreLabel( int score ) {
-		scoreLabel.setText( String.valueOf( score ) );
+
+	public void updateScoreLabel(int score) {
+		scoreLabel.setText(String.valueOf(score));
+	}
+
+	public void updateHealthBar() {
+		healthBar.setText(String.valueOf(hero.getHealth()));
+	}
+
+	@FXML
+	void backToMenu(ActionEvent event) {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/view/MainWindow.fxml"));
+		Parent root = null;
+		try {
+			root = loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
+		window.setResizable(false);
+		window.setScene(scene);
+		window.show();
+	}
+
+	@FXML
+	void saveGame(ActionEvent event) {
+
+		File file = new File("gameData");
+		File file2 = new File("enemieBullets");
+		File file3 = new File("robots");
+		File file4 = new File("heroBulletsRight");
+		File file5 = new File("heroBulletsLeft");
+		try {
+			PrintWriter pr1 = new PrintWriter(file);
+			PrintWriter pr2 = new PrintWriter(file2);
+			PrintWriter pr3 = new PrintWriter(file3);
+			PrintWriter pr4 = new PrintWriter(file4);
+			PrintWriter pr5 = new PrintWriter(file5);
+			pr1.println(player.getName());
+			pr1.println(scoreLabel.getText());
+			pr1.println(String.valueOf(hero.isMoving()));
+			pr1.println(String.valueOf(hero.isCrouching()));
+			pr1.println(String.valueOf(hero.isAimingUp()));
+			pr1.println(String.valueOf(hero.isShooting()));
+			pr1.println(String.valueOf(hero.isDead()));
+			pr1.println(String.valueOf(hero.isTakingDamage()));
+			pr1.println(String.valueOf(hero.getDirection()));
+			pr1.println(hero.getHealth());
+			pr1.println(heroImageView.getLayoutX());
+			pr1.println(enemieBulletModifier);
+			pr1.println(robotModifier);
+			pr1.println(scoreModifier);
+			pr1.println(robotNum);
+			pr1.println(enemieBulletNum);
+			pr1.println(bulletSpeed);
+			for (int i = 0; i < enemieBullets.size(); i++) {
+				pr2.println(enemieBullets.get(i).getLayoutX());
+				pr2.println(enemieBullets.get(i).getLayoutY());
+			}
+			for (int i = 0; i < robots.size(); i++) {
+				pr3.println(robots.get(i).getLayoutX());
+			}
+			for (int i = 0; i < heroBulletsRight.size(); i++) {
+				pr4.println(heroBulletsRight.get(i).getLayoutX());
+			}
+			for (int i = 0; i < heroBulletsLeft.size(); i++) {
+				pr5.println(heroBulletsLeft.get(i).getLayoutX());
+			}
+			pr1.close();
+			pr2.close();
+			pr3.close();
+			pr4.close();
+			pr5.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void loadGame(Scene scene, Game game, ArrayList<String> gameData, ArrayList<Double> enemieBullets,
+			ArrayList<Double> robots, ArrayList<Double> heroBR, ArrayList<Double> heroBL) {
+
+		String playerName = gameData.get(0);
+		int playerScore = Integer.parseInt(gameData.get(1));
+		boolean moving = Boolean.parseBoolean(gameData.get(2));
+		boolean crouching = Boolean.parseBoolean(gameData.get(3));
+		boolean aimingUp = Boolean.parseBoolean(gameData.get(4));
+		boolean shooting = Boolean.parseBoolean(gameData.get(5));
+		boolean dead = Boolean.parseBoolean(gameData.get(6));
+		boolean takingDamage = Boolean.parseBoolean(gameData.get(7));
+		int direction = Integer.parseInt(gameData.get(8));
+		int health = Integer.parseInt(gameData.get(9));
+		double posX = Double.parseDouble(gameData.get(10));
+		int enemieBulletModifier = Integer.parseInt(gameData.get(11));
+		int robotModifier = Integer.parseInt(gameData.get(12));
+		int scoreModifier = Integer.parseInt(gameData.get(13));
+		int robotNum = Integer.parseInt(gameData.get(14));
+		int enemieBulletNum = Integer.parseInt(gameData.get(15));
+		int bulletSpeed = Integer.parseInt(gameData.get(16));
+
+		this.game = game;
+		this.hero = new Hero(posX, heroImageView.getLayoutY(), heroImageView.getFitHeight());
+		if (game.playerExists(playerName)) {
+			game.sortPlayerNames(1);
+			this.player = game.searchPlayer(playerName);
+		} else {
+			this.player = new Player(playerName);
+		}
+		this.playerScore = playerScore;
+		hero.setStates(moving, crouching, aimingUp, shooting, dead, takingDamage, direction, health);
+		this.enemieBulletModifier = enemieBulletModifier;
+		enemieBulletCounter = this.enemieBulletModifier - 1;
+		this.robotModifier = robotModifier;
+		robotCounter = this.robotModifier - 1;
+		this.scoreModifier = scoreModifier;
+		scoreCounter = this.scoreModifier - 1;
+		this.robotNum = robotNum;
+		this.enemieBulletNum = enemieBulletNum;
+		this.bulletSpeed = bulletSpeed;
+
+		for (int i = 0; i < enemieBullets.size() - 1; i++) {
+			Node bullet = new ImageView(ORANGE_BULLET_ROUTE);
+			bullet.relocate(enemieBullets.get(i), enemieBullets.get(i + 1));
+			this.enemieBullets.add(bullet);
+			anchorPane.getChildren().add(bullet);
+		}
+
+		for (int i = 0; i < robots.size(); i++) {
+			Node robot = new ImageView(ROBOT_ROUTE);
+			robot.relocate(robots.get(i), 590);
+			this.robots.add(robot);
+			anchorPane.getChildren().add(robot);
+		}
+
+		for (int i = 0; i < heroBR.size(); i++) {
+			ImageView orangeBullet = new ImageView(new Image(ORANGE_BULLET_ROUTE));
+			Node newOrangeBullet = orangeBullet;
+			newOrangeBullet.relocate(heroBR.get(i), heroImageView.getLayoutY());
+			heroBulletsRight.add(newOrangeBullet);
+			anchorPane.getChildren().add(newOrangeBullet);
+		}
+		for (int i = 0; i < heroBL.size(); i++) {
+			ImageView orangeBullet = new ImageView(new Image(ORANGE_BULLET_ROUTE));
+			Node newOrangeBullet = orangeBullet;
+			newOrangeBullet.relocate(heroBL.get(i), heroImageView.getLayoutY());
+			heroBulletsLeft.add(newOrangeBullet);
+			anchorPane.getChildren().add(newOrangeBullet);
+		}
+
+		setUpSoundEffects();
+		System.out.println(player.getName());
+		addSpriteImages();
+		this.scene = scene;
+		setEverything();
+		
 	}
 
 }

@@ -3,13 +3,15 @@ package controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
-
 import exceptions.PlayerNameException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,12 +41,18 @@ public class MainWindowController implements Initializable {
 
 	@FXML
 	void playClicked(ActionEvent event) {
+		Player p;
 		try {
-			if( nickNameTextField.getText().isEmpty() ) 
-				throw new PlayerNameException( "Ingrese un nombre para el jugador");
-			if( nickNameTextField.getText().length() < 3 )
-				throw new PlayerNameException( "Ingrese un nombre de tres caracteres o más" );
-			Player p = new Player(nickNameTextField.getText());
+			if (nickNameTextField.getText().isEmpty())
+				throw new PlayerNameException("Ingrese un nombre para el jugador");
+			if (nickNameTextField.getText().length() < 3)
+				throw new PlayerNameException("Ingrese un nombre de tres caracteres o más");
+			if (playerExists(nickNameTextField.getText())) {
+				game.sortPlayerNames(1);
+				p = game.searchPlayer(nickNameTextField.getText());
+			} else {
+				p = new Player(nickNameTextField.getText());
+			}
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/view/GameView.fxml"));
 			Parent gameView;
@@ -59,8 +67,7 @@ public class MainWindowController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		catch( PlayerNameException e ) {
+		} catch (PlayerNameException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -68,17 +75,16 @@ public class MainWindowController implements Initializable {
 	@FXML
 	void scoresClicked(ActionEvent event) {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation( getClass().getResource( "/view/ScoresWindow.fxml" ) );
+		loader.setLocation(getClass().getResource("/view/ScoresWindow.fxml"));
 		Parent root = null;
 		try {
 			root = loader.load();
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		ScoresWindowController controller = loader.getController();
 		controller.setScoresWindow(game);
-		Scene scene = new Scene( root );
+		Scene scene = new Scene(root);
 		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
 		window.setResizable(false);
 		window.setScene(scene);
@@ -88,7 +94,73 @@ public class MainWindowController implements Initializable {
 	@FXML
 	void loadGameClicked(ActionEvent event) {
 
-		
+		File file = new File("gameData");
+		File file2 = new File("enemieBullets");
+		File file3 = new File("robots");
+		File file4 = new File("heroBulletsRight");
+		File file5 = new File("heroBulletsLeft");
+		if (file.exists() && file2.exists() && file3.exists() && file4.exists() && file5.exists()) {
+			try {
+				FileReader fr = new FileReader(file);
+				ArrayList<String> arr1 = new ArrayList<String>();
+				FileReader fr2 = new FileReader(file2);
+				ArrayList<Double> arr2 = new ArrayList<Double>();
+				FileReader fr3 = new FileReader(file3);
+				ArrayList<Double> arr3 = new ArrayList<Double>();
+				FileReader fr4 = new FileReader(file4);
+				ArrayList<Double> arr4 = new ArrayList<Double>();
+				FileReader fr5 = new FileReader(file5);
+				ArrayList<Double> arr5 = new ArrayList<Double>();
+
+				Scanner sc1 = new Scanner(fr);
+				while (sc1.hasNext()) {
+					arr1.add(sc1.nextLine());
+				}
+				Scanner sc2 = new Scanner(fr2);
+				while (sc2.hasNext()) {
+					arr2.add(Double.parseDouble(sc2.nextLine()));
+				}
+				Scanner sc3 = new Scanner(fr3);
+				while (sc3.hasNext()) {
+					arr3.add(Double.parseDouble(sc3.nextLine()));
+				}
+				Scanner sc4 = new Scanner(fr4);
+				while (sc3.hasNext()) {
+					arr4.add(Double.parseDouble(sc4.nextLine()));
+				}
+				Scanner sc5 = new Scanner(fr5);
+				while (sc3.hasNext()) {
+					arr5.add(Double.parseDouble(sc5.nextLine()));
+				}
+
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(getClass().getResource("/view/GameView.fxml"));
+				Parent gameView;
+				try {
+					gameView = loader.load();
+					Scene gameScene = new Scene(gameView);
+					GameViewController controller = loader.getController();
+					controller.loadGame(gameScene, game, arr1, arr2, arr3, arr4, arr5);
+					Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
+					window.setScene(gameScene);
+					window.show();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "No existe una partida guardada", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	public boolean playerExists(String name) {
+
+		return game.playerExists(name);
+
 	}
 
 	@Override
@@ -102,20 +174,16 @@ public class MainWindowController implements Initializable {
 				fis.close();
 				ois.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else {
+			game = new Game();
 		}
-		else {
-			game=new Game();	
-		}
-		
+
 	}
 
 }

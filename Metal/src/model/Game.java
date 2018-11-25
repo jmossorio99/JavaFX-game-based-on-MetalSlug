@@ -115,5 +115,17 @@ public class Game implements Serializable {
 	public boolean isListSorted() {
 		return sortedList == 1 || sortedList == -1;
 	}
+	
+	public boolean playerExists(String name) {
+		if (rootPlayer != null) {
+			if (rootPlayer.getName().equalsIgnoreCase(name)) {
+				return true;
+			} else {
+				return rootPlayer.playerExists(name);
+			}
+		} else {
+			return false;
+		}
+	}
 
 }

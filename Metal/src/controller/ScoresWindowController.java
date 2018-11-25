@@ -5,9 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
-
 import exceptions.ArrayListIsNotSortedException;
 import exceptions.PlayerDoesNotExistException;
 import exceptions.PlayerNameException;

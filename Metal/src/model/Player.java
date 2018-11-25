@@ -97,5 +97,22 @@ public class Player implements Serializable, Comparable<Player> {
 		else
 			return 0;
 	}
+
+	public boolean playerExists(String name2) {
+		
+		boolean a1 = false;
+		boolean a2 = false;
+		if (name.equalsIgnoreCase(name2)) {
+			return true;
+		}
+		if (left != null) {
+			a1 = left.playerExists(name2);
+		}
+		if (right != null) {
+			a2 = right.playerExists(name2);
+		}
+		return a1 || a2;
+		
+	}
 	
 }

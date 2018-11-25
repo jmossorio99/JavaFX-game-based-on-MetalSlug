@@ -1,5 +1,7 @@
 package model;
 
+import javax.print.attribute.SetOfIntegerSyntax;
+
 public class Hero extends Entity {
 
 //	public final static int ORANGE_DAMAGE = 1;
@@ -15,7 +17,7 @@ public class Hero extends Entity {
 	private int iddleCount = 1;
 	private int shootStandingCount = 1;
 	private int shootCrouchingCount = 1;
-	private int dyingImages=1;
+	private int dyingImages = 1;
 	private boolean moving = false;
 	private boolean crouching = false;;
 	private boolean dying = false;
@@ -121,146 +123,146 @@ public class Hero extends Entity {
 
 	public void move() {
 
-		if(!dying) {
-		
-		if (moveCount < 12) {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Running/Right/Run" + moveCount + "D.png";
-				setPosX(getPosX() + speed);
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Running/Left/Run" + moveCount + "I.png";
-				setPosX(getPosX() - speed);
-			}
-			moveCount++;
-		} else {
+		if (!dying) {
 
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Running/Right/Run1D.png";
-				setPosX(getPosX() + speed);
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Running/Left/Run1I.png";
-				setPosX(getPosX() - speed);
-			}
-			moveCount = 1;
+			if (moveCount < 12) {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Running/Right/Run" + moveCount + "D.png";
+					setPosX(getPosX() + speed);
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Running/Left/Run" + moveCount + "I.png";
+					setPosX(getPosX() - speed);
+				}
+				moveCount++;
+			} else {
 
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Running/Right/Run1D.png";
+					setPosX(getPosX() + speed);
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Running/Left/Run1I.png";
+					setPosX(getPosX() - speed);
+				}
+				moveCount = 1;
+
+			}
 		}
-	  }
 	}
 
 	public void crouch() {
 
-		if(!dying) {
-		
-		if (crouchCount < 6) {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Crouch/right/crouch" + crouchCount + "D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Crouch/left/crouch" + crouchCount + "I.png";
+		if (!dying) {
+
+			if (crouchCount < 6) {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Crouch/right/crouch" + crouchCount + "D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Crouch/left/crouch" + crouchCount + "I.png";
+				}
+				crouchCount++;
+			} else {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Crouch/right/crouch1D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Crouch/left/crouch1I.png";
+				}
+				crouchCount = 1;
 			}
-			crouchCount++;
-		} else {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Crouch/right/crouch1D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Crouch/left/crouch1I.png";
-			}
-			crouchCount = 1;
 		}
-	  }
 	}
 
 	public void iddle() {
 
-		if(!dying) {
-		
-		if (iddleCount < 7) {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Iddle/right/Idle" + iddleCount + "D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Iddle/left/Idle" + iddleCount + "I.png";
+		if (!dying) {
+
+			if (iddleCount < 7) {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Iddle/right/Idle" + iddleCount + "D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Iddle/left/Idle" + iddleCount + "I.png";
+				}
+				iddleCount++;
+			} else {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Iddle/right/Idle1D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Iddle/left/Idle1I.png";
+				}
+				iddleCount = 1;
 			}
-			iddleCount++;
-		} else {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Iddle/right/Idle1D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Iddle/left/Idle1I.png";
-			}
-			iddleCount = 1;
 		}
-	  }
 	}
 
 	public void shootStanding() {
-		if(!dying) {
+		if (!dying) {
 
-		if (shootStandingCount < 5) {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Shoot/fireStandingRight/fire" + shootStandingCount + "D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Shoot/fireStandingLeft/fire" + shootStandingCount + "I.png";
+			if (shootStandingCount < 5) {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Shoot/fireStandingRight/fire" + shootStandingCount + "D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Shoot/fireStandingLeft/fire" + shootStandingCount + "I.png";
+				}
+				shootStandingCount++;
+			} else {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Shoot/fireStandingRight/fire1D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Shoot/fireStandingLeft/fire1I.png";
+				}
+				shootStandingCount = 1;
 			}
-			shootStandingCount++;
-		} else {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Shoot/fireStandingRight/fire1D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Shoot/fireStandingLeft/fire1I.png";
-			}
-			shootStandingCount = 1;
 		}
-	  }
 	}
 
 	public void shootCrouching() {
-		
-		if(!dying) {
-		
-		if (shootCrouchingCount < 4) {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire" + shootCrouchingCount + "D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Shoot/crouchFireLeft/crouchfire" + shootCrouchingCount + "I.png";
+
+		if (!dying) {
+
+			if (shootCrouchingCount < 4) {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire" + shootCrouchingCount + "D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Shoot/crouchFireLeft/crouchfire" + shootCrouchingCount + "I.png";
+				}
+				shootCrouchingCount++;
+			} else {
+				if (direction == RIGHT) {
+					image = "file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire1D.png";
+				} else if (direction == LEFT) {
+					image = "file:data/sprites/hero/Shoot/crouchFireLeft/crouchfire1I.png";
+				}
+				shootCrouchingCount = 1;
 			}
-			shootCrouchingCount++;
-		} else {
-			if (direction == RIGHT) {
-				image = "file:data/sprites/hero/Shoot/crouchFireRight/CrouchFire1D.png";
-			} else if (direction == LEFT) {
-				image = "file:data/sprites/hero/Shoot/crouchFireLeft/crouchfire1I.png";
-			}
-			shootCrouchingCount = 1;
 		}
-	  }
 	}
 
 	public void takeDamageAnim() {
-		
-		if(!dying) {
-		
-		if (direction == RIGHT) {
-			image = "file:data/sprites/hero/Dead/right/dead2D.png";
-		} else if (direction == LEFT) {
-			image = "file:data/sprites/hero/Dead/left/dead2I.png";
-		}
-		takingDamage = false;
-		
+
+		if (!dying) {
+
+			if (direction == RIGHT) {
+				image = "file:data/sprites/hero/Dead/right/dead2D.png";
+			} else if (direction == LEFT) {
+				image = "file:data/sprites/hero/Dead/left/dead2I.png";
+			}
+			takingDamage = false;
+
 		}
 	}
-	
+
 	public void die() {
-		
-		while(dyingImages<5) {
-			
-			if(direction==RIGHT) {
-				image="file:data/sprites/hero/dead/right/dead"+dyingImages+"D.png";
-			}else if(direction==LEFT) {
-				image="file:data/sprites/hero/dead/left/dead"+dyingImages+"I.png";
+
+		while (dyingImages < 5) {
+
+			if (direction == RIGHT) {
+				image = "file:data/sprites/hero/dead/right/dead" + dyingImages + "D.png";
+			} else if (direction == LEFT) {
+				image = "file:data/sprites/hero/dead/left/dead" + dyingImages + "I.png";
 			}
-			
+
 			dyingImages++;
 		}
-		
+
 	}
 
 	public boolean isTakingDamage() {
@@ -269,6 +271,18 @@ public class Hero extends Entity {
 
 	public void setTakingDamage(boolean takingDamage) {
 		this.takingDamage = takingDamage;
+	}
+
+	public void setStates(boolean moving, boolean crouching, boolean aimingUp, boolean shooting, boolean dead,
+			boolean isTakingDamage, int direction, int health) {
+		setMoving(moving);
+		setCrouching(crouching);
+		setAimingUp(aimingUp);
+		setShooting(shooting);
+		setDead(dead);
+		setTakingDamage(isTakingDamage);
+		setDirection(direction);
+		setHealth(health);
 	}
 
 }
