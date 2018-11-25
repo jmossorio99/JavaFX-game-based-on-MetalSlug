@@ -100,18 +100,31 @@ public class ScoresWindowController implements Initializable {
 
 	@FXML
 	public void deletePlayer(ActionEvent event) {
- 
-		Player player = game.searchPlayer(playerNameTextField.getText());
-		
-		if(player!=null) {
-			game.deletePlayerFromTree(player);
-			game.deletePlayerFromArrayList(player);
-		}else {
-		
-			//llamar una exception aki :v
-			
+		try {
+			if( !game.isListSorted() )
+				throw new ArrayListIsNotSortedException();
+			if( playerNameTextField.getText().isEmpty() )
+				throw new PlayerNameException("Debe ingresar el nombre de un jugador para eliminarlo.");
+			Player player = game.searchPlayer(playerNameTextField.getText());
+			if(player!=null) {
+				game.deletePlayerFromTree(player);
+				game.deletePlayerFromArrayList(player);
+				playerNameTextField.setText("");
+				updateListView(game.getPlayersList());
+			}
+			else {
+				throw new PlayerDoesNotExistException(playerNameTextField.getText());
+			}
 		}
-		
+		catch( PlayerNameException e ) {
+			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+		}
+		catch( PlayerDoesNotExistException e ) {
+			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+		}
+		catch( ArrayListIsNotSortedException e ) {
+			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+		}
 	}
 	
 	@FXML
