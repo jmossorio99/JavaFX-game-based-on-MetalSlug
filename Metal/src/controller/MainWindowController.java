@@ -44,9 +44,9 @@ public class MainWindowController implements Initializable {
 		Player p;
 		try {
 			if (nickNameTextField.getText().isEmpty())
-				throw new PlayerNameException("Ingrese un nombre para el jugador");
+				throw new PlayerNameException("Ingrese un nombre para el jugador.");
 			if (nickNameTextField.getText().length() < 3)
-				throw new PlayerNameException("Ingrese un nombre de tres caracteres o más");
+				throw new PlayerNameException("Ingrese un nombre de tres caracteres o más.");
 			if (playerExists(nickNameTextField.getText())) {
 				game.sortPlayerNames(1);
 				p = game.searchPlayer(nickNameTextField.getText());

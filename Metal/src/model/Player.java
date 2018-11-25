@@ -90,9 +90,9 @@ public class Player implements Serializable, Comparable<Player> {
 	
 	@Override
 	public int compareTo(Player p) {
-		if( name.compareToIgnoreCase( p.getName() ) > 0 )
+		if( name.compareTo( p.getName() ) > 0 )
 			return 1;
-		else if( name.compareToIgnoreCase( p.getName() ) < 0 )
+		else if( name.compareTo( p.getName() ) < 0 )
 			return -1;
 		else
 			return 0;

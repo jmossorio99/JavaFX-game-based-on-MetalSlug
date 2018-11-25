@@ -9,11 +9,11 @@ public class Game implements Serializable {
 	private Player rootPlayer;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Hero hero;
-	private int sortedList;
+	private int listSorted;
 
 	public Game() {
 		rootPlayer = null;
-		sortedList = 0;
+		listSorted = 0;
 	}
 
 	public void addPlayerToTree(Player player) {
@@ -39,7 +39,7 @@ public class Game implements Serializable {
 	 * @param n
 	 */
 	public void sortPlayerNames(int n) {
-		sortedList = n;
+		listSorted = n;
 		for (int i = 1; i < players.size(); i++) {
 			for (int j = i; j > 0; j--) {
 				if (players.get(j - 1).compareTo(players.get(j)) == n) {
@@ -54,6 +54,7 @@ public class Game implements Serializable {
 	 * @param sort
 	 */
 	public void sortPlayerScores(boolean sort) {
+		listSorted = 0;
 		for( int i = 0; i < players.size() - 1; i++ ) {
 			Player aux = players.get(i);
 			int index = i;
@@ -70,22 +71,20 @@ public class Game implements Serializable {
 	public Player searchPlayer( String name ) {
 		int min = 0;
 		int max = players.size() - 1;
-		int middle = ( min + max ) / 2;
-		boolean found = false;
-		while( min <= max && !found  ) {
-			middle = ( min + max ) / 2;
+		while( min <= max ) {
+			int middle = ( min + max ) / 2;
 			if( players.get(middle).getName().compareTo(name) == 0 ) 
 				return players.get(middle);
 			else if( players.get(middle).getName().compareTo(name) > 0 ) { 
-				if( sortedList == 1 )
+				if( listSorted == 1 )
 					max = middle - 1;
-				else if( sortedList == -1 )
+				else if( listSorted == -1 )
 					min = middle + 1;
 			}
 			else {
-				if( sortedList == 1 )
+				if( listSorted == 1 )
 					min = middle + 1;
-				else if( sortedList == -1 )
+				else if( listSorted == -1 )
 					max = middle - 1;
 			}
 		}
@@ -112,8 +111,12 @@ public class Game implements Serializable {
 		this.hero = hero;
 	}
 	
+	public void setSortedList( int s ) {
+		listSorted = s;
+	}
+	
 	public boolean isListSorted() {
-		return sortedList == 1 || sortedList == -1;
+		return listSorted == 1 || listSorted == -1;
 	}
 	
 	public boolean playerExists(String name) {

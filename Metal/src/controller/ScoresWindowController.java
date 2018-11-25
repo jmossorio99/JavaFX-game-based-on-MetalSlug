@@ -40,6 +40,7 @@ public class ScoresWindowController implements Initializable {
 
 	public void setScoresWindow(Game game) {
 		this.game = game;
+		game.setSortedList(0);
 		updateListView(game.getPlayersList());
 	}
 
