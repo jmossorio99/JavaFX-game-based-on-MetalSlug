@@ -15,25 +15,24 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 
 	public void insertPlayer(Player p) {
-
 		if (p != null) {
-
 			if (getMaxScore() > p.getMaxScore()) {
 				if (left == null) {
 					left = p;
-				} else {
+				} 
+				else {
 					left.insertPlayer(p);
 				}
-			} else {
+			} 
+			else {
 				if (right == null) {
 					right = p;
-				} else {
+				} 
+				else {
 					right.insertPlayer(p);
 				}
 			}
-
 		}
-
 	}
 
 	public Player getLeft() {
@@ -61,24 +60,21 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 
 	public void addScore(int score) {
-		Score s=new Score (score); 
-		
+		Score s=new Score (score);
 		if(rootScore==null) {
 			rootScore=s;
-		}else {
+		}
+		else {
 			rootScore.insertScore(s);
 		}
-		
 	}
 	
 	public int getMaxScore() {
 		int maxScore=0;
-		
 		if(rootScore!=null) {
 			Score max = rootScore.searchMaxScore();
 			maxScore=max.getScore();
 		}
-		
 		return maxScore;
 	}
 
@@ -99,7 +95,6 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 
 	public boolean playerExists(String name2) {
-		
 		boolean a1 = false;
 		boolean a2 = false;
 		if (name.equalsIgnoreCase(name2)) {
@@ -112,13 +107,10 @@ public class Player implements Serializable, Comparable<Player> {
 			a2 = right.playerExists(name2);
 		}
 		return a1 || a2;
-		
 	}
 	
 	public boolean sheet() {
-		
 		return (left==null)&&(right==null);
-		
 	}
 	
 	public Player getLess() {
@@ -126,13 +118,10 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 	
 	public Player deletePlayer(Player p) {
-		
 		if(sheet()) {
 			return null;
 		}
-		
 		if(getMaxScore()==p.getMaxScore()) {
-			
 			
 			if(left==null) {
 				return right;
@@ -150,7 +139,8 @@ public class Player implements Serializable, Comparable<Player> {
 		}
 		else if(getMaxScore()>p.getMaxScore()) {
 			left=left.deletePlayer(p);
-		}else {
+		}
+		else {
 			right=right.deletePlayer(p);
 		}
 		return this;
