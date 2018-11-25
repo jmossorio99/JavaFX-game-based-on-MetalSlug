@@ -100,7 +100,18 @@ public class ScoresWindowController implements Initializable {
 
 	@FXML
 	public void deletePlayer(ActionEvent event) {
-
+ 
+		Player player = game.searchPlayer(playerNameTextField.getText());
+		
+		if(player!=null) {
+			game.deletePlayerFromTree(player);
+			game.deletePlayerFromArrayList(player);
+		}else {
+		
+			//llamar una exception aki :v
+			
+		}
+		
 	}
 	
 	@FXML

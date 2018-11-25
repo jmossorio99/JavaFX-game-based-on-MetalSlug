@@ -115,4 +115,45 @@ public class Player implements Serializable, Comparable<Player> {
 		
 	}
 	
+	public boolean sheet() {
+		
+		return (left==null)&&(right==null);
+		
+	}
+	
+	public Player getLess() {
+		return (left==null) ? this : left.getLess();
+	}
+	
+	public Player deletePlayer(Player p) {
+		
+		if(sheet()) {
+			return null;
+		}
+		
+		if(getMaxScore()==p.getMaxScore()) {
+			
+			
+			if(left==null) {
+				return right;
+			}
+			if(right==null) {
+				return left;
+			}
+			
+			Player inheritor=right.getLess();
+			right=right.deletePlayer(inheritor);
+			
+			inheritor.left=left;
+			inheritor.right=right;
+			return inheritor;
+		}
+		else if(getMaxScore()>p.getMaxScore()) {
+			left=left.deletePlayer(p);
+		}else {
+			right=right.deletePlayer(p);
+		}
+		return this;
+	}
+	
 }

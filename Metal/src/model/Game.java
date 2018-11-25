@@ -28,8 +28,12 @@ public class Game implements Serializable {
 
 	public void deletePlayerFromTree(Player p) {
 
+		if(rootPlayer!=null) {
+			 rootPlayer= rootPlayer.deletePlayer(p);
+		}
+		
 	}
-
+	
 	public void addPlayerToArrayList(Player p) {
 		players.add(p);
 	}
