@@ -6,11 +6,12 @@ public class Player implements Serializable, Comparable<Player> {
 
 	private static final long serialVersionUID = -8063827302843788016L;
 	
+	
 	private String name;
 	private Player left = null;
 	private Player right = null;
-	
 	private Score rootScore;
+	private long timePlayed = 0;
 
 	public Player(String name) {
 		this.name = name;
@@ -163,6 +164,14 @@ public class Player implements Serializable, Comparable<Player> {
 			else
 				return null;
 		}
+	}
+
+	public long getTimePlayed() {
+		return timePlayed;
+	}
+
+	public void setTimePlayed(long timePlayed) {
+		this.timePlayed = timePlayed;
 	}
 	
 }

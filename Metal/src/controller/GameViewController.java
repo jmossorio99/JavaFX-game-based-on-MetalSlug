@@ -94,6 +94,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	
 	private void setEverything() {
 		
+		long startTime = System.currentTimeMillis() / 1000;
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -194,6 +195,10 @@ public class GameViewController implements GameView, PlayableSounds {
 
 					if (!alreadySerialized) {
 						try {
+							long endTime = System.currentTimeMillis() / 1000;
+							long playedTime = endTime - startTime;
+							player.setTimePlayed(player.getTimePlayed() + playedTime);
+							System.out.println(player.getTimePlayed());
 							player.addScore(playerScore);
 							if (!game.playerExists(player.getName())) {
 								game.addPlayerToTree(player);

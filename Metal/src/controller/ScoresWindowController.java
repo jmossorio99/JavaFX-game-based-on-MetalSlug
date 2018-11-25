@@ -76,66 +76,59 @@ public class ScoresWindowController implements Initializable {
 	@FXML
 	public void searchPlayer(ActionEvent event) {
 		try {
-			if( !game.isListSorted() )
+			if (!game.isListSorted())
 				throw new ArrayListIsNotSortedException();
-			if( playerNameTextField.getText().isEmpty() )
-				throw new PlayerNameException( "Debe ingresar el nombre de un jugador para buscarlo." );
-			Player found = game.searchPlayer( playerNameTextField.getText() );
-			if( found == null )
-				throw new PlayerDoesNotExistException( playerNameTextField.getText() );
+			if (playerNameTextField.getText().isEmpty())
+				throw new PlayerNameException("Debe ingresar el nombre de un jugador para buscarlo.");
+			Player found = game.searchPlayer(playerNameTextField.getText());
+			if (found == null)
+				throw new PlayerDoesNotExistException(playerNameTextField.getText());
 			ArrayList<Player> a = new ArrayList<Player>();
 			a.add(found);
 			updateListView(a);
-		}
-		catch( PlayerNameException e ) {
-			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
-		}
-		catch( PlayerDoesNotExistException e ) {
-			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
-		}
-		catch( ArrayListIsNotSortedException e ) {
-			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+		} catch (PlayerNameException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (PlayerDoesNotExistException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (ArrayListIsNotSortedException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	@FXML
 	public void deletePlayer(ActionEvent event) {
 		try {
-			if( !game.isListSorted() )
+			if (!game.isListSorted())
 				throw new ArrayListIsNotSortedException();
-			if( playerNameTextField.getText().isEmpty() )
+			if (playerNameTextField.getText().isEmpty())
 				throw new PlayerNameException("Debe ingresar el nombre de un jugador para eliminarlo.");
 			Player player = game.searchPlayer(playerNameTextField.getText());
-			if(player == null)
+			if (player == null)
 				throw new PlayerDoesNotExistException(playerNameTextField.getText());
 			game.deletePlayerFromTree(player);
 			game.deletePlayerFromArrayList(player);
 			playerNameTextField.setText("");
 			updateListView(game.getPlayersList());
-		}
-		catch( PlayerNameException e ) {
-			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
-		}
-		catch( PlayerDoesNotExistException e ) {
-			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
-		}
-		catch( ArrayListIsNotSortedException e ) {
-			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+		} catch (PlayerNameException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (PlayerDoesNotExistException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (ArrayListIsNotSortedException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	@FXML
-	void backToMenu (ActionEvent event) {
+	void backToMenu(ActionEvent event) {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation( getClass().getResource( "/view/MainWindow.fxml" ) );
+		loader.setLocation(getClass().getResource("/view/MainWindow.fxml"));
 		Parent root = null;
 		try {
 			root = loader.load();
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Scene scene = new Scene( root );
+		Scene scene = new Scene(root);
 		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
 		window.setResizable(false);
 		window.setScene(scene);
