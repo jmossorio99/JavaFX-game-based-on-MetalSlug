@@ -94,11 +94,11 @@ public class MainWindowController implements Initializable {
 	@FXML
 	void loadGameClicked(ActionEvent event) {
 
-		File file = new File("gameData");
-		File file2 = new File("enemieBullets");
-		File file3 = new File("robots");
-		File file4 = new File("heroBulletsRight");
-		File file5 = new File("heroBulletsLeft");
+		File file = new File("gameData.txt");
+		File file2 = new File("enemieBullets.txt");
+		File file3 = new File("robots.txt");
+		File file4 = new File("heroBulletsRight.txt");
+		File file5 = new File("heroBulletsLeft.txt");
 		if (file.exists() && file2.exists() && file3.exists() && file4.exists() && file5.exists()) {
 			try {
 				FileReader fr = new FileReader(file);

@@ -218,6 +218,7 @@ public class GameViewController implements GameView, PlayableSounds {
 				if (scoreCounter % scoreModifier == 0 && !hero.isDead()) {
 					playerScore += 10;
 					updateScoreLabel(playerScore);
+					setUpSoundEffects();
 				}
 
 				if (robotCounter % robotModifier == 0 && !hero.isDead()) {
@@ -577,11 +578,11 @@ public class GameViewController implements GameView, PlayableSounds {
 	@FXML
 	void saveGame(ActionEvent event) {
 
-		File file = new File("gameData");
-		File file2 = new File("enemieBullets");
-		File file3 = new File("robots");
-		File file4 = new File("heroBulletsRight");
-		File file5 = new File("heroBulletsLeft");
+		File file = new File("gameData.txt");
+		File file2 = new File("enemieBullets.txt");
+		File file3 = new File("robots.txt");
+		File file4 = new File("heroBulletsRight.txt");
+		File file5 = new File("heroBulletsLeft.txt");
 		try {
 			PrintWriter pr1 = new PrintWriter(file);
 			PrintWriter pr2 = new PrintWriter(file2);
