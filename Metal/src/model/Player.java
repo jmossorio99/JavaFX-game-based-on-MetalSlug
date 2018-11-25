@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Player implements Serializable, Comparable<Player> {
 
+	private static final long serialVersionUID = -8063827302843788016L;
+	
 	private String name;
 	private Player left = null;
 	private Player right = null;
@@ -60,9 +62,9 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 
 	public void addScore(int score) {
-		Score s=new Score (score);
-		if(rootScore==null) {
-			rootScore=s;
+		Score s = new Score (score);
+		if(rootScore == null) {
+			rootScore = s;
 		}
 		else {
 			rootScore.insertScore(s);
@@ -70,10 +72,10 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 	
 	public int getMaxScore() {
-		int maxScore=0;
-		if(rootScore!=null) {
+		int maxScore = 0;
+		if(rootScore != null) {
 			Score max = rootScore.searchMaxScore();
-			maxScore=max.getScore();
+			maxScore = max.getScore();
 		}
 		return maxScore;
 	}
@@ -110,40 +112,57 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 	
 	public boolean sheet() {
-		return (left==null)&&(right==null);
+		return (left==null) && (right==null);
 	}
 	
 	public Player getLess() {
-		return (left==null) ? this : left.getLess();
+		return (left == null) ? this : left.getLess();
 	}
 	
 	public Player deletePlayer(Player p) {
 		if(sheet()) {
 			return null;
 		}
-		if(getMaxScore()==p.getMaxScore()) {
+		if(getMaxScore() == p.getMaxScore()) {
 			
-			if(left==null) {
+			if(left == null) {
 				return right;
 			}
-			if(right==null) {
+			if(right == null) {
 				return left;
 			}
 			
 			Player inheritor=right.getLess();
-			right=right.deletePlayer(inheritor);
+			right = right.deletePlayer(inheritor);
 			
-			inheritor.left=left;
-			inheritor.right=right;
+			inheritor.left = left;
+			inheritor.right = right;
 			return inheritor;
 		}
-		else if(getMaxScore()>p.getMaxScore()) {
+		else if(getMaxScore() > p.getMaxScore()) {
 			left=left.deletePlayer(p);
 		}
 		else {
 			right=right.deletePlayer(p);
 		}
 		return this;
+	}
+	
+	public Player search(int score) {
+		if(getMaxScore() == score) 
+			return this;
+		else if(getMaxScore() > score) {
+			if(left != null) 
+				return left.search(score);
+			else
+				return null;
+		}
+		else {
+			if(right != null) 
+				return right.search(score);
+			else
+				return null;
+		}
 	}
 	
 }

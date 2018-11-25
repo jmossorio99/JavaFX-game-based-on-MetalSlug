@@ -106,15 +106,12 @@ public class ScoresWindowController implements Initializable {
 			if( playerNameTextField.getText().isEmpty() )
 				throw new PlayerNameException("Debe ingresar el nombre de un jugador para eliminarlo.");
 			Player player = game.searchPlayer(playerNameTextField.getText());
-			if(player!=null) {
-				game.deletePlayerFromTree(player);
-				game.deletePlayerFromArrayList(player);
-				playerNameTextField.setText("");
-				updateListView(game.getPlayersList());
-			}
-			else {
+			if(player == null)
 				throw new PlayerDoesNotExistException(playerNameTextField.getText());
-			}
+			game.deletePlayerFromTree(player);
+			game.deletePlayerFromArrayList(player);
+			playerNameTextField.setText("");
+			updateListView(game.getPlayersList());
 		}
 		catch( PlayerNameException e ) {
 			JOptionPane.showMessageDialog( null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );

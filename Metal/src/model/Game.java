@@ -18,20 +18,17 @@ public class Game implements Serializable {
 
 	public void addPlayerToTree(Player player) {
 		if (rootPlayer == null) {
-
 			rootPlayer = player;
-		} else {
-
+		}
+		else {
 			rootPlayer.insertPlayer(player);
 		}
 	}
 
 	public void deletePlayerFromTree(Player p) {
-
-		if(rootPlayer!=null) {
-			 rootPlayer= rootPlayer.deletePlayer(p);
+		if(rootPlayer != null) {
+			 rootPlayer = rootPlayer.deletePlayer(p);
 		}
-		
 	}
 	
 	public void addPlayerToArrayList(Player p) {
@@ -40,7 +37,7 @@ public class Game implements Serializable {
 	
 	/**
 	 * Ordenamiento por inserción.
-	 * @param n
+	 * @param n Modo de ordenamiento, 1 para ascendente y -1 para descendente.
 	 */
 	public void sortPlayerNames(int n) {
 		listSorted = n;
@@ -55,7 +52,7 @@ public class Game implements Serializable {
 	
 	/**
 	 * Ordenamiento por selección.
-	 * @param sort
+	 * @param sort Modo de ordenamiento, true para ascendente y false para descendente.
 	 */
 	public void sortPlayerScores(boolean sort) {
 		listSorted = 0;
@@ -72,6 +69,11 @@ public class Game implements Serializable {
 		}
 	}
 	
+	/**
+	 * Búsqueda binaria por nombre.
+	 * @param name Nombre del jugador a buscar.
+	 * @return Objeto Player si se encontró el jugador. Null si el jugador a buscar no existía.
+	 */
 	public Player searchPlayer( String name ) {
 		int min = 0;
 		int max = players.size() - 1;
