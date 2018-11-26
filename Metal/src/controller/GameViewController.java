@@ -25,16 +25,20 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.Bullet;
+import model.Donkey;
 import model.Game;
 import model.GameView;
 import model.Hero;
 import model.PlayableSounds;
 import model.Player;
+import threads.DonkeyThread;
 import threads.HeroThread;
 import threads.RobotThread;
 
 public class GameViewController implements GameView, PlayableSounds {
 
+	@FXML
+	private ImageView donkeyImageView;
 	@FXML
 	private ImageView heroImageView;
 	@FXML
@@ -46,9 +50,10 @@ public class GameViewController implements GameView, PlayableSounds {
 	private Game game;
 	private Hero hero;
 	private Player player;
-	private Bullet firstBullet = null;
+	private Donkey donkey;
 	private HeroThread heroThread;
 	private RobotThread rThread;
+	private DonkeyThread donkeyThread;
 	private Scene scene;
 	private int bulletSpeed = 5;
 	private int robotModifier = 120;
@@ -60,6 +65,8 @@ public class GameViewController implements GameView, PlayableSounds {
 	private int scoreModifier = 150;
 	private int scoreCounter = scoreModifier - 1;
 	private boolean alreadySerialized = false;
+	private boolean donkeySpawn = false;
+	private boolean moveDonkey;
 	private ArrayList<Node> robots = new ArrayList<Node>();
 	private ArrayList<Image> robotMoving = new ArrayList<Image>();
 	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
@@ -83,6 +90,8 @@ public class GameViewController implements GameView, PlayableSounds {
 
 		setUpSoundEffects();
 		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY(), heroImageView.getFitHeight());
+		donkey = new Donkey(donkeyImageView.getLayoutX(), 525);
+		donkeyImageView.setLayoutY(525);
 		this.game = game;
 		this.player = player;
 		System.out.println(player.getName());
@@ -225,7 +234,7 @@ public class GameViewController implements GameView, PlayableSounds {
 					updateScoreLabel(playerScore);
 					setUpSoundEffects();
 				}
-
+				// contadores para los robots
 				if (robotCounter % robotModifier == 0 && !hero.isDead()) {
 					spawnRobot();
 				}
@@ -240,7 +249,9 @@ public class GameViewController implements GameView, PlayableSounds {
 				if (robotNum == 80) {
 					robotModifier = 50;
 					robotCounter = robotModifier - 1;
+					donkeySpawn = true;
 				}
+				// contadores para las balas enemigas
 				if (enemieBulletCounter % enemieBulletModifier == 0 && !hero.isDead()) {
 					spawnEnemieBullet();
 				}
@@ -250,11 +261,20 @@ public class GameViewController implements GameView, PlayableSounds {
 				}
 				if (enemieBulletNum == 100) {
 					bulletSpeed = 8;
+					hero.setSpeed(18);
+				}
+				if (donkeySpawn) {
+					donkeySpawn = false;
+					moveDonkey = true;
+				}
+				if (moveDonkey) {
+					donkeyImageView.setLayoutX(donkey.getPosX());
+					donkeyImageView.setImage(new Image(donkey.getImage()));
 				}
 				moveRobot();
 				moveEnemieBullets();
 				checkBulletHit();
-				checkHeroHit();
+				//checkHeroHit();
 
 			}
 		};
@@ -497,6 +517,8 @@ public class GameViewController implements GameView, PlayableSounds {
 		heroThread.start();
 		rThread = new RobotThread(robotMoving, robots, this);
 		rThread.start();
+		donkeyThread = new DonkeyThread(donkey, this);
+		donkeyThread.start();
 
 	}
 
@@ -611,6 +633,9 @@ public class GameViewController implements GameView, PlayableSounds {
 			pr1.println(robotNum);
 			pr1.println(enemieBulletNum);
 			pr1.println(bulletSpeed);
+			pr1.println(donkeySpawn);
+			pr1.println(moveDonkey);
+			pr1.println(donkey.getPosX());
 			for (int i = 0; i < enemieBullets.size(); i++) {
 				pr2.println(enemieBullets.get(i).getLayoutX());
 				pr2.println(enemieBullets.get(i).getLayoutY());
@@ -655,15 +680,22 @@ public class GameViewController implements GameView, PlayableSounds {
 		int robotNum = Integer.parseInt(gameData.get(14));
 		int enemieBulletNum = Integer.parseInt(gameData.get(15));
 		int bulletSpeed = Integer.parseInt(gameData.get(16));
+		boolean donkeySpawn = Boolean.parseBoolean(gameData.get(17));
+		boolean donkeyMove = Boolean.parseBoolean(gameData.get(18));
+		double posXDonkey = Double.parseDouble(gameData.get(19));
 
 		this.game = game;
 		this.hero = new Hero(posX, heroImageView.getLayoutY(), heroImageView.getFitHeight());
+		this.donkey = new Donkey(posXDonkey, donkeyImageView.getLayoutY());
+		donkeyImageView.setLayoutX(posXDonkey);
 		if (game.playerExists(playerName)) {
 			game.sortPlayerNames(1);
 			this.player = game.searchPlayer(playerName);
 		} else {
 			this.player = new Player(playerName);
 		}
+		this.donkeySpawn = donkeySpawn;
+		this.moveDonkey = donkeyMove;
 		this.playerScore = playerScore;
 		hero.setStates(moving, crouching, aimingUp, shooting, dead, takingDamage, direction, health);
 		this.enemieBulletModifier = enemieBulletModifier;
@@ -711,6 +743,22 @@ public class GameViewController implements GameView, PlayableSounds {
 		this.scene = scene;
 		setEverything();
 
+	}
+
+	public boolean getMoveDonkey() {
+		return moveDonkey;
+	}
+
+	public void setMoveDonkey(boolean b) {
+		this.moveDonkey = b;
+	}
+
+	public void addHealth(int health) {
+		hero.setHealth(hero.getHealth() + health);
+	}
+	
+	public void setPosXDonkeyImageView(double posX) {
+		donkeyImageView.setLayoutX(posX);
 	}
 
 }
