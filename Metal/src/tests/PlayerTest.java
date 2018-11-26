@@ -18,7 +18,6 @@ class PlayerTest extends TestCase {
 		assertTrue( player1.getName().equals("Player1") );
 	}
 	
-	
 	/**
 	 * Se crean los demás nodos del arbol.
 	 */
@@ -99,10 +98,10 @@ class PlayerTest extends TestCase {
 	public void playerExistsTest() {
 		setupScene2();
 		
-		// Jugador que ya está en el arbol.
+		// Jugador que está en el arbol.
 		assertTrue( "Debió devolver true.", player1.playerExists( "lol" ) );
 		
-		// Jugador que ya está en el arbol.
+		// Jugador que no está en el arbol.
 		assertFalse( "Debió devolver false.", player1.playerExists( "noPlayer" ) );
 	}
 	
