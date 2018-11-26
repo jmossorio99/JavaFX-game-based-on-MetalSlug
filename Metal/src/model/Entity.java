@@ -5,12 +5,12 @@ public class Entity implements Damage, GameView {
 	protected double posX;
 	protected double posY;
 	protected int health;
-	
+
 	public Entity(double posX, double posY) {
-		
+
 		this.posX = posX;
 		this.posY = posY;
-		
+
 	}
 
 	public double getPosX() {
@@ -39,7 +39,10 @@ public class Entity implements Damage, GameView {
 
 	@Override
 	public void takeDamage(int dmg) {
-		setHealth(getHealth() - dmg);
+		if ((getHealth() - dmg) >= 0) {
+			setHealth(getHealth() - dmg);
+		}
+
 	}
 
 }

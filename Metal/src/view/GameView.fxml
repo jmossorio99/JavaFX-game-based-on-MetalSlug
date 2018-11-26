@@ -178,5 +178,27 @@
          </children>
       </HBox>
       <ImageView fx:id="donkeyImageView" fitHeight="150.0" fitWidth="200.0" layoutX="-230.0" layoutY="525.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="tankImageView" fitHeight="150.0" fitWidth="226.0" layoutX="966.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ufoImageView" fitHeight="115.0" fitWidth="152.0" layoutX="524.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="terrain25" fitHeight="50.0" fitWidth="100.0" layoutX="968.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" >
+      <image>
+      		<Image url="file:data/terrain/give-shadow.png" />
+      	</image>
+      </ImageView>
+      <ImageView fx:id="terrain26" fitHeight="50.0" fitWidth="100.0" layoutX="1018" layoutY="257.0" pickOnBounds="true" preserveRatio="true" >
+      <image>
+      		<Image url="file:data/terrain/give-shadow.png" />
+      	</image>
+      </ImageView>
+      <ImageView fx:id="terrain27" fitHeight="50.0" fitWidth="100.0" layoutX="1068.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" >
+      <image>
+      		<Image url="file:data/terrain/give-shadow.png" />
+      	</image>
+      </ImageView>
+      <ImageView fx:id="terrain28" fitHeight="50.0" fitWidth="100.0" layoutX="1118.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" >
+      <image>
+      		<Image url="file:data/terrain/give-shadow.png" />
+      	</image>
+      </ImageView>
    </children>
 </AnchorPane>

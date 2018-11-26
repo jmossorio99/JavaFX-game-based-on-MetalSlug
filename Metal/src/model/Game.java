@@ -106,15 +106,14 @@ public class Game implements Serializable {
 		int max = players.size() - 1;
 		while (min <= max) {
 			int middle = (min + max) / 2;
-			if (players.get(middle).getName().compareTo(name) == 0)
+			if (players.get(middle).getName().compareToIgnoreCase(name) == 0)
 				return players.get(middle);
-			else if (players.get(middle).getName().compareTo(name) > 0) {
+			else if (players.get(middle).getName().compareToIgnoreCase(name) > 0) {
 				if (listSortedNames == 1)
 					max = middle - 1;
 				else if (listSortedNames == -1)
 					min = middle + 1;
-			} 
-			else {
+			} else {
 				if (listSortedNames == 1)
 					min = middle + 1;
 				else if (listSortedNames == -1)
@@ -123,12 +122,13 @@ public class Game implements Serializable {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Búsqueda binaria por puntaje.
 	 * 
 	 * @param score Puntaje para buscar al/los jugadores a buscar.
-	 * @return ArrayList de objetos Player si se encontrarón jugadores con ese puntaje. ArrayList vacío si ningún jugador posee ese puntaje.
+	 * @return ArrayList de objetos Player si se encontrarón jugadores con ese
+	 *         puntaje. ArrayList vacío si ningún jugador posee ese puntaje.
 	 */
 	public ArrayList<Player> searchPlayerScore(int score) {
 		ArrayList<Player> list = new ArrayList<Player>();
@@ -138,21 +138,19 @@ public class Game implements Serializable {
 			int middle = (min + max) / 2;
 			if (players.get(middle).getMaxScore() == score) {
 				list.add(players.get(middle));
-				for(int i = middle - 1; i >= 0 && players.get(i).getMaxScore() == score; i--) {
+				for (int i = middle - 1; i >= 0 && players.get(i).getMaxScore() == score; i--) {
 					list.add(players.get(i));
 				}
-				for(int i = middle + 1; i < players.size() && players.get(i).getMaxScore() == score; i++) {
+				for (int i = middle + 1; i < players.size() && players.get(i).getMaxScore() == score; i++) {
 					list.add(players.get(i));
 				}
 				return list;
-			}
-			else if (players.get(middle).getMaxScore() > score) {
+			} else if (players.get(middle).getMaxScore() > score) {
 				if (listSortedScores)
 					max = middle - 1;
 				else if (!listSortedScores)
 					min = middle + 1;
-			} 
-			else {
+			} else {
 				if (listSortedScores)
 					min = middle + 1;
 				else if (!listSortedScores)
@@ -185,7 +183,7 @@ public class Game implements Serializable {
 	public void setSortedListByNames(int s) {
 		listSortedNames = s;
 	}
-	
+
 	public void setSortedListByScores(int s) {
 		listSortedNames = s;
 	}
@@ -193,7 +191,7 @@ public class Game implements Serializable {
 	public boolean isListSortedByNames() {
 		return listSortedNames == 1 || listSortedNames == -1;
 	}
-	
+
 	public boolean isListSortedByScores() {
 		return listSortedScores;
 	}

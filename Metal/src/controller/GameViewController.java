@@ -30,13 +30,21 @@ import model.GameView;
 import model.Hero;
 import model.PlayableSounds;
 import model.Player;
+import model.Tank;
 import model.TimeList;
+import model.Ufo;
 import threads.DonkeyThread;
 import threads.HeroThread;
 import threads.RobotThread;
+import threads.TankThread;
+import threads.UfoThread;
 
 public class GameViewController implements GameView, PlayableSounds {
 
+	@FXML
+	private ImageView tankImageView;
+	@FXML
+	private ImageView ufoImageView;
 	@FXML
 	private ImageView donkeyImageView;
 	@FXML
@@ -51,9 +59,13 @@ public class GameViewController implements GameView, PlayableSounds {
 	private Hero hero;
 	private Player player;
 	private Donkey donkey;
+	private Tank tank;
+	private Ufo ufo;
 	private HeroThread heroThread;
 	private RobotThread rThread;
 	private DonkeyThread donkeyThread;
+	private TankThread tankThread;
+	private UfoThread ufoThread;
 	private Scene scene;
 	private int bulletSpeed = 5;
 	private int robotModifier = 120;
@@ -72,6 +84,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	private ArrayList<Node> heroBulletsRight = new ArrayList<Node>();
 	private ArrayList<Node> heroBulletsLeft = new ArrayList<Node>();
 	private ArrayList<Node> enemieBullets = new ArrayList<Node>();
+	private ArrayList<Node> ufoBullets = new ArrayList<Node>();
 	private String pathHeroGetsHit;
 	private String pathHeroShoots;
 	private String pathPlayerLoses;
@@ -91,6 +104,8 @@ public class GameViewController implements GameView, PlayableSounds {
 		setUpSoundEffects();
 		hero = new Hero(heroImageView.getLayoutX(), heroImageView.getLayoutY(), heroImageView.getFitHeight());
 		donkey = new Donkey(donkeyImageView.getLayoutX(), 525);
+		tank = new Tank(tankImageView.getLayoutX(), tankImageView.getLayoutY());
+		ufo = new Ufo(ufoImageView.getLayoutX(), ufoImageView.getLayoutY());
 		donkeyImageView.setLayoutY(525);
 		this.game = game;
 		this.player = player;
@@ -103,6 +118,7 @@ public class GameViewController implements GameView, PlayableSounds {
 
 	private void setEverything() {
 
+		ufoImageView.setImage(new Image(ufo.getImageName()));
 		long startTime = System.currentTimeMillis() / 1000;
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -254,6 +270,7 @@ public class GameViewController implements GameView, PlayableSounds {
 				// contadores para las balas enemigas
 				if (enemieBulletCounter % enemieBulletModifier == 0 && !hero.isDead()) {
 					spawnEnemieBullet();
+					shootUfo();
 				}
 				if (enemieBulletNum == 50) {
 					enemieBulletModifier = 60;
@@ -271,8 +288,13 @@ public class GameViewController implements GameView, PlayableSounds {
 					donkeyImageView.setLayoutX(donkey.getPosX());
 					donkeyImageView.setImage(new Image(donkey.getImage()));
 				}
+				moveUfo();
+				if (!hero.isDead()) {
+					animTank();
+				}
 				moveRobot();
 				moveEnemieBullets();
+				moveUfoBullets();
 				checkBulletHit();
 				checkHeroHit();
 
@@ -299,6 +321,22 @@ public class GameViewController implements GameView, PlayableSounds {
 		mediaPlayer3.setVolume(0.8);
 		mediaPlayer4 = new MediaPlayer(mFileRobotDies);
 		mediaPlayer4.setVolume(0.25);
+	}
+
+	public void moveUfo() {
+		ufoImageView.setLayoutX(ufo.getPosX());
+	}
+
+	public void animTank() {
+		tankImageView.setImage(new Image(tank.getTankImage()));
+	}
+
+	public void shootUfo() {
+		Node bullet = new ImageView(PURPLE_BULLET_ROUTE);
+		bullet.relocate(ufoImageView.getLayoutX(),
+				ufoImageView.getLayoutY() + ufoImageView.getBoundsInLocal().getHeight() / 2);
+		ufoBullets.add(bullet);
+		anchorPane.getChildren().add(bullet);
 	}
 
 	public void spawnEnemieBullet() {
@@ -382,6 +420,18 @@ public class GameViewController implements GameView, PlayableSounds {
 		}
 	}
 
+	public void moveUfoBullets() {
+		for (int i = 0; i < ufoBullets.size() && !hero.isDead(); i++) {
+			if (ufoBullets.get(i).getLayoutY() < 700) {
+				ufoBullets.get(i).relocate(ufoBullets.get(i).getLayoutX(),
+						ufoBullets.get(i).getLayoutY() + bulletSpeed);
+			} else {
+				anchorPane.getChildren().remove(ufoBullets.get(i));
+				ufoBullets.remove(i);
+			}
+		}
+	}
+
 	public void checkBulletHit() {
 
 		try {
@@ -436,6 +486,14 @@ public class GameViewController implements GameView, PlayableSounds {
 			if (heroImageView.getBoundsInParent().intersects(enemieBullets.get(i).getBoundsInParent())
 					&& !hero.isTakingDamage()) {
 				hero.takeDamage(ENEMIE_BULLET_DAMAGE);
+				hero.setTakingDamage(true);
+				playHeroGetsHit();
+			}
+		}
+		for (int i = 0; i < ufoBullets.size(); i++) {
+			if (heroImageView.getBoundsInParent().intersects(ufoBullets.get(i).getBoundsInParent())
+					&& !hero.isTakingDamage()) {
+				hero.takeDamage(UFO_DAMAGE);
 				hero.setTakingDamage(true);
 				playHeroGetsHit();
 			}
@@ -519,6 +577,10 @@ public class GameViewController implements GameView, PlayableSounds {
 		rThread.start();
 		donkeyThread = new DonkeyThread(donkey, this);
 		donkeyThread.start();
+		tankThread = new TankThread(tank);
+		tankThread.start();
+		ufoThread = new UfoThread(ufo);
+		ufoThread.start();
 
 	}
 
@@ -756,7 +818,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	public void addHealth(int health) {
 		hero.setHealth(hero.getHealth() + health);
 	}
-	
+
 	public void setPosXDonkeyImageView(double posX) {
 		donkeyImageView.setLayoutX(posX);
 	}

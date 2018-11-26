@@ -1,65 +1,43 @@
 package model;
 
-public class Ufo extends Entity{
+public class Ufo extends Entity {
 
-	public int movementSpeed=10;
+	public int movementSpeed = 15;
 	private String imageName = "file:data/sprites/ufo/ufo.png";
-	private int xLayout;
-	private int yLayout;
-	private boolean right=true;
-	
-	
-	public Ufo(int x, int y) {
-		super(x,y);
-		xLayout=x;
-		yLayout=y;
-		
+	private boolean right = true;
+
+	public Ufo(double d, double e) {
+		super(d, e);
+
 	}
 
 	public String getImageName() {
 		return imageName;
 	}
-	
-	public int getxLayout() {
-		return xLayout;
-	}
 
-	public void setxLayout(int xLayout) {
-		this.xLayout = xLayout;
-	}
-
-	public int getyLayout() {
-		return yLayout;
-	}
-
-	public void setyLayout(int yLayout) {
-		this.yLayout = yLayout;
-	}
-	
 	public void moveToRight() {
-		xLayout+=movementSpeed;
+		posX += movementSpeed;
 	}
-	
+
 	public void moveToLeft() {
-		yLayout-=movementSpeed;
+		posX -= movementSpeed;
 	}
-	
+
 	public void moveUfo() {
-		if(xLayout>=1200) {
-			
-			right=false;
-			
-		} 
-		if(xLayout<=10) {
-			
+		if (posX >= 1200) {
+
+			right = false;
+
+		}
+		if (posX <= 10) {
+
 			right = true;
-			
+
 		}
-		
-		if(right) {
+
+		if (right) {
 			moveToRight();
-		}
-		else {
+		} else {
 			moveToLeft();
 		}
 	}
