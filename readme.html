@@ -1,0 +1,12 @@
+Nuestro proyecto consistió en la realización de un juego en 2D el cual tiene como objetivo
+sobrevivir el mayor tiempo posible. Conforme pasa el tiempo, la dificultad aumenta. 
+Se utilizaron árboles binarios de busqueda para los jugadores del juego, los cuales se ordenan
+de acuerdo a su puntaje. A su vez, cada jugador tiene un ABB con todos sus puntajes para así
+determinar cuál fue el mayor. Los jugadores también tienen dos listas enlazadas dobles, una con el número
+de enemigos asesinados en cada partida y otra con el tiempo que duran en cada partida.
+Se utilizaron hilos para mover al personaje principal, los enemigos, y otros personajes secundarios.
+En estos hilos se llama a los métodos que realizan las anmiaciones de los personajes.
+Se implementaron 3 interfaces diferentes para almacenar constantes y métodos necesarios en algunas clases.
+También se utilizaron 4 herencias en 4 personajes diferentes los cuales heredan de la clase Entity (entidad).
+Para la persistencia del juego, los datos de la clase Game y Player se serializan en archivos binarios, mientras
+que toda la información de la interfaz y el estado actual del juego se guarda en archivos de texto.
