@@ -91,9 +91,9 @@ public class GameViewController implements GameView, PlayableSounds {
 		setEverything();
 
 	}
-	
+
 	private void setEverything() {
-		
+
 		long startTime = System.currentTimeMillis() / 1000;
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -259,7 +259,7 @@ public class GameViewController implements GameView, PlayableSounds {
 			}
 		};
 		timer.start();
-		
+
 	}
 
 	private void setUpSoundEffects() {
@@ -415,7 +415,7 @@ public class GameViewController implements GameView, PlayableSounds {
 		for (int i = 0; i < enemieBullets.size(); i++) {
 			if (heroImageView.getBoundsInParent().intersects(enemieBullets.get(i).getBoundsInParent())
 					&& !hero.isTakingDamage()) {
-				hero.takeDamage(ROBOT_DAMAGE);
+				hero.takeDamage(ENEMIE_BULLET_DAMAGE);
 				hero.setTakingDamage(true);
 				playHeroGetsHit();
 			}
@@ -710,7 +710,7 @@ public class GameViewController implements GameView, PlayableSounds {
 		addSpriteImages();
 		this.scene = scene;
 		setEverything();
-		
+
 	}
 
 }
