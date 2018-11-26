@@ -49,7 +49,7 @@ public class MainWindowController implements Initializable {
 				throw new PlayerNameException("Ingrese un nombre de tres caracteres o más.");
 			if (playerExists(nickNameTextField.getText())) {
 				game.sortPlayerNames(1);
-				p = game.searchPlayer(nickNameTextField.getText());
+				p = game.searchPlayerName(nickNameTextField.getText());
 			} else {
 				p = new Player(nickNameTextField.getText());
 			}

@@ -177,5 +177,6 @@
             </Label>
          </children>
       </HBox>
+      <ImageView fx:id="donkeyImageView" fitHeight="150.0" fitWidth="200.0" layoutX="-230.0" layoutY="525.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
