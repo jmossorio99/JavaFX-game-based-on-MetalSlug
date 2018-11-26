@@ -30,6 +30,7 @@ import model.GameView;
 import model.Hero;
 import model.PlayableSounds;
 import model.Player;
+import model.TimeList;
 import threads.DonkeyThread;
 import threads.HeroThread;
 import threads.RobotThread;
@@ -206,7 +207,7 @@ public class GameViewController implements GameView, PlayableSounds {
 							long endTime = System.currentTimeMillis() / 1000;
 							long playedTime = endTime - startTime;
 							player.setTimePlayed(player.getTimePlayed() + playedTime);
-							System.out.println(player.getTimePlayed());
+							player.addTimeList(new TimeList(playedTime));
 							player.addScore(playerScore);
 							if (!game.playerExists(player.getName())) {
 								game.addPlayerToTree(player);
@@ -273,7 +274,7 @@ public class GameViewController implements GameView, PlayableSounds {
 				moveRobot();
 				moveEnemieBullets();
 				checkBulletHit();
-				//checkHeroHit();
+				checkHeroHit();
 
 			}
 		};
