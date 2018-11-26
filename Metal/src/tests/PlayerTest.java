@@ -122,4 +122,5 @@ class PlayerTest extends TestCase {
 		setupScene2();
 		assertTrue( "El jugador debió ser el de nombre 'lol'.", player1.getLess().getName().equals("lol") );
 	}
+
 }

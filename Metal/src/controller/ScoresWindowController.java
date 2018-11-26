@@ -27,7 +27,7 @@ import model.Game;
 import model.Player;
 
 public class ScoresWindowController implements Initializable {
-	
+
 	private final String sortingNames = "Names";
 	private final String sortingScores = "Scores";
 
@@ -36,13 +36,13 @@ public class ScoresWindowController implements Initializable {
 	@FXML
 	private ListView<Player> listView;
 	@FXML
-	private ChoiceBox<String> sortChoiceBox; 
+	private ChoiceBox<String> sortChoiceBox;
 
 	private Game game;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 	}
 
 	public void setScoresWindow(Game game) {
@@ -81,13 +81,13 @@ public class ScoresWindowController implements Initializable {
 		game.sortPlayerScores(false);
 		updateListView(game.getPlayersList());
 	}
-	
+
 	@FXML
 	public void upwardTime(ActionEvent event) {
 		game.sortPlayerTimes(true);
 		updateListView(game.getPlayersList());
 	}
-	
+
 	@FXML
 	public void downwardTime(ActionEvent event) {
 		game.sortPlayerTimes(false);
@@ -97,49 +97,48 @@ public class ScoresWindowController implements Initializable {
 	@FXML
 	public void searchPlayer(ActionEvent event) {
 		try {
-			if(sortChoiceBox.getSelectionModel().isEmpty())
+			if (sortChoiceBox.getSelectionModel().isEmpty())
 				throw new NoSortCriteriaException();
 			if (!game.isListSortedByNames() && sortChoiceBox.getSelectionModel().getSelectedItem().equals(sortingNames))
 				throw new ArrayListIsNotSortedException("Se deben ordenar los jugadores por su nombre primero.");
-			if(!game.isListSortedByScores() && sortChoiceBox.getSelectionModel().getSelectedItem().equals(sortingScores))
+			if (!game.isListSortedByScores()
+					&& sortChoiceBox.getSelectionModel().getSelectedItem().equals(sortingScores))
 				throw new ArrayListIsNotSortedException("Se deben ordenar los jugadores por sus puntajes primero.");
 			if (playerNameTextField.getText().isEmpty())
-				throw new PlayerNameException("Debe ingresar el " + ( (game.isListSortedByNames())? "nombre" : "puntaje" ) + " de un jugador para buscarlo.");
+				throw new PlayerNameException("Debe ingresar el "
+						+ ((game.isListSortedByNames()) ? "nombre" : "puntaje") + " de un jugador para buscarlo.");
 			Player found = null;
 			ArrayList<Player> a = null;
-			if(sortChoiceBox.getSelectionModel().getSelectedItem().equals(sortingNames)) {
+			if (sortChoiceBox.getSelectionModel().getSelectedItem().equals(sortingNames)) {
 				found = game.searchPlayerName(playerNameTextField.getText());
 				a = new ArrayList<Player>();
 				a.add(found);
 				if (found == null)
-					throw new PlayerDoesNotExistException("El jugador con el nombre \"" + playerNameTextField.getText() + "\" no existe.");
-			}
-			else if(sortChoiceBox.getSelectionModel().getSelectedItem().equals(sortingScores)) {
+					throw new PlayerDoesNotExistException(
+							"El jugador con el nombre \"" + playerNameTextField.getText() + "\" no existe.");
+			} else if (sortChoiceBox.getSelectionModel().getSelectedItem().equals(sortingScores)) {
 				a = game.searchPlayerScore(Integer.parseInt(playerNameTextField.getText()));
 				if (a.size() == 0)
-					throw new PlayerDoesNotExistException("No hay jugadores con puntajes de " + playerNameTextField.getText() + ".");
+					throw new PlayerDoesNotExistException(
+							"No hay jugadores con puntajes de " + playerNameTextField.getText() + ".");
 			}
 			updateListView(a);
-		}
-		catch(NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Debe introducir un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		catch (PlayerNameException e) {
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Debe introducir un número entero.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		} catch (PlayerNameException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		catch (PlayerDoesNotExistException e) {
+		} catch (PlayerDoesNotExistException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			playerNameTextField.setText("");
+		} catch (ArrayListIsNotSortedException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			playerNameTextField.setText("");
+		} catch (NoSortCriteriaException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			playerNameTextField.setText("");
 		}
-		catch (ArrayListIsNotSortedException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			playerNameTextField.setText("");
-		}
-		catch(NoSortCriteriaException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			playerNameTextField.setText("");
-		}
-		
+
 	}
 
 	@FXML
@@ -150,12 +149,15 @@ public class ScoresWindowController implements Initializable {
 			if (playerNameTextField.getText().isEmpty())
 				throw new PlayerNameException("Debe ingresar el nombre de un jugador para eliminarlo.");
 			Player player = game.searchPlayerName(playerNameTextField.getText());
-			if (player == null)
+			if (player == null) {
 				throw new PlayerDoesNotExistException(playerNameTextField.getText());
-			game.deletePlayerFromTree(player);
-			game.deletePlayerFromArrayList(player);
-			playerNameTextField.setText("");
-			updateListView(game.getPlayersList());
+			} else {
+				game.deletePlayerFromTree(player);
+				game.deletePlayerFromArrayList(player);
+				playerNameTextField.setText("");
+				updateListView(game.getPlayersList());
+
+			}
 		} catch (PlayerNameException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (PlayerDoesNotExistException e) {
