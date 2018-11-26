@@ -162,4 +162,37 @@ class GameTest {
 		assertNull( found, "Se encontró un jugador cuando debería devolver null." );
 	}
 	
+	/**
+	 * Prueba que el método para eliminar un jugador es capaz de eliminar la raíz del árbol.
+	 */
+	@Test
+	public void deleteRootTest() {
+		setupScene2();
+		game.sortPlayerNames(1);
+		game.deletePlayerFromTree( game.searchPlayer("Player") );
+		assertFalse( game.playerExists("Player"), "El jugador debió haber sido eliminado." );
+	}
+	
+	/**
+	 * Prueba que el método para eliminar un jugador es capaz de eliminar una hoja del árbol.
+	 */
+	@Test
+	public void deleteLeafTest() {
+		setupScene1();
+		game.sortPlayerNames(1);
+		game.deletePlayerFromTree( game.searchPlayer("Player") );
+		assertFalse( game.playerExists("Player"), "El jugador debió haber sido eliminado." );
+	}
+	
+	/**
+	 * Prueba que el método para eliminar es capaz de eliminar un jugador en medio del árbol.
+	 */
+	@Test
+	public void deleteMiddlePlayerTest() {
+		setupScene2();
+		game.sortPlayerNames(1);
+		game.deletePlayerFromTree(game.searchPlayer("camilo"));
+		assertFalse( game.playerExists("camilo"), "El jugador debió haber sido eliminado." );
+	}
+	
 }

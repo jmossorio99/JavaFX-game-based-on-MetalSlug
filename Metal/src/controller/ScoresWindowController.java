@@ -72,6 +72,18 @@ public class ScoresWindowController implements Initializable {
 		game.sortPlayerScores(false);
 		updateListView(game.getPlayersList());
 	}
+	
+	@FXML
+	public void upwardTime(ActionEvent event) {
+		game.sortPlayerTimes(true);
+		updateListView(game.getPlayersList());
+	}
+	
+	@FXML
+	public void downwardTime(ActionEvent event) {
+		game.sortPlayerTimes(false);
+		updateListView(game.getPlayersList());
+	}
 
 	@FXML
 	public void searchPlayer(ActionEvent event) {

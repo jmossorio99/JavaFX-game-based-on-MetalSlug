@@ -52,7 +52,7 @@ public class Game implements Serializable {
 	
 	/**
 	 * Ordenamiento por selección.
-	 * @param sort Modo de ordenamiento, true para ascendente y false para descendente.
+	 * @param sort: Modo de ordenamiento, true para ascendente y false para descendente.
 	 */
 	public void sortPlayerScores(boolean sort) {
 		listSorted = 0;
@@ -66,6 +66,21 @@ public class Game implements Serializable {
 				}
 			}
 			players.set(index, players.set(i, aux));
+		}
+	}
+	
+	/**
+	 * Ordenamiento por intercambio (burbuja).
+	 * @param sor: Modo de ordenamiento, true para ascendente y false para descendente.
+	 */
+	public void sortPlayerTimes(boolean sort) {
+		listSorted = 0;
+		for( int i = 0; i < players.size() - 1; i++ ) {
+			for( int j = 0; j < players.size() - 1; j++ ) {
+				if( (sort) ? players.get(j).getTimePlayed() > players.get(j + 1).getTimePlayed() : players.get(j).getTimePlayed() < players.get(j + 1).getTimePlayed() ) {
+					players.set( j, players.set( j + 1, players.get(j) ) );
+				}
+			}
 		}
 	}
 	

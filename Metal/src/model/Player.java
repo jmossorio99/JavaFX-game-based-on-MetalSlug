@@ -83,7 +83,13 @@ public class Player implements Serializable, Comparable<Player> {
 
 	@Override
 	public String toString() {
-		String str = String.format( "%s%40s", name, getMaxScore() );
+		String str = "";
+		if(timePlayed < 10)
+			str = String.format( "%s%40s%41ss", name, getMaxScore(), timePlayed );
+		else if(timePlayed < 100)
+			str = String.format( "%s%40s%40ss", name, getMaxScore(), timePlayed );
+		else if(timePlayed >= 100)
+			str = String.format( "%s%40s%39ss", name, getMaxScore(), timePlayed );
 		return str;
 	}
 	
@@ -147,23 +153,6 @@ public class Player implements Serializable, Comparable<Player> {
 			right=right.deletePlayer(p);
 		}
 		return this;
-	}
-	
-	public Player search(int score) {
-		if(getMaxScore() == score) 
-			return this;
-		else if(getMaxScore() > score) {
-			if(left != null) 
-				return left.search(score);
-			else
-				return null;
-		}
-		else {
-			if(right != null) 
-				return right.search(score);
-			else
-				return null;
-		}
 	}
 
 	public long getTimePlayed() {
