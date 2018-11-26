@@ -81,11 +81,11 @@ public class Player implements Serializable, Comparable<Player> {
 	public String toString() {
 		String str = "";
 		if (timePlayed < 10)
-			str = String.format("%s%40s%41ss", name, getMaxScore(), timePlayed);
+			str = String.format("%s%40s%41ss", name, getMaxScore(), getHighestTime());
 		else if (timePlayed < 100)
-			str = String.format("%s%40s%40ss", name, getMaxScore(), timePlayed);
+			str = String.format("%s%40s%40ss", name, getMaxScore(), getHighestTime());
 		else if (timePlayed >= 100)
-			str = String.format("%s%40s%39ss", name, getMaxScore(), timePlayed);
+			str = String.format("%s%40s%39ss", name, getMaxScore(), getHighestTime());
 		return str;
 	}
 

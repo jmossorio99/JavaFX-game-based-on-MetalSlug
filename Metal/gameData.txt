@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 jose
 540
 false
@@ -18,3 +19,25 @@ true
 false
 false
 30.0
+=======
+username
+30
+false
+false
+false
+false
+true
+true
+3
+-1
+370.0
+100
+120
+150
+4
+5
+5
+false
+false
+-230.0
+>>>>>>> 66e6b39f7c303c799167ee82e94deb43878fb230
