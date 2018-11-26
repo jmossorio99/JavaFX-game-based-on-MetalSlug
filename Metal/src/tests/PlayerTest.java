@@ -123,26 +123,5 @@ class PlayerTest extends TestCase {
 		setupScene2();
 		assertTrue( "El jugador debió ser el de nombre 'lol'.", player1.getLess().getName().equals("lol") );
 	}
-<<<<<<< HEAD
-	
-	/**
-	 * Prueba el método de buscar un jugador existente.
-	 */
-	@Test
-	public void searchExistentPlayerTest() {
-		setupScene2();
-		assertNotNull( "No debe ser null.", player1.search(80) );
-	}
-	
-	/**
-	 * Prueba el método de buscar un jugador inexistente.
-	 */
-	@Test
-	public void searchNonExistentPlayerTest() {
-		setupScene2();
-		assertNull( "Debe ser null, nadie tiene un puntaje de 1000.", player1.search(1000) );
-	}
-	
-=======
->>>>>>> 5904943aee6b2d98bf28ec6beddd867d12bd1d56
+
 }
