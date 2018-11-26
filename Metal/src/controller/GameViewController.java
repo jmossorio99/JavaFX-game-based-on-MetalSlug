@@ -690,7 +690,7 @@ public class GameViewController implements GameView, PlayableSounds {
 		donkeyImageView.setLayoutX(posXDonkey);
 		if (game.playerExists(playerName)) {
 			game.sortPlayerNames(1);
-			this.player = game.searchPlayer(playerName);
+			this.player = game.searchPlayerName(playerName);
 		} else {
 			this.player = new Player(playerName);
 		}
