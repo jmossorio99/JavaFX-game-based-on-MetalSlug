@@ -36,6 +36,16 @@ class GameTest {
 		game.addPlayerToArrayList( new Player( "david" ) );
 	}
 	
+	public void setupScene3() {
+		setupScene1();
+			
+		game.addPlayerToTree(new Player("a"));
+		game.addPlayerToTree(new Player("c"));
+		game.addPlayerToTree(new Player("b"));
+		
+		
+	}
+	
 	/**
 	 * Prueba que el método para ordenar por nombre funciona si solo hay un jugador.
 	 */
@@ -160,6 +170,46 @@ class GameTest {
 		game.sortPlayerNames( 1 );
 		Player found = game.searchPlayer( "NoPlayer" );
 		assertNull( found, "Se encontró un jugador cuando debería devolver null." );
+	}
+	
+	/**
+	 * Prueba si se elimina correctamente la raiz del arbol.
+	 */
+	@Test
+	public void deleteRootTest() {
+		setupScene3();
+		Player toEliminate = null;
+		
+		toEliminate = game.searchPlayer("a");
+		
+		game.deletePlayerFromTree(toEliminate);
+		assertNull(game.searchPlayer("a"));
+	}
+	
+	/**
+	 * Prueba si se elimina correctamente un jugador dentro del arbol.
+	 */
+	@Test
+	public void deleteMiddlePlayerTest() {
+		setupScene3();
+		Player toEliminate = null;
+		
+		toEliminate = game.searchPlayer("c");
+		game.deletePlayerFromTree(toEliminate);
+		assertTrue(game.searchPlayer("c")==null);
+	}
+	
+	/**
+	 * Prueba si se elimina correctamente una hoja del arbol.
+	 */
+	@Test
+	public void deleteLeafTest() {
+		setupScene3();
+		Player toEliminate = null;
+		
+		toEliminate = game.searchPlayer("b");
+		game.deletePlayerFromTree(toEliminate);
+		assertNull(game.searchPlayer("b"));
 	}
 	
 }
