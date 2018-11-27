@@ -7,13 +7,22 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+/**
+ * Clase MusicThread se encarga de reproducir una canción aleatoria de las 9 que
+ * existen mientras el juego se ejecuta
+ *
+ */
 public class MusicThread extends Thread {
 
+	// atributos
 	private String[] routes = new String[9];
-
 	private Media musicFile;
 	private MediaPlayer player;
 
+	/**
+	 * Constructor de la clase agrega al arreglo de canciones todas las canciones
+	 * posibles para reproducir
+	 */
 	public MusicThread() {
 		routes[0] = "data/sound/music/1.mp3";
 		routes[1] = "data/sound/music/2.mp3";
@@ -30,6 +39,9 @@ public class MusicThread extends Thread {
 		player = new MediaPlayer(musicFile);
 	}
 
+	/**
+	 * Metodo que se ejecuta al llamar el método start del hilo
+	 */
 	@Override
 	public void run() {
 
