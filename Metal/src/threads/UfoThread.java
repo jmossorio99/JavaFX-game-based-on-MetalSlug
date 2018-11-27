@@ -2,29 +2,28 @@ package threads;
 
 import model.Ufo;
 
-public class UfoThread extends Thread{
+public class UfoThread extends Thread {
 
-	
 	public Ufo ufo;
-	
+
 	public UfoThread(Ufo ufo) {
 		super();
-		this.ufo=ufo;
+		this.ufo = ufo;
 	}
-	
+
 	public void run() {
-		
-		while(true) {
-		
+
+		while (true) {
+
 			ufo.moveUfo();
-		
+
 			try {
-				this.sleep(80);
+				this.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-	}	
+
+	}
 }

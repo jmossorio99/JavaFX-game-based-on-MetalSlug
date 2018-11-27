@@ -24,7 +24,7 @@ public class Ufo extends Entity {
 	}
 
 	public void moveUfo() {
-		if (posX >= 1200) {
+		if (posX >= 1100) {
 
 			right = false;
 
