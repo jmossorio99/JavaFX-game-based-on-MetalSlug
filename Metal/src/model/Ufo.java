@@ -6,15 +6,26 @@ public class Ufo extends Entity {
 	private String imageName = "file:data/sprites/ufo/ufo.png";
 	private boolean right = true;
 
+	/**
+	 * contructor de Ufo
+	 * @param d
+	 * @param e
+	 */
 	public Ufo(double d, double e) {
 		super(d, e);
 
 	}
-
+/**
+ * este metodo retorna imageName (ruta de la imagen)
+ * @return imageName : ruta
+ */
 	public String getImageName() {
 		return imageName;
 	}
 
+	/**
+	 * este metodo mueve el x del ufo sumandole la constante
+	 */
 	public void moveToRight() {
 		posX += movementSpeed;
 	}

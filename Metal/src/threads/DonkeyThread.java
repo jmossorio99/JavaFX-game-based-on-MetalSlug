@@ -49,7 +49,9 @@ public class DonkeyThread extends Thread {
 				donkey.move();
 				if (donkey.getPosX() == 30) {
 					controller.setMoveDonkey(false);
-					controller.addHealth(5);
+					if(!controller.getHeroIsDead()) {
+						controller.addHealth(5);
+					}
 					try {
 						Thread.sleep(300);
 					} catch (InterruptedException e) {

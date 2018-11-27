@@ -822,5 +822,4 @@ public class GameViewController implements GameView, PlayableSounds {
 	public void setPosXDonkeyImageView(double posX) {
 		donkeyImageView.setLayoutX(posX);
 	}
-
 }
