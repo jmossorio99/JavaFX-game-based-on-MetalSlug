@@ -47,10 +47,11 @@ public class HeroThread extends Thread {
 			if (hero.isTakingDamage()) {
 				hero.takeDamageAnim();
 				try {
-					Thread.sleep(80);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				hero.setTakingDamage(false);
 			}
 			if (hero.isMoving() && !hero.isTakingDamage()) {
 				if (!hero.isCrouching()) {

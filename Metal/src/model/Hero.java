@@ -245,7 +245,7 @@ public class Hero extends Entity {
 			} else if (direction == LEFT) {
 				image = "file:data/sprites/hero/Dead/left/dead2I.png";
 			}
-			takingDamage = false;
+			
 
 		}
 	}

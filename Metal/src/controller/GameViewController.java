@@ -28,6 +28,7 @@ import model.Donkey;
 import model.Game;
 import model.GameView;
 import model.Hero;
+import model.KilledEnemie;
 import model.PlayableSounds;
 import model.Player;
 import model.Tank;
@@ -76,6 +77,7 @@ public class GameViewController implements GameView, PlayableSounds {
 	private int enemieBulletNum = 0;
 	private int scoreModifier = 150;
 	private int scoreCounter = scoreModifier - 1;
+	private int robotsKilled = 0;
 	private boolean alreadySerialized = false;
 	private boolean donkeySpawn = false;
 	private boolean moveDonkey;
@@ -229,6 +231,8 @@ public class GameViewController implements GameView, PlayableSounds {
 							player.setTimePlayed(player.getTimePlayed() + playedTime);
 							player.addTimeList(new TimeList(playedTime));
 							player.addScore(playerScore);
+							KilledEnemie k = new KilledEnemie(robotsKilled);
+							player.addToKilledEnemiesList(k);
 							if (!game.playerExists(player.getName())) {
 								game.addPlayerToTree(player);
 								game.addPlayerToArrayList(player);
@@ -300,8 +304,9 @@ public class GameViewController implements GameView, PlayableSounds {
 				moveEnemieBullets();
 				moveUfoBullets();
 				checkBulletHit();
-				checkHeroHit();
-
+				if (!hero.isTakingDamage()) {
+					checkHeroHit();
+				}
 			}
 		};
 		timer.start();
@@ -450,6 +455,7 @@ public class GameViewController implements GameView, PlayableSounds {
 						anchorPane.getChildren().remove(heroBulletsRight.get(i));
 						heroBulletsRight.remove(i);
 						playRobotDies();
+						robotsKilled++;
 					}
 
 				}
@@ -465,6 +471,7 @@ public class GameViewController implements GameView, PlayableSounds {
 						anchorPane.getChildren().remove(heroBulletsLeft.get(i));
 						heroBulletsLeft.remove(i);
 						playRobotDies();
+						robotsKilled++;
 					}
 
 				}

@@ -3,6 +3,9 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * clase Game
+ */
 public class Game implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -11,12 +14,19 @@ public class Game implements Serializable {
 	private Hero hero;
 	private int listSortedNames;
 	private boolean listSortedScores;
-
+	
+/**
+ *contructor de Game
+ */
 	public Game() {
 		rootPlayer = null;
 		listSortedNames = 0;
 	}
 
+	/**
+	 * este metodo adiciona un Player al arbol, si las raiz es nula lo adiciona ahi si la raiz no es nula llama a insertPlayer de la clase jugador
+	 * @param player : el juegador a adicionar en el arbol
+	 */
 	public void addPlayerToTree(Player player) {
 		if (rootPlayer == null) {
 			rootPlayer = player;
@@ -25,19 +35,26 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * este metodo borra a un jugador del arbol el cual ya este en el
+	 * @param p : el jugador a borrar 
+	 */
 	public void deletePlayerFromTree(Player p) {
 		if (rootPlayer != null) {
 			rootPlayer = rootPlayer.deletePlayer(p);
 		}
 	}
 
+	/**
+	 * este metodo adiciona un jugador al arrayList de jugadores
+	 * @param p : el jugador a addicionar
+	 */
 	public void addPlayerToArrayList(Player p) {
 		players.add(p);
 	}
 
 	/**
-	 * Ordenamiento por inserción.
-	 * 
+	 * este metodo ordena por inserción la lista de players.
 	 * @param n: Modo de ordenamiento, 1 para ascendente y -1 para descendente.
 	 */
 	public void sortPlayerNames(int n) {
@@ -53,8 +70,7 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Ordenamiento por selección.
-	 * 
+	 * este metodo ordena por selección la lista de jugadores.
 	 * @param sort: Modo de ordenamiento, true para ascendente y false para
 	 *        descendente.
 	 */
@@ -76,7 +92,7 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Ordenamiento por intercambio (burbuja).
+	 * este metodo ordena por intercambio (burbuja) la lista de players.
 	 * 
 	 * @param sor: Modo de ordenamiento, true para ascendente y false para
 	 *        descendente.
@@ -95,8 +111,7 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Búsqueda binaria por nombre.
-	 * 
+	 * este metodo busca un jugador por su nombre usando busqueda binaria 
 	 * @param name Nombre del jugador a buscar.
 	 * @return Objeto Player si se encontró el jugador. Null si el jugador a buscar
 	 *         no existía.
@@ -124,7 +139,7 @@ public class Game implements Serializable {
 	}
 
 	/**
-	 * Búsqueda binaria por puntaje.
+	 * este metodo busca a un jugador por su puntaje usando búsqueda binaria.
 	 * 
 	 * @param score Puntaje para buscar al/los jugadores a buscar.
 	 * @return ArrayList de objetos Player si se encontrarón jugadores con ese
@@ -160,6 +175,10 @@ public class Game implements Serializable {
 		return list;
 	}
 
+	/**
+	 * este metodo borra a un jugador del arrayList de jugadores
+	 * @param p : el jugador a eliminar
+	 */
 	public void deletePlayerFromArrayList(Player p) {
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i) == p) {
@@ -168,34 +187,70 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * este metodo devulve a la lista de jugadores
+	 * @return players : la lista de jugadores
+	 */
 	public ArrayList<Player> getPlayersList() {
 		return players;
 	}
 
+	/**
+	 * este metodo retorna el heroe
+	 * @return hero : el heroe
+	 */
 	public Hero getHero() {
 		return hero;
 	}
 
+	/**
+	 * este metodo cambia el atributo hero
+	 * @param hero : el nuevo hero
+	 */
 	public void setHero(Hero hero) {
 		this.hero = hero;
 	}
-
+//------------------------------------------ wtf no es lo mismo?----------------------
+	/**
+	 * este metodo modifica el atributo listSortedNames
+	 * @param s : el nuevo valor
+	 */
 	public void setSortedListByNames(int s) {
 		listSortedNames = s;
 	}
 
+	/**
+	 * este metodo modifica el atributo listSortedNames
+	 * @param s : el nuevo valor
+	 */
 	public void setSortedListByScores(int s) {
 		listSortedNames = s;
 	}
 
+
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isListSortedByNames() {
 		return listSortedNames == 1 || listSortedNames == -1;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isListSortedByScores() {
 		return listSortedScores;
 	}
+	
+//-------------------------------------------------------------------------------------
 
+	/**
+	 * este metodo retorna un boolean true si el jugador existe en el arbol de jugadores
+	 * @param name : el nombre por el que va a ser buscado
+	 * @return boolean : true:existe , false: no existe
+	 */
 	public boolean playerExists(String name) {
 		if (rootPlayer != null) {
 			if (rootPlayer.getName().equalsIgnoreCase(name)) {
@@ -207,5 +262,5 @@ public class Game implements Serializable {
 			return false;
 		}
 	}
-
+	
 }
