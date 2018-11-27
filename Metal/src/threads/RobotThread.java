@@ -7,14 +7,28 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Clase RobotThread, hilo que se encarga de mover a los robots en el juego y de
+ * animar su movimiento
+ * 
+ *
+ */
 public class RobotThread extends Thread {
 
+	// atributos
 	private ArrayList<Image> images;
 	private ArrayList<Node> robots;
 	private ImageView robot;
 	private boolean running = false;
 	private GameViewController controller;
 
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @param images     - arraylist de imagenes para la animacion de los robots
+	 * @param robots     - arrayList de todos los robots
+	 * @param controller - controlador de la interfaz
+	 */
 	public RobotThread(ArrayList<Image> images, ArrayList<Node> robots, GameViewController controller) {
 
 		this.robots = robots;
@@ -23,12 +37,18 @@ public class RobotThread extends Thread {
 
 	}
 
+	/**
+	 * Metodo que inicializa el hilo
+	 */
 	public void init() {
 
 		running = true;
 
 	}
 
+	/**
+	 * Método que se ejecuta cuando se llama al método start del hilo
+	 */
 	@Override
 	public void run() {
 
@@ -50,7 +70,6 @@ public class RobotThread extends Thread {
 					ImageView r = (ImageView) robots.get(j);
 					r.setImage(images.get(i));
 				}
-				
 
 			}
 		}

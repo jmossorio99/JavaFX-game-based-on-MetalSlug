@@ -143,7 +143,9 @@ public class GameViewController implements GameView, PlayableSounds {
 
 				case DOWN:
 					setHeroCrouching(true);
-					hero.setPosY(585);
+					if (!hero.isDead()) {
+						hero.setPosY(585);
+					}
 					break;
 
 				case A:
@@ -191,7 +193,9 @@ public class GameViewController implements GameView, PlayableSounds {
 					break;
 				case DOWN:
 					hero.setCrouching(false);
-					hero.setPosY(560);
+					if (!hero.isDead()) {
+						hero.setPosY(560);
+					}
 					break;
 				case A:
 					hero.setShooting(false);
@@ -672,12 +676,14 @@ public class GameViewController implements GameView, PlayableSounds {
 		File file3 = new File("robots.txt");
 		File file4 = new File("heroBulletsRight.txt");
 		File file5 = new File("heroBulletsLeft.txt");
+		File file6 = new File("ufoBullets.txt");
 		try {
 			PrintWriter pr1 = new PrintWriter(file);
 			PrintWriter pr2 = new PrintWriter(file2);
 			PrintWriter pr3 = new PrintWriter(file3);
 			PrintWriter pr4 = new PrintWriter(file4);
 			PrintWriter pr5 = new PrintWriter(file5);
+			PrintWriter pr6 = new PrintWriter(file6);
 			pr1.println(player.getName());
 			pr1.println(scoreLabel.getText());
 			pr1.println(String.valueOf(hero.isMoving()));
@@ -698,6 +704,7 @@ public class GameViewController implements GameView, PlayableSounds {
 			pr1.println(donkeySpawn);
 			pr1.println(moveDonkey);
 			pr1.println(donkey.getPosX());
+			pr1.println(ufo.getPosX());
 			for (int i = 0; i < enemieBullets.size(); i++) {
 				pr2.println(enemieBullets.get(i).getLayoutX());
 				pr2.println(enemieBullets.get(i).getLayoutY());
@@ -711,11 +718,16 @@ public class GameViewController implements GameView, PlayableSounds {
 			for (int i = 0; i < heroBulletsLeft.size(); i++) {
 				pr5.println(heroBulletsLeft.get(i).getLayoutX());
 			}
+			for (int i = 0; i < ufoBullets.size(); i++) {
+				pr6.println(ufoBullets.get(i).getLayoutX());
+				pr6.println(ufoBullets.get(i).getLayoutY());
+			}
 			pr1.close();
 			pr2.close();
 			pr3.close();
 			pr4.close();
 			pr5.close();
+			pr6.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -723,7 +735,8 @@ public class GameViewController implements GameView, PlayableSounds {
 	}
 
 	public void loadGame(Scene scene, Game game, ArrayList<String> gameData, ArrayList<Double> enemieBullets,
-			ArrayList<Double> robots, ArrayList<Double> heroBR, ArrayList<Double> heroBL) {
+			ArrayList<Double> robots, ArrayList<Double> heroBR, ArrayList<Double> heroBL,
+			ArrayList<Double> ufoBullets) {
 
 		String playerName = gameData.get(0);
 		int playerScore = Integer.parseInt(gameData.get(1));
@@ -745,10 +758,13 @@ public class GameViewController implements GameView, PlayableSounds {
 		boolean donkeySpawn = Boolean.parseBoolean(gameData.get(17));
 		boolean donkeyMove = Boolean.parseBoolean(gameData.get(18));
 		double posXDonkey = Double.parseDouble(gameData.get(19));
+		double posXUfo = Double.parseDouble(gameData.get(20));
 
 		this.game = game;
 		this.hero = new Hero(posX, heroImageView.getLayoutY(), heroImageView.getFitHeight());
 		this.donkey = new Donkey(posXDonkey, donkeyImageView.getLayoutY());
+		this.ufo = new Ufo(posXUfo, ufoImageView.getLayoutY());
+		this.tank = new Tank(tankImageView.getLayoutX(), tankImageView.getLayoutY());
 		donkeyImageView.setLayoutX(posXDonkey);
 		if (game.playerExists(playerName)) {
 			game.sortPlayerNames(1);
@@ -797,6 +813,12 @@ public class GameViewController implements GameView, PlayableSounds {
 			newOrangeBullet.relocate(heroBL.get(i), heroImageView.getLayoutY());
 			heroBulletsLeft.add(newOrangeBullet);
 			anchorPane.getChildren().add(newOrangeBullet);
+		}
+		for (int i = 0; i < ufoBullets.size() - 1; i++) {
+			Node purpleBullet = new ImageView(new Image(PURPLE_BULLET_ROUTE));
+			purpleBullet.relocate(ufoBullets.get(i), ufoBullets.get(i + 1));
+			this.ufoBullets.add(purpleBullet);
+			anchorPane.getChildren().add(purpleBullet);
 		}
 
 		setUpSoundEffects();
