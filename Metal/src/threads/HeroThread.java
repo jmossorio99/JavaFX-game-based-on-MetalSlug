@@ -8,11 +8,18 @@ import model.Hero;
 
 public class HeroThread extends Thread {
 
+	//Atributos
 	private GameViewController controller;
 	private boolean alreadyDead = false;
 	private Hero hero;
 	private Game game;
 
+	/**
+	 * Método constructor de la clase
+	 * @param controller - controlador de la interfaz
+	 * @param hero - heroe que va a controlar este hilo
+	 * @param game - objeto de tipo Game que contiene al héroe
+	 */
 	public HeroThread(GameViewController controller, Hero hero, Game game) {
 
 		this.controller = controller;
@@ -21,6 +28,9 @@ public class HeroThread extends Thread {
 
 	}
 
+	/**
+	 * Método run del hilo. Se encarga de controlar todos los movimientos del héroe
+	 */
 	@Override
 	public void run() {
 

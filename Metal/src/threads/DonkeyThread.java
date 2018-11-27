@@ -5,10 +5,16 @@ import model.Donkey;
 
 public class DonkeyThread extends Thread {
 
+	//Atributos
 	private Donkey donkey;
 	private boolean running = false;
 	private GameViewController controller;
 
+	/**
+	 * Constructor de la clase
+	 * @param donkey - el objeto de tipo Donkey que va a controlar este hilo
+	 * @param controller - el controlador de la interfaz
+	 */
 	public DonkeyThread(Donkey donkey, GameViewController controller) {
 
 		this.donkey = donkey;
@@ -16,10 +22,17 @@ public class DonkeyThread extends Thread {
 
 	}
 
+	/*
+	 * Método que inicializa el hilo
+	 * Pos: running es true
+	 */
 	public void init() {
 		running = true;
 	}
 
+	/**
+	 * Metodo run del hilo que se ejecuta al llamar el método start del hilo
+	 */
 	@Override
 	public void run() {
 
