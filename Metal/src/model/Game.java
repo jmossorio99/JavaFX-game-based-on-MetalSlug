@@ -128,9 +128,9 @@ public class Game implements Serializable {
 		int max = players.size() - 1;
 		while (min <= max) {
 			int middle = (min + max) / 2;
-			if (players.get(middle).getName().compareToIgnoreCase(name) == 0)
+			if (players.get(middle).getName().compareTo(name) == 0)
 				return players.get(middle);
-			else if (players.get(middle).getName().compareToIgnoreCase(name) > 0) {
+			else if (players.get(middle).getName().compareTo(name) > 0) {
 				if (listSortedNames == 1)
 					max = middle - 1;
 				else if (listSortedNames == -1)
