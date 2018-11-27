@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * Nodo de una lista doblemente enlazada que representa el tiempo que duro el jugador durante la partida.
- * @author 
  *
  */
 public class TimeList implements Comparable<TimeList>, Serializable {
