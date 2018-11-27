@@ -99,7 +99,7 @@ public class TimeList implements Comparable<TimeList>, Serializable {
 	/**
 	 * Método sobreescrito de la interfaz Comparable.
 	 * Compara el tiempo de juego del nodo actual con el tiempo de juego de otro nodo que se pasa por parámetro.
-	 * @param TimeList: Otro nodo de la lista doblemente enlazada.
+	 * @param tl - nodo Otro nodo de la lista doblemente enlazada.
 	 * @return  0 si los tiempos son iguales.
 	 * 			1 si el tiempo del nodo actual es mayor que el del nodo pasado por parámetro.
 	 * 		   -1 si el tiempo del nodo actual es menor que el del nodo pasado por parámetro.

@@ -4,24 +4,20 @@ import javax.print.attribute.SetOfIntegerSyntax;
 
 public class Hero extends Entity {
 
-//	public final static int ORANGE_DAMAGE = 1;
-//	public final static int BLUE_DAMAGE = 2;
-//	public final static int PURPLE_DAMAGE = 3;
-	
 	// -----------------------------------------------------------------
-    // Constantes
-    // -----------------------------------------------------------------
-	
+	// Constantes
+	// -----------------------------------------------------------------
+
 	public final static int RIGHT = 1;
 	public final static int UP = 2;
 	public final static int LEFT = 3;
 	public final static int DOWN = 4;
 	public final static double HEIGHT = 110.0;
-	
+
 	// -----------------------------------------------------------------
-    // Atributos
-    // -----------------------------------------------------------------
-	
+	// Atributos
+	// -----------------------------------------------------------------
+
 	private int moveCount = 1;
 	private int crouchCount = 1;
 	private int iddleCount = 1;
@@ -39,13 +35,14 @@ public class Hero extends Entity {
 	private double speed = 15;
 	private double height;
 	private String image = "file:data/sprites/hero/Iddle/right/Idle1D.png";
-	
+
 	// -----------------------------------------------------------------
-    // Métodos
-    // -----------------------------------------------------------------
+	// Métodos
+	// -----------------------------------------------------------------
 
 	/**
 	 * Método constructor. Crea el personaje principal del juego.
+	 * 
 	 * @param posX: Posición inicial en el eje X del personaje.
 	 * @param posY: Posición inicial en el eje Y del personaje.
 	 * @param height: Altura del personaje.
@@ -63,8 +60,8 @@ public class Hero extends Entity {
 
 	/**
 	 * Indica si el personaje se está moviendo.
-	 * @return  true si se está moviendo.
-	 * 			false si no lo está.
+	 * 
+	 * @return true si se está moviendo. false si no lo está.
 	 */
 	public boolean isMoving() {
 		return moving;
@@ -72,6 +69,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia el valor de moving.
+	 * 
 	 * @param moving nuevo valor para la variable.
 	 */
 	public void setMoving(boolean moving) {
@@ -80,6 +78,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Devuelve la direccion a la que apunta el personaje.
+	 * 
 	 * @return direccion: Direccion en donde apunta.
 	 */
 	public int getDirection() {
@@ -88,6 +87,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia la direccion del personaje.
+	 * 
 	 * @param direction: nuevo valor.
 	 */
 	public void setDirection(int direction) {
@@ -96,6 +96,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Devuelve la valocidad del personaje.
+	 * 
 	 * @return speed: Velocidad.
 	 */
 	public double getSpeed() {
@@ -104,6 +105,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia la velocidad
+	 * 
 	 * @param speed: nuevo valor.
 	 */
 	public void setSpeed(double speed) {
@@ -112,6 +114,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Indica si el personaje se esta agachando.
+	 * 
 	 * @return crouching.
 	 */
 	public boolean isCrouching() {
@@ -120,6 +123,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia entre agacharse o pararse.
+	 * 
 	 * @param crouching: nuevo valor.
 	 */
 	public void setCrouching(boolean crouching) {
@@ -128,6 +132,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Indica si está apuntando hacia arriba.
+	 * 
 	 * @return aimingUp.
 	 */
 	public boolean isAimingUp() {
@@ -136,6 +141,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia el valor de aimingUp.
+	 * 
 	 * @param aimingUp: nuevo valor.
 	 */
 	public void setAimingUp(boolean aimingUp) {
@@ -144,6 +150,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Devuelve la altura.
+	 * 
 	 * @return height: altura del personaje.
 	 */
 	public double getHeight() {
@@ -152,6 +159,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia la altura del personaje.
+	 * 
 	 * @param height: nuevo valor.
 	 */
 	public void setHeight(double height) {
@@ -160,6 +168,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia entre si se está muriendo o no.
+	 * 
 	 * @param dying: nuevo valor, true si se está muriendp, false si no lo esta.
 	 */
 	public void setDying(boolean dying) {
@@ -168,14 +177,16 @@ public class Hero extends Entity {
 
 	/**
 	 * Indica si se está muriendo.
+	 * 
 	 * @return true si está agonizando, false si no lo esta.
 	 */
 	public boolean getDying() {
 		return dying;
 	}
-	
+
 	/**
 	 * Indica si esta disparando.
+	 * 
 	 * @return shooting: true si está disparando, false si no lo está
 	 */
 	public boolean isShooting() {
@@ -184,6 +195,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia el valor de shooting.
+	 * 
 	 * @param shooting: nuevo valor
 	 */
 	public void setShooting(boolean shooting) {
@@ -192,6 +204,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Indica si está muerto.
+	 * 
 	 * @return dead: true si ya se murió, false si sigue vivo.
 	 */
 	public boolean isDead() {
@@ -200,6 +213,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia el valor de dead..
+	 * 
 	 * @param dead: nuevo valor.
 	 */
 	public void setDead(boolean dead) {
@@ -208,6 +222,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Devuelve el directorio de la imagen del personaje.
+	 * 
 	 * @return image: Directorio de la imagen.
 	 */
 	public String getImage() {
@@ -216,6 +231,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia la imagen del personaje.
+	 * 
 	 * @param image: nuevo directorio.
 	 */
 	public void setImage(String image) {
@@ -223,7 +239,8 @@ public class Hero extends Entity {
 	}
 
 	/**
-	 * Cambia la imagen del personage y también su posición en el eje X según su velocidad y direccion a la que apunta.
+	 * Cambia la imagen del personage y también su posición en el eje X según su
+	 * velocidad y direccion a la que apunta.
 	 */
 	public void move() {
 
@@ -364,7 +381,6 @@ public class Hero extends Entity {
 			} else if (direction == LEFT) {
 				image = "file:data/sprites/hero/Dead/left/dead2I.png";
 			}
-			
 
 		}
 	}
@@ -388,8 +404,10 @@ public class Hero extends Entity {
 	}
 
 	/**
-	 * Indica si el heroe está recibiendo daño en el momento en que se llame este método momento.
-	 * @return
+	 * Indica si el heroe está recibiendo daño en el momento en que se llame este
+	 * método momento.
+	 * 
+	 * @return - retorna un boolean que indica si el héroe está recibiendo daño
 	 */
 	public boolean isTakingDamage() {
 		return takingDamage;
@@ -397,6 +415,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Cambia el valor de la variable cuando el heroe esté recibiendo daño-
+	 * 
 	 * @param takingDamage: nuevo valor
 	 */
 	public void setTakingDamage(boolean takingDamage) {
@@ -405,6 +424,7 @@ public class Hero extends Entity {
 
 	/**
 	 * Establece el estado actual del heroe con los datos del estado anterior.
+	 * 
 	 * @param moving: indica si se está moviendo.
 	 * @param crouching: indica si se está agachadno.
 	 * @param aimingUp: indica si está apuntado hacia arriba.

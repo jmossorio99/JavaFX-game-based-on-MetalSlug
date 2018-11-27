@@ -8,8 +8,8 @@ public class Ufo extends Entity {
 
 	/**
 	 * contructor de Ufo
-	 * @param d
-	 * @param e
+	 * @param d - posición en X
+	 * @param e - posición en Y
 	 */
 	public Ufo(double d, double e) {
 		super(d, e);

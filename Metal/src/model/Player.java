@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+
 /**
  * clase Player
  */
@@ -18,6 +19,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * constructor de Player
+	 * 
 	 * @param name: nombre del jugador
 	 */
 	public Player(String name) {
@@ -26,6 +28,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo inserta un jugador
+	 * 
 	 * @param p : el jugador a agregar
 	 */
 	public void insertPlayer(Player p) {
@@ -48,7 +51,8 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo devuelve el jugador left
-	 * @return left : el jugador de la izquierda 
+	 * 
+	 * @return left : el jugador de la izquierda
 	 */
 	public Player getLeft() {
 		return left;
@@ -56,6 +60,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo modifica el valor de left
+	 * 
 	 * @param left : el nuevo valor de left (un Player)
 	 */
 	public void setLeft(Player left) {
@@ -64,7 +69,8 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo devulve la variable right (un Player)
-	 * @return right : la derecha 
+	 * 
+	 * @return right : la derecha
 	 */
 	public Player getRight() {
 		return right;
@@ -72,6 +78,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo modifica la variable right
+	 * 
 	 * @param right : el nuevo valor de right (un Player)
 	 */
 	public void setRight(Player right) {
@@ -80,6 +87,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo devuelve el nombre del jugador
+	 * 
 	 * @return name : nombre del jugador
 	 */
 	public String getName() {
@@ -88,6 +96,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo modifica el valor de name
+	 * 
 	 * @param name : el nuevo nombre del jugador
 	 */
 	public void setName(String name) {
@@ -95,7 +104,8 @@ public class Player implements Serializable, Comparable<Player> {
 	}
 
 	/**
-	 * este metodo adiciona un score a el arbol de scores  
+	 * este metodo adiciona un score a el arbol de scores
+	 * 
 	 * @param score : el nuevo score
 	 */
 	public void addScore(int score) {
@@ -109,6 +119,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo devulelve el score mas alto del arbol de scores
+	 * 
 	 * @return maxScore : el score mas alto alcanzado
 	 */
 	public int getMaxScore() {
@@ -124,11 +135,14 @@ public class Player implements Serializable, Comparable<Player> {
 	public String toString() {
 		String str = "";
 		if (timePlayed < 10)
-			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime());
+			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime(),
+					getMaxKilledEnemies());
 		else if (timePlayed < 100)
-			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime());
+			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime(),
+					getMaxKilledEnemies());
 		else if (timePlayed >= 100)
-			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime());
+			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime(),
+					getMaxKilledEnemies());
 		return str;
 	}
 
@@ -144,6 +158,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo revisa si un jugador existe por su nombre
+	 * 
 	 * @param name2 : el nombre por el que va a ser buscado
 	 * @return boolean, true si existe false si no
 	 */
@@ -164,6 +179,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo revisa si soy una hoja, left y right son null
+	 * 
 	 * @return boolean, true si lo soy false si no
 	 */
 	public boolean sheet() {
@@ -172,6 +188,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo devuelve el menor player a la izquierda
+	 * 
 	 * @return Player : el menor a la izquierda
 	 */
 	public Player getLess() {
@@ -180,6 +197,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo auxiliar borra a un jugador del arbol
+	 * 
 	 * @param p : el jugador que va a ser eliminado
 	 * @return Player : nueva raiz de donde es llamado
 	 */
@@ -212,6 +230,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo da el tiempo jugado
+	 * 
 	 * @return timePlayed : el tiempo jugado
 	 */
 	public long getTimePlayed() {
@@ -220,6 +239,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo modifica la variable timePlayed
+	 * 
 	 * @param timePlayed : el nuevo tiempo jugado
 	 */
 	public void setTimePlayed(long timePlayed) {
@@ -228,6 +248,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo adiciona un tiempo a la lista
+	 * 
 	 * @param time : el nuevo tiempo
 	 */
 	public void addTimeList(TimeList time) {
@@ -260,6 +281,7 @@ public class Player implements Serializable, Comparable<Player> {
 
 	/**
 	 * este metodo da el mayor tiempo que se ha sobrevivido el jugador
+	 * 
 	 * @return ret : el mayor tiempo sobrevivido
 	 */
 	public long getHighestTime() {
@@ -275,93 +297,90 @@ public class Player implements Serializable, Comparable<Player> {
 		return ret;
 
 	}
-	
+
 	/**
-	 * este metodo adiciona el numero de enemigos asesinados a la lista de enemigos asesinados
-	 * @param k : el valor KilledEnemie a adicionar 
+	 * este metodo adiciona el numero de enemigos asesinados a la lista de enemigos
+	 * asesinados
+	 * 
+	 * @param k : el valor KilledEnemie a adicionar
 	 */
 	public void addToKilledEnemiesList(KilledEnemie k) {
-		
-		if(rootKilledEnemie==null) {
-			rootKilledEnemie=k;
-		}
-		else {
-			if(rootKilledEnemie.compareByKilledEnemies(k)<0) {
+
+		if (rootKilledEnemie == null) {
+			rootKilledEnemie = k;
+		} else {
+			if (rootKilledEnemie.compareByKilledEnemies(k) < 0) {
 				k.setNext(rootKilledEnemie);
 				rootKilledEnemie.setPrev(k);
-				rootKilledEnemie=k;
-			}
-			else {
-				addToKilledEnemiesListR(rootKilledEnemie,k);
+				rootKilledEnemie = k;
+			} else {
+				addToKilledEnemiesListR(rootKilledEnemie, k);
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * metodo auxiliar de addToKilledEnemiesList
-	 * @param aux : el KilledEnemie donde estoy 
+	 * 
+	 * @param aux       : el KilledEnemie donde estoy
 	 * @param newKilled : el KilledEnemir a adicionar
 	 */
-	public void addToKilledEnemiesListR(KilledEnemie aux,KilledEnemie newKilled) {
-		
-		if(aux!=null) {
-			
-			if(aux.getNext()!=null) {
-				
-				
-				if(aux.compareByKilledEnemies(newKilled)<0 && aux.getNext().compareByKilledEnemies(newKilled)>0) {
-					insertAfterAKilledEnemie(aux,newKilled);
+	public void addToKilledEnemiesListR(KilledEnemie aux, KilledEnemie newKilled) {
+
+		if (aux != null) {
+
+			if (aux.getNext() != null) {
+
+				if (aux.compareByKilledEnemies(newKilled) < 0 && aux.getNext().compareByKilledEnemies(newKilled) > 0) {
+					insertAfterAKilledEnemie(aux, newKilled);
+				} else {
+					addToKilledEnemiesListR(aux.getNext(), newKilled);
 				}
-				else {
-					addToKilledEnemiesListR(aux.getNext(),newKilled);
-				}
-				
-				
-			}else {
-				insertAfterAKilledEnemie(aux,newKilled);
+
+			} else {
+				insertAfterAKilledEnemie(aux, newKilled);
 			}
-			
-			
-			
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * este metodo inserta un KilledEnemie despues de uno ya especificado
-	 * @param aux : el anterior  donde va a ser addicionado
+	 * 
+	 * @param aux       : el anterior donde va a ser addicionado
 	 * @param newKilled : el que se va a adicionar
 	 */
-	public void insertAfterAKilledEnemie(KilledEnemie aux,KilledEnemie newKilled) {
-		
-		if(aux.getNext()!=null) {
-			
+	public void insertAfterAKilledEnemie(KilledEnemie aux, KilledEnemie newKilled) {
+
+		if (aux.getNext() != null) {
+
 			newKilled.setNext(aux.getNext());
 			aux.getNext().setPrev(newKilled);
 			newKilled.setPrev(aux);
 			aux.setNext(newKilled);
-			
-		}else {
+
+		} else {
 			aux.setNext(newKilled);
 			newKilled.setPrev(aux);
 		}
-		
+
 	}
-	
+
 	/**
-	 * este metodo devulve un int con el mayor valor de enemigos asesinados de un jugador en su historial
+	 * este metodo devulve un int con el mayor valor de enemigos asesinados de un
+	 * jugador en su historial
+	 * 
 	 * @return maxKilled : el mayor numero de enemigos asesinados
 	 */
 	public int getMaxKilledEnemies() {
-		int maxKilled=0;
-		if(rootKilledEnemie!=null) {
-			maxKilled=rootKilledEnemie.getKilledEnemies();
+		int maxKilled = 0;
+		if (rootKilledEnemie != null) {
+			maxKilled = rootKilledEnemie.getKilledEnemies();
 		}
-		
+
 		return maxKilled;
-	 }
-	
+	}
 
 }
