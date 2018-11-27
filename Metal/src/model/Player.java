@@ -134,15 +134,12 @@ public class Player implements Serializable, Comparable<Player> {
 	@Override
 	public String toString() {
 		String str = "";
-		if (timePlayed < 10)
-			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime(),
-					getMaxKilledEnemies());
-		else if (timePlayed < 100)
-			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime(),
-					getMaxKilledEnemies());
-		else if (timePlayed >= 100)
-			str = String.format("%s%40s%40ss%40ss", name, getMaxScore(), getTimePlayed(), getHighestTime(),
-					getMaxKilledEnemies());
+		if (getMaxKilledEnemies() < 10)
+			str = String.format("%s%40s%40ss%40ss%40s    ", name, getMaxScore(), getTimePlayed(), getHighestTime(), getMaxKilledEnemies());
+		else if (getMaxKilledEnemies() < 100)
+			str = String.format("%s%35s%35ss%40ss%40s    ", name, getMaxScore(), getTimePlayed(), getHighestTime(), getMaxKilledEnemies());
+		else if (getMaxKilledEnemies() >= 100)
+			str = String.format("%s%30s%30ss%40ss%40s    ", name, getMaxScore(), getTimePlayed(), getHighestTime(), getMaxKilledEnemies());
 		return str;
 	}
 
