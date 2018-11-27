@@ -7,11 +7,21 @@ public class Hero extends Entity {
 //	public final static int ORANGE_DAMAGE = 1;
 //	public final static int BLUE_DAMAGE = 2;
 //	public final static int PURPLE_DAMAGE = 3;
+	
+	// -----------------------------------------------------------------
+    // Constantes
+    // -----------------------------------------------------------------
+	
 	public final static int RIGHT = 1;
 	public final static int UP = 2;
 	public final static int LEFT = 3;
 	public final static int DOWN = 4;
 	public final static double HEIGHT = 110.0;
+	
+	// -----------------------------------------------------------------
+    // Atributos
+    // -----------------------------------------------------------------
+	
 	private int moveCount = 1;
 	private int crouchCount = 1;
 	private int iddleCount = 1;
@@ -29,7 +39,17 @@ public class Hero extends Entity {
 	private double speed = 15;
 	private double height;
 	private String image = "file:data/sprites/hero/Iddle/right/Idle1D.png";
+	
+	// -----------------------------------------------------------------
+    // Métodos
+    // -----------------------------------------------------------------
 
+	/**
+	 * Método constructor. Crea el personaje principal del juego.
+	 * @param posX: Posición inicial en el eje X del personaje.
+	 * @param posY: Posición inicial en el eje Y del personaje.
+	 * @param height: Altura del personaje.
+	 */
 	public Hero(double posX, double posY, double height) {
 
 		super(posX, posY);
@@ -41,86 +61,170 @@ public class Hero extends Entity {
 
 	}
 
+	/**
+	 * Indica si el personaje se está moviendo.
+	 * @return  true si se está moviendo.
+	 * 			false si no lo está.
+	 */
 	public boolean isMoving() {
 		return moving;
 	}
 
+	/**
+	 * Cambia el valor de moving.
+	 * @param moving nuevo valor para la variable.
+	 */
 	public void setMoving(boolean moving) {
 		this.moving = moving;
 	}
 
+	/**
+	 * Devuelve la direccion a la que apunta el personaje.
+	 * @return direccion: Direccion en donde apunta.
+	 */
 	public int getDirection() {
 		return direction;
 	}
 
+	/**
+	 * Cambia la direccion del personaje.
+	 * @param direction: nuevo valor.
+	 */
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 
+	/**
+	 * Devuelve la valocidad del personaje.
+	 * @return speed: Velocidad.
+	 */
 	public double getSpeed() {
 		return speed;
 	}
 
+	/**
+	 * Cambia la velocidad
+	 * @param speed: nuevo valor.
+	 */
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 
+	/**
+	 * Indica si el personaje se esta agachando.
+	 * @return crouching.
+	 */
 	public boolean isCrouching() {
 		return crouching;
 	}
 
+	/**
+	 * Cambia entre agacharse o pararse.
+	 * @param crouching: nuevo valor.
+	 */
 	public void setCrouching(boolean crouching) {
 		this.crouching = crouching;
 	}
 
+	/**
+	 * Indica si está apuntando hacia arriba.
+	 * @return aimingUp.
+	 */
 	public boolean isAimingUp() {
 		return aimingUp;
 	}
 
+	/**
+	 * Cambia el valor de aimingUp.
+	 * @param aimingUp: nuevo valor.
+	 */
 	public void setAimingUp(boolean aimingUp) {
 		this.aimingUp = aimingUp;
 	}
 
+	/**
+	 * Devuelve la altura.
+	 * @return height: altura del personaje.
+	 */
 	public double getHeight() {
 		return height;
 	}
 
+	/**
+	 * Cambia la altura del personaje.
+	 * @param height: nuevo valor.
+	 */
 	public void setHeight(double height) {
 		this.height = height;
 	}
 
+	/**
+	 * Cambia entre si se está muriendo o no.
+	 * @param dying: nuevo valor, true si se está muriendp, false si no lo esta.
+	 */
 	public void setDying(boolean dying) {
 		this.dying = dying;
 	}
 
+	/**
+	 * Indica si se está muriendo.
+	 * @return true si está agonizando, false si no lo esta.
+	 */
 	public boolean getDying() {
 		return dying;
 	}
-
+	
+	/**
+	 * Indica si esta disparando.
+	 * @return shooting: true si está disparando, false si no lo está
+	 */
 	public boolean isShooting() {
 		return shooting;
 	}
 
+	/**
+	 * Cambia el valor de shooting.
+	 * @param shooting: nuevo valor
+	 */
 	public void setShooting(boolean shooting) {
 		this.shooting = shooting;
 	}
 
+	/**
+	 * Indica si está muerto.
+	 * @return dead: true si ya se murió, false si sigue vivo.
+	 */
 	public boolean isDead() {
 		return dead;
 	}
 
+	/**
+	 * Cambia el valor de dead..
+	 * @param dead: nuevo valor.
+	 */
 	public void setDead(boolean dead) {
 		this.dead = dead;
 	}
 
+	/**
+	 * Devuelve el directorio de la imagen del personaje.
+	 * @return image: Directorio de la imagen.
+	 */
 	public String getImage() {
 		return image;
 	}
 
+	/**
+	 * Cambia la imagen del personaje.
+	 * @param image: nuevo directorio.
+	 */
 	public void setImage(String image) {
 		this.image = image;
 	}
 
+	/**
+	 * Cambia la imagen del personage y también su posición en el eje X según su velocidad y direccion a la que apunta.
+	 */
 	public void move() {
 
 		if (!dying) {
@@ -149,6 +253,9 @@ public class Hero extends Entity {
 		}
 	}
 
+	/**
+	 * Hace que el personaje se agache cambiando su imagen.
+	 */
 	public void crouch() {
 
 		if (!dying) {
@@ -171,6 +278,9 @@ public class Hero extends Entity {
 		}
 	}
 
+	/**
+	 * Hace la animación de quedarse quieto mientras no se esté muriendo.
+	 */
 	public void iddle() {
 
 		if (!dying) {
@@ -193,6 +303,9 @@ public class Hero extends Entity {
 		}
 	}
 
+	/**
+	 * Animación de disparar estando de pie.
+	 */
 	public void shootStanding() {
 		if (!dying) {
 
@@ -214,6 +327,9 @@ public class Hero extends Entity {
 		}
 	}
 
+	/**
+	 * Animación de disparar estando agachado.
+	 */
 	public void shootCrouching() {
 
 		if (!dying) {
@@ -236,6 +352,9 @@ public class Hero extends Entity {
 		}
 	}
 
+	/**
+	 * Hace la animación correspondiente a cuando recibe un daño.
+	 */
 	public void takeDamageAnim() {
 
 		if (!dying) {
@@ -250,6 +369,9 @@ public class Hero extends Entity {
 		}
 	}
 
+	/**
+	 * Animación de morir.
+	 */
 	public void die() {
 
 		while (dyingImages < 5) {
@@ -265,14 +387,33 @@ public class Hero extends Entity {
 
 	}
 
+	/**
+	 * Indica si el heroe está recibiendo daño en el momento en que se llame este método momento.
+	 * @return
+	 */
 	public boolean isTakingDamage() {
 		return takingDamage;
 	}
 
+	/**
+	 * Cambia el valor de la variable cuando el heroe esté recibiendo daño-
+	 * @param takingDamage: nuevo valor
+	 */
 	public void setTakingDamage(boolean takingDamage) {
 		this.takingDamage = takingDamage;
 	}
 
+	/**
+	 * Establece el estado actual del heroe con los datos del estado anterior.
+	 * @param moving: indica si se está moviendo.
+	 * @param crouching: indica si se está agachadno.
+	 * @param aimingUp: indica si está apuntado hacia arriba.
+	 * @param shooting: indica si está disparando.
+	 * @param dead: indica si está muerto.
+	 * @param isTakingDamage: indica si está recibiendo daño.
+	 * @param direction: dirección a la que apunta.
+	 * @param health: salud del heroe.
+	 */
 	public void setStates(boolean moving, boolean crouching, boolean aimingUp, boolean shooting, boolean dead,
 			boolean isTakingDamage, int direction, int health) {
 		setMoving(moving);
