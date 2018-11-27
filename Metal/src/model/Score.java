@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * Árbol binario de búsqueda con los puntajes que ha obtenido el jugador.
- * @author PC
  *
  */
 public class Score implements Serializable{
