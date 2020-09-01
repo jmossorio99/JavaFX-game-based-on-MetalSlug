@@ -1,1 +1,1 @@
-A game based on metal slug using knowledge from Algorithms and Programming course in college. Final project for the course
+A game based on metal slug using JavaFX. Final project for the course Algorithms and Programming II.
